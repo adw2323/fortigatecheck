@@ -1,0 +1,5 @@
+id: FGT-ADMIN-EDGE-SSH
+title: Edge interface exposes SSH management
+severity: critical
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_admin_edge_ssh

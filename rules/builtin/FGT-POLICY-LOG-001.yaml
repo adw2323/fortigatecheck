@@ -1,0 +1,5 @@
+id: FGT-POLICY-LOG-001
+title: Accept policy lacks traffic logging
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_policy_accept_no_log

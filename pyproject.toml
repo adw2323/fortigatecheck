@@ -1,0 +1,15 @@
+[project]
+name = "fgcheck"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "pyyaml>=6.0.1",
+  "pydantic>=2.6",
+  "rich>=13.7"
+]
+
+[project.scripts]
+fgcheck = "fgcheck.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
