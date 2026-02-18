@@ -1,28 +1,34 @@
 from __future__ import annotations
 import json
-from typing import List
+from typing import Dict, List
 from .rules import Finding
 
+def finding_to_dict(f: Finding) -> dict:
+    return {
+        "rule_id": f.rule_id,
+        "title": f.title,
+        "severity": f.severity,
+        "confidence": f.confidence,
+        "vdom": f.vdom,
+        "message": f.message,
+        "evidence": [
+            {
+                "file_id": e.file_id,
+                "line_range": list(e.line_range),
+                "path": list(e.path),
+                "raw_lines": e.raw_lines,
+            } for e in f.evidence
+        ],
+    }
+
+
 def findings_to_json(findings: List[Finding]) -> str:
-    payload = []
-    for f in findings:
-        payload.append({
-            "rule_id": f.rule_id,
-            "title": f.title,
-            "severity": f.severity,
-            "confidence": f.confidence,
-            "vdom": f.vdom,
-            "message": f.message,
-            "evidence": [
-                {
-                    "file_id": e.file_id,
-                    "line_range": list(e.line_range),
-                    "path": list(e.path),
-                    "raw_lines": e.raw_lines,
-                } for e in f.evidence
-            ],
-        })
+    payload = [finding_to_dict(f) for f in findings]
     return json.dumps(payload, indent=2)
+
+
+def scan_to_json(files: List[Dict[str, object]], summary: Dict[str, int]) -> str:
+    return json.dumps({"summary": summary, "files": files}, indent=2)
 
 def findings_to_markdown(findings: List[Finding]) -> str:
     if not findings:

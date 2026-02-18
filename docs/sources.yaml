@@ -1,0 +1,30 @@
+fortios_versions:
+  first_class:
+    - "7.4"
+    - "7.6"
+  later:
+    - "7.0"
+    - "7.2"
+
+allowed_domains:
+  - "docs.fortinet.com"
+  - "fortinetweb.s3.amazonaws.com"
+  - "fortiguard.com"
+  - "cisa.gov"
+
+sources:
+  schema:
+    - id: "fortinet_docs"
+      kind: "html"
+      domain: "docs.fortinet.com"
+      description: "Fortinet official documentation for FortiOS CLI/schema extraction."
+  psirt:
+    - id: "fortiguard_psirt"
+      kind: "html"
+      domain: "fortiguard.com"
+      description: "FortiGuard PSIRT advisories."
+  kev:
+    - id: "cisa_kev"
+      kind: "json"
+      domain: "cisa.gov"
+      description: "CISA Known Exploited Vulnerabilities catalog."

@@ -6,6 +6,8 @@ import yaml
 
 from .model import ConfigModel, Evidence
 from .facts import Facts, build_facts
+from .schema import SchemaView, load_schema
+from .versioning import resolve_target_fortios
 
 @dataclass
 class Finding:
@@ -44,13 +46,23 @@ def load_rules(rule_files: List[str]) -> List[Rule]:
         ))
     return rules
 
-def run(model: ConfigModel, *, vdoms: Optional[List[str]] = None, rule_files: Optional[List[str]] = None) -> List[Finding]:
+def run(
+    model: ConfigModel,
+    *,
+    vdoms: Optional[List[str]] = None,
+    rule_files: Optional[List[str]] = None,
+    fortios_version: Optional[str] = None,
+    schema_base_dir: str = ".",
+) -> List[Finding]:
     vdoms = vdoms or list(model.vdoms.keys())
     rules = load_rules(rule_files or [])
+    resolved_version, _ = resolve_target_fortios(model, explicit_version=fortios_version)
+    model.meta["target_fortios"] = resolved_version
+    schema: SchemaView = load_schema(resolved_version, base_dir=schema_base_dir)
     findings: List[Finding] = []
     for vdom in vdoms:
         facts = build_facts(model, vdom=vdom)
         for r in rules:
             impl = _import_callable(r.entrypoint)
-            findings.extend(impl(model=model, facts=facts, vdom=vdom, rule=r))
+            findings.extend(impl(model=model, facts=facts, vdom=vdom, rule=r, schema=schema))
     return findings

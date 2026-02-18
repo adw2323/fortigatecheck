@@ -9,6 +9,18 @@ class _Ctx:
     kind: str  # "config" or "edit"
     path: Tuple[str, ...]
     start_line: int
+    prev_scope: Optional[str] = None
+
+
+@dataclass
+class _PendingSet:
+    key: str
+    start_line: int
+    table_path: Optional[Tuple[str, ...]]
+    obj_key: Optional[str]
+    node: Node
+    values: List[str]
+    raw_lines: List[str]
 
 def _strip_comment(line: str) -> str:
     s = line.rstrip("\n")
@@ -43,6 +55,35 @@ def _tokenize(line: str) -> List[str]:
         out.append("".join(buf))
     return out
 
+
+def _count_unescaped_quotes(line: str) -> int:
+    count = 0
+    i = 0
+    while i < len(line):
+        if line[i] == "\\":
+            i += 2
+            continue
+        if line[i] == '"':
+            count += 1
+        i += 1
+    return count
+
+
+def _has_unclosed_quote(line: str) -> bool:
+    return _count_unescaped_quotes(line) % 2 == 1
+
+
+def _first_unescaped_quote_index(line: str) -> int:
+    i = 0
+    while i < len(line):
+        if line[i] == "\\":
+            i += 2
+            continue
+        if line[i] == '"':
+            return i
+        i += 1
+    return -1
+
 def _ensure_table(root: Dict[str, Any], path: Tuple[str, ...]) -> Dict[str, Any]:
     node: Any = root
     for p in path:
@@ -68,6 +109,7 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
 
     # support singleton tables like "config system global" that use set without edit
     singleton_node: Optional[Node] = None
+    pending_set: Optional[_PendingSet] = None
 
     for ln, raw in enumerate(lines, start=1):
         stripped = raw.strip()
@@ -77,9 +119,46 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
     def scope_root() -> Dict[str, Any]:
         return model.global_cfg if scope == "global" else model.vdoms.setdefault(scope, {})
 
+    def top_config_table_path() -> Optional[Tuple[str, ...]]:
+        for ctx in reversed(stack):
+            if ctx.kind != "config":
+                continue
+            if ctx.path in (("global",), ("vdom",)):
+                continue
+            return ctx.path
+        return None
+
+    def refresh_table_context() -> None:
+        nonlocal current_table_path, current_table
+        path = top_config_table_path()
+        if path is None:
+            current_table_path = None
+            current_table = None
+            return
+        current_table_path = path
+        current_table = _ensure_table(scope_root(), path)
+
     for line_no, raw in enumerate(lines, start=1):
         line = _strip_comment(raw)
         if not line.strip():
+            continue
+
+        if pending_set is not None:
+            pending_set.raw_lines.append(raw.rstrip("\n"))
+            stripped_line = line.strip()
+            quote_idx = _first_unescaped_quote_index(stripped_line)
+            if quote_idx >= 0:
+                pending_set.values.append(stripped_line[:quote_idx])
+                pending_set.node.fields[pending_set.key] = pending_set.values
+                pending_set.node.evidence[f"set:{pending_set.key}"] = Evidence(
+                    file_id=file_id,
+                    line_range=(pending_set.start_line, line_no),
+                    path=("scope", scope, *(pending_set.table_path or ()), pending_set.obj_key or "", "set", pending_set.key),
+                    raw_lines=pending_set.raw_lines,
+                )
+                pending_set = None
+            else:
+                pending_set.values.append(stripped_line)
             continue
 
         tokens = _tokenize(line.strip())
@@ -107,10 +186,15 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
                 singleton_node = None
                 continue
 
-            path = tuple(tokens[1:])
-            stack.append(_Ctx("config", path, line_no))
-            current_table_path = path
-            current_table = _ensure_table(scope_root(), path)
+            rel_path = tuple(tokens[1:])
+            parent_path: Optional[Tuple[str, ...]] = None
+            if stack and stack[-1].kind == "config" and stack[-1].path not in (("global",), ("vdom",)):
+                parent_path = stack[-1].path
+
+            full_path = (*parent_path, *rel_path) if parent_path is not None else rel_path
+            stack.append(_Ctx("config", full_path, line_no))
+            current_table_path = full_path
+            current_table = _ensure_table(scope_root(), full_path)
             current_obj = None
             current_obj_key = None
 
@@ -122,9 +206,10 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
             key = " ".join(tokens[1:]).strip()
             # inside config vdom: edit <vdomname> changes scope
             if stack and stack[-1].kind == "config" and stack[-1].path == ("vdom",):
+                prev_scope = scope
                 scope = key or scope
                 model.vdoms.setdefault(scope, {})
-                stack.append(_Ctx("edit", ("vdom", key), line_no))
+                stack.append(_Ctx("edit", ("vdom", key), line_no, prev_scope=prev_scope))
                 current_table_path = None
                 current_table = None
                 current_obj = None
@@ -178,6 +263,17 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
                 continue
             k = tokens[1]
             v = tokens[2:]
+            if _has_unclosed_quote(line):
+                pending_set = _PendingSet(
+                    key=k,
+                    start_line=line_no,
+                    table_path=current_table_path,
+                    obj_key=current_obj_key,
+                    node=current_obj,
+                    values=[" ".join(v)],
+                    raw_lines=[raw.rstrip("\n")],
+                )
+                continue
             value: Any = v[0] if len(v) == 1 else v
             current_obj.fields[k] = value
             current_obj.evidence[f"set:{k}"] = Evidence(
@@ -191,7 +287,9 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
         if head == "next":
             # close edit unless we're in singleton mode
             if stack and stack[-1].kind == "edit":
-                stack.pop()
+                ctx = stack.pop()
+                if ctx.path and ctx.path[0] == "vdom":
+                    scope = ctx.prev_scope or "root"
             current_obj = None
             current_obj_key = None
             singleton_node = None
@@ -202,9 +300,10 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
                 ctx = stack.pop()
                 if ctx.kind == "config" and ctx.path == ("global",):
                     scope = "root"
+                if ctx.kind == "config" and ctx.path == ("vdom",):
+                    scope = "root"
                 # leaving config table
-            current_table_path = None
-            current_table = None
+            refresh_table_context()
             current_obj = None
             current_obj_key = None
             singleton_node = None
