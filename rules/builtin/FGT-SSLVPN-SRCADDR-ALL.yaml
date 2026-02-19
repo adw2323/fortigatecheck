@@ -1,0 +1,5 @@
+id: FGT-SSLVPN-SRCADDR-ALL
+title: SSL-VPN allows all source addresses
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sslvpn_source_address_all

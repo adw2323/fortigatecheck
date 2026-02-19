@@ -1,0 +1,5 @@
+id: FGT-ADMIN-TRUSTHOST-UNRESTRICTED
+title: Super-admin trusthost is unrestricted
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_trusthost_unrestricted

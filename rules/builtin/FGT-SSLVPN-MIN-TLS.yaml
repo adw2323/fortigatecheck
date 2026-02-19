@@ -1,0 +1,5 @@
+id: FGT-SSLVPN-MIN-TLS
+title: SSL-VPN minimum TLS version is legacy
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_vpn_ssl_min_proto

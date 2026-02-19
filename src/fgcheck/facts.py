@@ -104,6 +104,16 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
                 continue
             sdwan_members.update(as_list(mnode.fields.get("interface")))
 
+    # Expand zone membership through interface hierarchy so callers can
+    # resolve both logical and concrete interfaces to their zone.
+    for zone, members in list(facts.zone_to_interfaces.items()):
+        expanded: Set[str] = set(members)
+        for member in list(members):
+            expanded.update(resolve_interface_targets(member))
+        facts.zone_to_interfaces[zone] = expanded
+        for iface in expanded:
+            facts.interface_to_zone.setdefault(iface, zone)
+
     def resolve_device_targets(device_value: Any) -> Set[str]:
         out: Set[str] = set()
         for dev in as_list(device_value):

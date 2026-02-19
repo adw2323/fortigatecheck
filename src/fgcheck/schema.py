@@ -35,6 +35,7 @@ class SchemaView:
     requested_version: str
     resolved_version: str | None = None
     loaded: bool = False
+    partial: bool = False
     warnings: list[str] = field(default_factory=list)
     _tables: dict[str, Any] = field(default_factory=dict)
 
@@ -77,6 +78,7 @@ def load_schema(version: str, *, base_dir: str | Path = ".") -> SchemaView:
 
         raw = json.loads(schema_file.read_text(encoding="utf-8"))
         tables = raw.get("tables", {}) if isinstance(raw, dict) else {}
+        coverage = raw.get("coverage") if isinstance(raw, dict) else None
         normalized: dict[str, Any] = {}
         if isinstance(tables, dict):
             for table_name, table_obj in tables.items():
@@ -90,6 +92,7 @@ def load_schema(version: str, *, base_dir: str | Path = ".") -> SchemaView:
 
         view.resolved_version = candidate
         view.loaded = True
+        view.partial = coverage == "table_only"
         view._tables = normalized
         return view
 

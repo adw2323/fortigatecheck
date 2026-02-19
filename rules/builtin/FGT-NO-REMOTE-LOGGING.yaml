@@ -1,0 +1,5 @@
+id: FGT-NO-REMOTE-LOGGING
+title: No remote logging destination is enabled
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_no_remote_logging

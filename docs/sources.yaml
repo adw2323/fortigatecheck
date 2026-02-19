@@ -17,6 +17,9 @@ sources:
     - id: "fortinet_docs"
       kind: "html"
       domain: "docs.fortinet.com"
+      versions:
+        "7.4": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/84566/fortios-cli-reference"
+        "7.6": "https://docs.fortinet.com/document/fortigate/7.6.6/cli-reference/84566/fortios-cli-reference"
       description: "Fortinet official documentation for FortiOS CLI/schema extraction."
   psirt:
     - id: "fortiguard_psirt"
@@ -27,4 +30,5 @@ sources:
     - id: "cisa_kev"
       kind: "json"
       domain: "cisa.gov"
+      url: "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
       description: "CISA Known Exploited Vulnerabilities catalog."

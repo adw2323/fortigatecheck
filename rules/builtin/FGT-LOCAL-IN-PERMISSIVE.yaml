@@ -1,0 +1,5 @@
+id: FGT-LOCAL-IN-PERMISSIVE
+title: Local-in policy is overly permissive
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_local_in_policy_permissive

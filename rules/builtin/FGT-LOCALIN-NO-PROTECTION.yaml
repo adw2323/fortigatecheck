@@ -1,0 +1,5 @@
+id: FGT-LOCALIN-NO-PROTECTION
+title: Local-in policy lacks deny protection
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_localin_no_protection

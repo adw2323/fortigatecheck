@@ -1,0 +1,5 @@
+id: FGT-ADMIN-EDGE-ALLACCESS
+title: Edge interface exposes broad management access
+severity: critical
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_admin_edge_allaccess

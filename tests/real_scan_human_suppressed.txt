@@ -1,0 +1,18 @@
+FortiGate Folder Scan
+====================
+
+Summary
+- Files scanned: 3
+- Findings: 0
+- Parse warnings: 0
+- Severity: critical=0, high=0, medium=0, low=0, info=0
+- Suppressed by baseline: 45
+
+Top Risks First
+- none
+
+Per-file
+- tests\real\FGVMSLTM23001070_20260213_0000.conf: findings=0, parse_warnings=0
+- tests\real\FW40FITK23006022_20260210_2212.conf: findings=0, parse_warnings=0
+- tests\real\montana-70f_7-6_3652_202602170936.conf: findings=0, parse_warnings=0
+

@@ -1,0 +1,207 @@
+FortiGate Folder Scan
+====================
+
+Summary
+- Files scanned: 3
+- Findings: 45
+- Parse warnings: 0
+- Severity: critical=17, high=28, medium=0, low=0, info=0
+- Suppressed by baseline: 0
+
+Top Risks First
+- [CRITICAL] FGT-POLICY-ANY-ANY-ALL: 17 finding(s), files=2
+- [HIGH] FGT-POLICY-LOG-001: 9 finding(s), files=2
+- [HIGH] FGT-ADMIN-NO-TRUSTED-HOSTS: 5 finding(s), files=3
+- [HIGH] FGT-ADMIN-SUPER-NO-2FA: 5 finding(s), files=3
+- [HIGH] FGT-ADMIN-TRUSTHOST-UNRESTRICTED: 5 finding(s), files=3
+- [HIGH] FGT-IPSEC-WEAK-DH: 2 finding(s), files=1
+- [HIGH] FGT-LOCALIN-NO-PROTECTION: 2 finding(s), files=2
+
+Per-file
+- tests\real\FGVMSLTM23001070_20260213_0000.conf: findings=7, parse_warnings=0
+  1. [HIGH] FGT-ADMIN-NO-TRUSTED-HOSTS (certain)
+     - What it means: Administrator login is not restricted to trusted source hosts.
+     - Why flagged: Admin "fgfwuser" has no trusted host restriction (trusthost1 is unset or any-any).
+     - Evidence: FGVMSLTM23001070_20260213_0000.conf lines 142-142
+  2. [HIGH] FGT-ADMIN-NO-TRUSTED-HOSTS (certain)
+     - What it means: Administrator login is not restricted to trusted source hosts.
+     - Why flagged: Admin "admin" has no trusted host restriction (trusthost1 is unset or any-any).
+     - Evidence: FGVMSLTM23001070_20260213_0000.conf lines 504-504
+  3. [HIGH] FGT-ADMIN-SUPER-NO-2FA (likely)
+     - What it means: A super-admin account does not enforce two-factor authentication.
+     - Why flagged: Admin "fgfwuser" has super_admin profile without two-factor enabled.
+     - Evidence: FGVMSLTM23001070_20260213_0000.conf lines 142-142
+  4. [HIGH] FGT-ADMIN-SUPER-NO-2FA (likely)
+     - What it means: A super-admin account does not enforce two-factor authentication.
+     - Why flagged: Admin "admin" has super_admin profile without two-factor enabled.
+     - Evidence: FGVMSLTM23001070_20260213_0000.conf lines 504-504
+  5. [HIGH] FGT-ADMIN-TRUSTHOST-UNRESTRICTED (likely)
+     - What it means: A super-admin account is effectively open to any source host.
+     - Why flagged: Admin "fgfwuser" has super_admin profile with unrestricted trusthost1.
+     - Evidence: FGVMSLTM23001070_20260213_0000.conf lines 142-142
+  6. [HIGH] FGT-ADMIN-TRUSTHOST-UNRESTRICTED (likely)
+     - What it means: A super-admin account is effectively open to any source host.
+     - Why flagged: Admin "admin" has super_admin profile with unrestricted trusthost1.
+     - Evidence: FGVMSLTM23001070_20260213_0000.conf lines 504-504
+  7. [HIGH] FGT-LOCALIN-NO-PROTECTION (certain)
+     - What it means: No enabled local-in deny protection is present.
+     - Why flagged: No enabled local-in policy provides explicit deny protection.
+     - Evidence: FGVMSLTM23001070_20260213_0000.conf lines 23840-23840
+
+- tests\real\FW40FITK23006022_20260210_2212.conf: findings=16, parse_warnings=0
+  1. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "1" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14184-14184
+  2. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "3" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14196-14196
+  3. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "4" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14208-14208
+  4. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "5" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14227-14227
+  5. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "6" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14239-14239
+  6. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "7" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14251-14251
+  7. [HIGH] FGT-ADMIN-NO-TRUSTED-HOSTS (certain)
+     - What it means: Administrator login is not restricted to trusted source hosts.
+     - Why flagged: Admin "admin" has no trusted host restriction (trusthost1 is unset or any-any).
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 353-353
+  8. [HIGH] FGT-ADMIN-SUPER-NO-2FA (likely)
+     - What it means: A super-admin account does not enforce two-factor authentication.
+     - Why flagged: Admin "admin" has super_admin profile without two-factor enabled.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 353-353
+  9. [HIGH] FGT-ADMIN-TRUSTHOST-UNRESTRICTED (likely)
+     - What it means: A super-admin account is effectively open to any source host.
+     - Why flagged: Admin "admin" has super_admin profile with unrestricted trusthost1.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 353-353
+  10. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "2" accepts traffic but logging is disabled or unset.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14172-14172
+  11. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "3" accepts traffic but logging is disabled or unset.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14196-14196
+  12. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "4" accepts traffic but logging is disabled or unset.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14208-14208
+  13. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "5" accepts traffic but logging is disabled or unset.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14227-14227
+  14. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "6" accepts traffic but logging is disabled or unset.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14239-14239
+  15. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "7" accepts traffic but logging is disabled or unset.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14251-14251
+  16. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "8" accepts traffic but logging is disabled or unset.
+     - Evidence: FW40FITK23006022_20260210_2212.conf lines 14270-14270
+
+- tests\real\montana-70f_7-6_3652_202602170936.conf: findings=22, parse_warnings=0
+  1. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "27" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35037-35037
+  2. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "42" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35444-35444
+  3. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "9" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35503-35503
+  4. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "10" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35522-35522
+  5. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "11" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35559-35559
+  6. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "12" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35571-35571
+  7. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "25" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35583-35583
+  8. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "26" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35628-35628
+  9. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "28" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35650-35650
+  10. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "29" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35662-35662
+  11. [CRITICAL] FGT-POLICY-ANY-ANY-ALL (certain)
+     - What it means: A firewall policy allows any source to any destination for any service.
+     - Why flagged: Policy "30" is accept with srcaddr=all, dstaddr=all, service=ALL.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35674-35674
+  12. [HIGH] FGT-ADMIN-NO-TRUSTED-HOSTS (certain)
+     - What it means: Administrator login is not restricted to trusted source hosts.
+     - Why flagged: Admin "admin" has no trusted host restriction (trusthost1 is unset or any-any).
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 391-391
+  13. [HIGH] FGT-ADMIN-NO-TRUSTED-HOSTS (certain)
+     - What it means: Administrator login is not restricted to trusted source hosts.
+     - Why flagged: Admin "fgfwuser" has no trusted host restriction (trusthost1 is unset or any-any).
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 791-791
+  14. [HIGH] FGT-ADMIN-SUPER-NO-2FA (likely)
+     - What it means: A super-admin account does not enforce two-factor authentication.
+     - Why flagged: Admin "admin" has super_admin profile without two-factor enabled.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 391-391
+  15. [HIGH] FGT-ADMIN-SUPER-NO-2FA (likely)
+     - What it means: A super-admin account does not enforce two-factor authentication.
+     - Why flagged: Admin "fgfwuser" has super_admin profile without two-factor enabled.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 791-791
+  16. [HIGH] FGT-ADMIN-TRUSTHOST-UNRESTRICTED (likely)
+     - What it means: A super-admin account is effectively open to any source host.
+     - Why flagged: Admin "admin" has super_admin profile with unrestricted trusthost1.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 391-391
+  17. [HIGH] FGT-ADMIN-TRUSTHOST-UNRESTRICTED (likely)
+     - What it means: A super-admin account is effectively open to any source host.
+     - Why flagged: Admin "fgfwuser" has super_admin profile with unrestricted trusthost1.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 791-791
+  18. [HIGH] FGT-IPSEC-WEAK-DH (certain)
+     - What it means: IPsec phase1 uses weak Diffie-Hellman groups.
+     - Why flagged: IPsec phase1 "gw-aws-vpc-1-b~" uses weak DH group(s): 2.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 32375-32375
+  19. [HIGH] FGT-IPSEC-WEAK-DH (certain)
+     - What it means: IPsec phase1 uses weak Diffie-Hellman groups.
+     - Why flagged: IPsec phase1 "gw-aws-vpc-1-p~" uses weak DH group(s): 2.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 32388-32388
+  20. [HIGH] FGT-LOCALIN-NO-PROTECTION (certain)
+     - What it means: No enabled local-in deny protection is present.
+     - Why flagged: No enabled local-in policy provides explicit deny protection.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35699-35699
+  21. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "1" accepts traffic but logging is disabled or unset.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35082-35082
+  22. [HIGH] FGT-POLICY-LOG-001 (certain)
+     - What it means: A permit firewall policy is not logging traffic.
+     - Why flagged: Policy "13" accepts traffic but logging is disabled or unset.
+     - Evidence: montana-70f_7-6_3652_202602170936.conf lines 35534-35534
+
+

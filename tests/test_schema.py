@@ -85,3 +85,39 @@ def test_table_and_field_lookup_normalizes_path_styles(tmp_path: Path):
     assert schema.has_table("firewall policy") is True
     assert schema.has_field(("firewall", "policy"), "action") is True
     assert schema.allowed_values(("firewall", "policy"), "action") == {"accept", "deny"}
+
+
+def test_schema_partial_flag_set_when_coverage_table_only(tmp_path: Path):
+    _write_schema(
+        tmp_path,
+        "7.4",
+        {
+            "coverage": "table_only",
+            "tables": {
+                "system interface": {
+                    "fields": {},
+                }
+            },
+        },
+    )
+    schema = load_schema("7.4", base_dir=tmp_path)
+    assert schema.loaded is True
+    assert schema.partial is True
+
+
+def test_schema_partial_flag_false_when_coverage_full_or_missing(tmp_path: Path):
+    _write_schema(
+        tmp_path,
+        "7.4",
+        {
+            "coverage": "full",
+            "tables": {
+                "system interface": {
+                    "fields": {"allowaccess": {"allowed_values": ["ssh"]}},
+                }
+            },
+        },
+    )
+    schema = load_schema("7.4", base_dir=tmp_path)
+    assert schema.loaded is True
+    assert schema.partial is False

@@ -1,0 +1,5 @@
+id: FGT-SSLVPN-SRCINTF-ANY
+title: SSL-VPN listens on any interface
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sslvpn_source_interface_any

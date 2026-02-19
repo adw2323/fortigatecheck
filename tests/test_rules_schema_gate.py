@@ -81,3 +81,31 @@ def test_admin_edge_ssh_skips_when_schema_loaded_but_field_not_supported(tmp_pat
         schema_base_dir=tmp_path,
     )
     assert findings == []
+
+
+def test_admin_edge_ssh_degrades_when_schema_is_table_only_partial(tmp_path: Path):
+    _write_schema(
+        tmp_path,
+        "7.4",
+        {
+            "coverage": "table_only",
+            "tables": {
+                "system interface": {
+                    "fields": {},
+                }
+            },
+        },
+    )
+    conf = Path("tests/fixtures/bad_edge_admin_on.conf").read_text(encoding="utf-8")
+    model, warnings = parse_fortios_text(conf, file_id="bad_edge_admin_on.conf")
+    assert warnings == []
+
+    findings = run(
+        model,
+        rule_files=["rules/builtin/FGT-ADMIN-EDGE-SSH.yaml"],
+        fortios_version="7.4",
+        schema_base_dir=tmp_path,
+    )
+    assert findings
+    assert findings[0].confidence == "heuristic"
+    assert findings[0].message.startswith("[schema_unknown]")

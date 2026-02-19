@@ -1,0 +1,5 @@
+id: FGT-ADMIN-SUPER-NO-2FA
+title: Super-admin account without two-factor
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_super_no_2fa

@@ -1,0 +1,5 @@
+id: FGT-POLICY-ANY-ANY-ALL
+title: Firewall policy allows any-any-all
+severity: critical
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_policy_any_any_all

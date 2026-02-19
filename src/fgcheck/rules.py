@@ -65,4 +65,12 @@ def run(
         for r in rules:
             impl = _import_callable(r.entrypoint)
             findings.extend(impl(model=model, facts=facts, vdom=vdom, rule=r, schema=schema))
+    findings.sort(
+        key=lambda f: (
+            f.vdom,
+            f.rule_id,
+            f.evidence[0].line_range[0] if f.evidence else 0,
+            f.message,
+        )
+    )
     return findings

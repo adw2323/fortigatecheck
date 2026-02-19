@@ -1,0 +1,5 @@
+id: FGT-ADMIN-NO-TRUSTED-HOSTS
+title: Administrator has no trusted host restriction
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_admin_no_trusted_hosts

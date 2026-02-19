@@ -1,0 +1,5 @@
+id: FGT-IPSEC-WEAK-DH
+title: IPsec phase1 uses weak DH groups
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_ipsec_weak_dh

@@ -1,0 +1,452 @@
+[
+  {
+    "confidence": "certain",
+    "file_id": "FGVMSLTM23001070_20260213_0000.conf",
+    "line_end": 142,
+    "line_start": 142,
+    "message": "Admin \"fgfwuser\" has no trusted host restriction (trusthost1 is unset or any-any).",
+    "rule_id": "FGT-ADMIN-NO-TRUSTED-HOSTS",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FGVMSLTM23001070_20260213_0000.conf",
+    "line_end": 23840,
+    "line_start": 23840,
+    "message": "No enabled local-in policy provides explicit deny protection.",
+    "rule_id": "FGT-LOCALIN-NO-PROTECTION",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FGVMSLTM23001070_20260213_0000.conf",
+    "line_end": 504,
+    "line_start": 504,
+    "message": "Admin \"admin\" has no trusted host restriction (trusthost1 is unset or any-any).",
+    "rule_id": "FGT-ADMIN-NO-TRUSTED-HOSTS",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14172,
+    "line_start": 14172,
+    "message": "Policy \"2\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14184,
+    "line_start": 14184,
+    "message": "Policy \"1\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14196,
+    "line_start": 14196,
+    "message": "Policy \"3\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14196,
+    "line_start": 14196,
+    "message": "Policy \"3\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14208,
+    "line_start": 14208,
+    "message": "Policy \"4\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14208,
+    "line_start": 14208,
+    "message": "Policy \"4\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14227,
+    "line_start": 14227,
+    "message": "Policy \"5\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14227,
+    "line_start": 14227,
+    "message": "Policy \"5\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14239,
+    "line_start": 14239,
+    "message": "Policy \"6\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14239,
+    "line_start": 14239,
+    "message": "Policy \"6\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14251,
+    "line_start": 14251,
+    "message": "Policy \"7\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14251,
+    "line_start": 14251,
+    "message": "Policy \"7\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 14270,
+    "line_start": 14270,
+    "message": "Policy \"8\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 353,
+    "line_start": 353,
+    "message": "Admin \"admin\" has no trusted host restriction (trusthost1 is unset or any-any).",
+    "rule_id": "FGT-ADMIN-NO-TRUSTED-HOSTS",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 32375,
+    "line_start": 32375,
+    "message": "IPsec phase1 \"gw-aws-vpc-1-b~\" uses weak DH group(s): 2.",
+    "rule_id": "FGT-IPSEC-WEAK-DH",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 32388,
+    "line_start": 32388,
+    "message": "IPsec phase1 \"gw-aws-vpc-1-p~\" uses weak DH group(s): 2.",
+    "rule_id": "FGT-IPSEC-WEAK-DH",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35037,
+    "line_start": 35037,
+    "message": "Policy \"27\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35082,
+    "line_start": 35082,
+    "message": "Policy \"1\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35444,
+    "line_start": 35444,
+    "message": "Policy \"42\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35503,
+    "line_start": 35503,
+    "message": "Policy \"9\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35522,
+    "line_start": 35522,
+    "message": "Policy \"10\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35534,
+    "line_start": 35534,
+    "message": "Policy \"13\" accepts traffic but logging is disabled or unset.",
+    "rule_id": "FGT-POLICY-LOG-001",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35559,
+    "line_start": 35559,
+    "message": "Policy \"11\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35571,
+    "line_start": 35571,
+    "message": "Policy \"12\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35583,
+    "line_start": 35583,
+    "message": "Policy \"25\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35628,
+    "line_start": 35628,
+    "message": "Policy \"26\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35650,
+    "line_start": 35650,
+    "message": "Policy \"28\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35662,
+    "line_start": 35662,
+    "message": "Policy \"29\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35674,
+    "line_start": 35674,
+    "message": "Policy \"30\" is accept with srcaddr=all, dstaddr=all, service=ALL.",
+    "rule_id": "FGT-POLICY-ANY-ANY-ALL",
+    "severity": "critical",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 35699,
+    "line_start": 35699,
+    "message": "No enabled local-in policy provides explicit deny protection.",
+    "rule_id": "FGT-LOCALIN-NO-PROTECTION",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 391,
+    "line_start": 391,
+    "message": "Admin \"admin\" has no trusted host restriction (trusthost1 is unset or any-any).",
+    "rule_id": "FGT-ADMIN-NO-TRUSTED-HOSTS",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "certain",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 791,
+    "line_start": 791,
+    "message": "Admin \"fgfwuser\" has no trusted host restriction (trusthost1 is unset or any-any).",
+    "rule_id": "FGT-ADMIN-NO-TRUSTED-HOSTS",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "FGVMSLTM23001070_20260213_0000.conf",
+    "line_end": 142,
+    "line_start": 142,
+    "message": "Admin \"fgfwuser\" has super_admin profile with unrestricted trusthost1.",
+    "rule_id": "FGT-ADMIN-TRUSTHOST-UNRESTRICTED",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "FGVMSLTM23001070_20260213_0000.conf",
+    "line_end": 142,
+    "line_start": 142,
+    "message": "Admin \"fgfwuser\" has super_admin profile without two-factor enabled.",
+    "rule_id": "FGT-ADMIN-SUPER-NO-2FA",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "FGVMSLTM23001070_20260213_0000.conf",
+    "line_end": 504,
+    "line_start": 504,
+    "message": "Admin \"admin\" has super_admin profile with unrestricted trusthost1.",
+    "rule_id": "FGT-ADMIN-TRUSTHOST-UNRESTRICTED",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "FGVMSLTM23001070_20260213_0000.conf",
+    "line_end": 504,
+    "line_start": 504,
+    "message": "Admin \"admin\" has super_admin profile without two-factor enabled.",
+    "rule_id": "FGT-ADMIN-SUPER-NO-2FA",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 353,
+    "line_start": 353,
+    "message": "Admin \"admin\" has super_admin profile with unrestricted trusthost1.",
+    "rule_id": "FGT-ADMIN-TRUSTHOST-UNRESTRICTED",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "FW40FITK23006022_20260210_2212.conf",
+    "line_end": 353,
+    "line_start": 353,
+    "message": "Admin \"admin\" has super_admin profile without two-factor enabled.",
+    "rule_id": "FGT-ADMIN-SUPER-NO-2FA",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 391,
+    "line_start": 391,
+    "message": "Admin \"admin\" has super_admin profile with unrestricted trusthost1.",
+    "rule_id": "FGT-ADMIN-TRUSTHOST-UNRESTRICTED",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 391,
+    "line_start": 391,
+    "message": "Admin \"admin\" has super_admin profile without two-factor enabled.",
+    "rule_id": "FGT-ADMIN-SUPER-NO-2FA",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 791,
+    "line_start": 791,
+    "message": "Admin \"fgfwuser\" has super_admin profile with unrestricted trusthost1.",
+    "rule_id": "FGT-ADMIN-TRUSTHOST-UNRESTRICTED",
+    "severity": "high",
+    "vdom": "root"
+  },
+  {
+    "confidence": "likely",
+    "file_id": "montana-70f_7-6_3652_202602170936.conf",
+    "line_end": 791,
+    "line_start": 791,
+    "message": "Admin \"fgfwuser\" has super_admin profile without two-factor enabled.",
+    "rule_id": "FGT-ADMIN-SUPER-NO-2FA",
+    "severity": "high",
+    "vdom": "root"
+  }
+]
