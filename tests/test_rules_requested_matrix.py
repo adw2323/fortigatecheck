@@ -44,7 +44,6 @@ end
 config system admin
     edit "admin"
         set accprofile "super_admin"
-        set trusthost1 0.0.0.0 0.0.0.0
     next
 end
 """.strip(),

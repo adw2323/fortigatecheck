@@ -54,7 +54,7 @@ config router static
 end
 """.strip()
     facts = _facts_from_conf(conf)
-    assert facts.edge_interfaces == {"wan1", "wan2"}
+    assert facts.edge_interfaces == {"wan-sw", "wan1", "wan2"}
 
 
 def test_default_route_on_vlan_projects_parent_interface():
@@ -72,7 +72,7 @@ config router static
 end
 """.strip()
     facts = _facts_from_conf(conf)
-    assert facts.edge_interfaces == {"wan1"}
+    assert facts.edge_interfaces == {"wan1", "wan1.100"}
 
 
 def test_default_route_cidr_string_is_detected_and_non_default_ignored():
@@ -163,7 +163,106 @@ config router static
 end
 """.strip()
     facts = _facts_from_conf(conf)
-    assert facts.edge_interfaces == {"wan1"}
+    assert facts.edge_interfaces == {"wan-core", "wan-agg", "wan1.100", "wan1"}
+
+
+def test_default_route_on_switch_interface_projects_software_switch_members():
+    conf = """
+config system switch-interface
+    edit "internal"
+        set member "lan"
+    next
+end
+config system interface
+    edit "lan"
+        set type switch
+        set member "lan1" "lan2"
+    next
+end
+config router static
+    edit 1
+        set dst 0.0.0.0 0.0.0.0
+        set device "internal"
+    next
+end
+""".strip()
+    facts = _facts_from_conf(conf)
+    assert facts.edge_interfaces == {"internal", "lan", "lan1", "lan2"}
+
+
+def test_zone_membership_resolves_through_switch_interface_members():
+    conf = """
+config system switch-interface
+    edit "internal"
+        set member "lan"
+    next
+end
+config system interface
+    edit "lan"
+        set type switch
+        set member "lan1" "lan2"
+    next
+end
+config system zone
+    edit "LAN-ZONE"
+        set interface "internal"
+    next
+end
+config router static
+    edit 1
+        set dst 0.0.0.0 0.0.0.0
+        set device "lan1"
+    next
+end
+""".strip()
+    facts = _facts_from_conf(conf)
+    assert facts.edge_zones == {"LAN-ZONE"}
+
+
+def test_zone_membership_maps_vlan_children_of_parent_interface():
+    conf = """
+config system interface
+    edit "lan.20"
+        set interface "lan"
+    next
+end
+config system zone
+    edit "LAN-ZONE"
+        set interface "lan"
+    next
+end
+config router static
+    edit 1
+        set dst 0.0.0.0 0.0.0.0
+        set device "lan.20"
+    next
+end
+""".strip()
+    facts = _facts_from_conf(conf)
+    assert facts.interface_to_zone["lan.20"] == "LAN-ZONE"
+
+
+def test_edge_zone_detects_vlan_child_when_zone_uses_parent_interface():
+    conf = """
+config system interface
+    edit "lan.20"
+        set interface "lan"
+    next
+end
+config system zone
+    edit "LAN-ZONE"
+        set interface "lan"
+    next
+end
+config router static
+    edit 1
+        set dst 0.0.0.0 0.0.0.0
+        set device "lan.20"
+    next
+end
+""".strip()
+    facts = _facts_from_conf(conf)
+    assert facts.edge_zones == {"LAN-ZONE"}
 
 
 def test_facts_are_scoped_per_vdom_for_default_route_edge_detection():

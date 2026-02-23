@@ -4,6 +4,7 @@ import argparse
 import html
 import json
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urljoin, urlparse
@@ -199,6 +200,102 @@ def _normalize_kev_payload(raw: dict[str, Any]) -> dict[str, Any]:
         )
     return {"entries": entries}
 
+def _extract_cves_from_text(text: str) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for m in re.finditer(r"CVE-\d{4}-\d{4,7}", text, flags=re.IGNORECASE):
+        cve = m.group(0).upper()
+        if cve not in seen:
+            seen.add(cve)
+            out.append(cve)
+    return out
+
+
+def _collect_psirt_entries(raw: Any) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
+    items: list[Any] = []
+    if isinstance(raw, list):
+        items = raw
+    elif isinstance(raw, dict):
+        for key in ("advisories", "items", "data", "entries", "results"):
+            if isinstance(raw.get(key), list):
+                items = raw.get(key)  # type: ignore[assignment]
+                break
+        if not items:
+            items = [raw]
+
+    for item_any in items:
+        item = _as_mapping(item_any)
+        if not item:
+            continue
+        cves: list[str] = []
+        for key in ("cve", "cve_id", "cveID", "cveId", "cves", "cve_list"):
+            if key in item:
+                val = item.get(key)
+                if isinstance(val, list):
+                    for v in val:
+                        cves.extend(_extract_cves_from_text(str(v)))
+                else:
+                    cves.extend(_extract_cves_from_text(str(val)))
+        if not cves:
+            cves = _extract_cves_from_text(json.dumps(item))
+        if not cves:
+            continue
+
+        advisory_id = str(
+            item.get("id")
+            or item.get("advisory_id")
+            or item.get("advisoryID")
+            or item.get("psirtID")
+            or item.get("reference")
+            or ""
+        ).strip()
+        title = str(item.get("title") or item.get("name") or "").strip()
+        published = str(item.get("published") or item.get("date") or item.get("date_published") or item.get("release_date") or "").strip()
+
+        for cve in cves:
+            entries.append(
+                {
+                    "cve_id": cve,
+                    "source": "psirt",
+                    "advisory_id": advisory_id or None,
+                    "title": title or None,
+                    "published": published or None,
+                }
+            )
+    return entries
+
+
+def _collect_psirt_rss_entries(text: str) -> list[dict[str, Any]]:
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError:
+        return []
+
+    items = root.findall(".//item")
+    entries: list[dict[str, Any]] = []
+    for item in items:
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        published = (item.findtext("pubDate") or "").strip()
+        description = (item.findtext("description") or "").strip()
+        cves = _extract_cves_from_text(" ".join([title, link, description]))
+        if not cves:
+            continue
+        advisory_match = re.search(r"FG-IR-\d{2}-\d+", " ".join([title, link, description]), flags=re.IGNORECASE)
+        advisory_id = advisory_match.group(0).upper() if advisory_match else None
+        for cve in cves:
+            entries.append(
+                {
+                    "cve_id": cve,
+                    "source": "psirt",
+                    "advisory_id": advisory_id,
+                    "title": title or None,
+                    "published": published or None,
+                }
+            )
+    return entries
+
 
 def _validate_allowed_url(url: str, allowed_domains: set[str]) -> None:
     host = (urlparse(url).hostname or "").lower()
@@ -244,6 +341,7 @@ def build_corpus(*, repo_root: Path, dry_run: bool = False, fetcher: FetchFunc |
     sources_block = _as_mapping(sources.get("sources"))
     schema_sources = _as_list(sources_block.get("schema"))
     kev_sources = _as_list(sources_block.get("kev"))
+    psirt_sources = _as_list(sources_block.get("psirt"))
 
     schema_urls_by_version = _collect_schema_urls(schema_sources, versions)
     kev_urls: list[str] = []
@@ -253,10 +351,19 @@ def build_corpus(*, repo_root: Path, dry_run: bool = False, fetcher: FetchFunc |
         if isinstance(url, str) and url.strip():
             kev_urls.append(url.strip())
 
+    psirt_urls: list[str] = []
+    for source_any in psirt_sources:
+        source = _as_mapping(source_any)
+        url = source.get("url")
+        if isinstance(url, str) and url.strip():
+            psirt_urls.append(url.strip())
+
     for urls in schema_urls_by_version.values():
         for url in urls:
             _validate_allowed_url(url, allowed_domains)
     for url in kev_urls:
+        _validate_allowed_url(url, allowed_domains)
+    for url in psirt_urls:
         _validate_allowed_url(url, allowed_domains)
 
     schema_root = repo_root / "docs" / "derived" / "schema"
@@ -326,18 +433,47 @@ def build_corpus(*, repo_root: Path, dry_run: bool = False, fetcher: FetchFunc |
             },
         )
 
-    all_kev_entries: list[dict[str, Any]] = []
+    all_entries: list[dict[str, Any]] = []
     for url in kev_urls:
         raw = json.loads(_fetch_text(url, fetcher=fetcher))
-        all_kev_entries.extend(_normalize_kev_payload(_as_mapping(raw))["entries"])
+        all_entries.extend(_normalize_kev_payload(_as_mapping(raw))["entries"])
+
+    for url in psirt_urls:
+        raw_text = _fetch_text(url, fetcher=fetcher)
+        stripped = raw_text.lstrip()
+        if stripped.startswith("{") or stripped.startswith("["):
+            try:
+                raw = json.loads(raw_text)
+                all_entries.extend(_collect_psirt_entries(raw))
+                continue
+            except json.JSONDecodeError:
+                pass
+        if stripped.startswith("<"):
+            rss_entries = _collect_psirt_rss_entries(raw_text)
+            if rss_entries:
+                all_entries.extend(rss_entries)
+                continue
+        cves = _extract_cves_from_text(raw_text)
+        for cve in cves:
+            all_entries.append({"cve_id": cve, "source": "psirt"})
 
     if not dry_run:
         cves_file = cve_root / "cves.json"
+        seen: set[tuple[str, str]] = set()
+        deduped: list[dict[str, Any]] = []
+        for entry in all_entries:
+            cve_id = str(entry.get("cve_id", "")).strip()
+            source = str(entry.get("source", "kev")).strip()
+            key = (cve_id, source)
+            if not cve_id or key in seen:
+                continue
+            seen.add(key)
+            deduped.append(entry)
         _write_json(
             cves_file,
             {
                 "generated_by": "scripts/build_corpus.py",
-                "entries": all_kev_entries,
+                "entries": deduped,
             },
         )
 

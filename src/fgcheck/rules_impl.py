@@ -7,6 +7,9 @@ from .rules import Finding, Rule
 from .schema import SchemaView
 from .util import as_list
 
+_TRUSTHOST_FIELDS = tuple(f"trusthost{i}" for i in range(1, 11))
+
+
 def _schema_supports_field(schema: Optional[SchemaView], table: tuple[str, ...], field: str) -> tuple[bool, bool]:
     # returns: (supported, schema_unknown)
     if schema is None or not schema.loaded:
@@ -18,6 +21,21 @@ def _schema_supports_field(schema: Optional[SchemaView], table: tuple[str, ...],
             return True, True
         return False, False
     return True, False
+
+
+def _schema_supported_fields(
+    schema: Optional[SchemaView],
+    table: tuple[str, ...],
+    fields: tuple[str, ...],
+) -> tuple[list[str], bool]:
+    supported_fields: list[str] = []
+    schema_unknown = False
+    for field in fields:
+        supported, unknown = _schema_supports_field(schema, table, field)
+        if supported:
+            supported_fields.append(field)
+            schema_unknown = schema_unknown or unknown
+    return supported_fields, schema_unknown
 
 
 def rule_admin_edge_ssh(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
@@ -71,6 +89,70 @@ def rule_admin_edge_https(*, model: ConfigModel, facts: Facts, vdom: str, rule: 
             if "set:allowaccess" in inode.evidence:
                 ev.append(inode.evidence["set:allowaccess"])
             msg = f'Interface "{ifname}" is edge (via default route) and allows HTTPS management (allowaccess contains https).'
+            if schema_unknown:
+                msg = f"[schema_unknown] {msg}"
+            out.append(Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            ))
+    return out
+
+def rule_admin_edge_telnet(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
+    tables = model.vdoms.get(vdom, {})
+    intf_table = get_table(tables, ("system", "interface"))
+    out: List[Finding] = []
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "interface"), "allowaccess")
+    if not supported:
+        return out
+
+    for ifname, inode in intf_table.items():
+        if not isinstance(inode, Node):
+            continue
+        if str(ifname) not in facts.edge_interfaces:
+            continue
+        allowaccess = as_list(inode.fields.get("allowaccess"))
+        if "telnet" in allowaccess:
+            ev = []
+            if "set:allowaccess" in inode.evidence:
+                ev.append(inode.evidence["set:allowaccess"])
+            msg = f'Interface "{ifname}" is edge (via default route) and allows Telnet management (allowaccess contains telnet).'
+            if schema_unknown:
+                msg = f"[schema_unknown] {msg}"
+            out.append(Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            ))
+    return out
+
+def rule_admin_edge_http(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
+    tables = model.vdoms.get(vdom, {})
+    intf_table = get_table(tables, ("system", "interface"))
+    out: List[Finding] = []
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "interface"), "allowaccess")
+    if not supported:
+        return out
+
+    for ifname, inode in intf_table.items():
+        if not isinstance(inode, Node):
+            continue
+        if str(ifname) not in facts.edge_interfaces:
+            continue
+        allowaccess = as_list(inode.fields.get("allowaccess"))
+        if "http" in allowaccess:
+            ev = []
+            if "set:allowaccess" in inode.evidence:
+                ev.append(inode.evidence["set:allowaccess"])
+            msg = f'Interface "{ifname}" is edge (via default route) and allows HTTP management (allowaccess contains http).'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
             out.append(Finding(
@@ -218,34 +300,32 @@ def rule_admin_trusthost_unrestricted(*, model: ConfigModel, facts: Facts, vdom:
     tables = model.vdoms.get(vdom, {})
     admin_table = get_table(tables, ("system", "admin"))
     out: List[Finding] = []
-    support_checks = [
-        _schema_supports_field(schema, ("system", "admin"), "accprofile"),
-        _schema_supports_field(schema, ("system", "admin"), "trusthost1"),
-    ]
-    if any(not s for s, _ in support_checks):
+    acc_supported, acc_unknown = _schema_supports_field(schema, ("system", "admin"), "accprofile")
+    if not acc_supported:
         return out
-    schema_unknown = any(u for _, u in support_checks)
+    supported_trusthosts, schema_unknown = _schema_supported_fields(schema, ("system", "admin"), _TRUSTHOST_FIELDS)
+    if not supported_trusthosts:
+        return out
+    schema_unknown = schema_unknown or acc_unknown
 
     for admin_name, anode in admin_table.items():
         if not isinstance(anode, Node):
             continue
         if str(anode.fields.get("accprofile", "")).strip().lower() != "super_admin":
             continue
-        trusthost1 = as_list(anode.fields.get("trusthost1"))
-        unrestricted = False
-        if not trusthost1:
-            unrestricted = True
-        if len(trusthost1) >= 2 and trusthost1[0] == "0.0.0.0" and trusthost1[1] == "0.0.0.0":
-            unrestricted = True
-        if not unrestricted:
-            continue
-
         ev = []
         if "set:accprofile" in anode.evidence:
             ev.append(anode.evidence["set:accprofile"])
-        if "set:trusthost1" in anode.evidence:
-            ev.append(anode.evidence["set:trusthost1"])
-        msg = f'Admin "{admin_name}" has super_admin profile with unrestricted trusthost1.'
+        unrestricted = False
+        for field in supported_trusthosts:
+            vals = as_list(anode.fields.get(field))
+            if len(vals) >= 2 and vals[0] == "0.0.0.0" and vals[1] == "0.0.0.0":
+                unrestricted = True
+            if f"set:{field}" in anode.evidence:
+                ev.append(anode.evidence[f"set:{field}"])
+        if not unrestricted:
+            continue
+        msg = f'Admin "{admin_name}" has super_admin profile with unrestricted trusthost entry.'
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
         out.append(
@@ -435,26 +515,30 @@ def rule_admin_no_trusted_hosts(*, model: ConfigModel, facts: Facts, vdom: str, 
     tables = model.vdoms.get(vdom, {})
     admin_table = get_table(tables, ("system", "admin"))
     out: List[Finding] = []
-    supported, schema_unknown = _schema_supports_field(schema, ("system", "admin"), "trusthost1")
-    if not supported:
+    supported_trusthosts, schema_unknown = _schema_supported_fields(schema, ("system", "admin"), _TRUSTHOST_FIELDS)
+    if not supported_trusthosts:
         return out
 
     for admin_name, anode in admin_table.items():
         if not isinstance(anode, Node):
             continue
-        trusthost1 = as_list(anode.fields.get("trusthost1"))
-        unrestricted = not trusthost1
-        if len(trusthost1) >= 2 and trusthost1[0] == "0.0.0.0" and trusthost1[1] == "0.0.0.0":
-            unrestricted = True
-        if not unrestricted:
+        has_trusthost = False
+        for field in supported_trusthosts:
+            if as_list(anode.fields.get(field)):
+                has_trusthost = True
+                break
+        if has_trusthost:
             continue
         ev = []
-        for ek in ("set:trusthost1", "set:accprofile"):
+        for field in supported_trusthosts:
+            ek = f"set:{field}"
             if ek in anode.evidence:
                 ev.append(anode.evidence[ek])
+        if "set:accprofile" in anode.evidence:
+            ev.append(anode.evidence["set:accprofile"])
         if not ev:
             continue
-        msg = f'Admin "{admin_name}" has no trusted host restriction (trusthost1 is unset or any-any).'
+        msg = f'Admin "{admin_name}" has no trusted host restriction (no trusthost entries set).'
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
         out.append(

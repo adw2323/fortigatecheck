@@ -46,6 +46,7 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
 
     interface_members: Dict[str, Set[str]] = {}
     interface_parent: Dict[str, str] = {}
+    interface_children: Dict[str, Set[str]] = {}
     for ifname, inode in interface_table.items():
         if not isinstance(inode, Node):
             continue
@@ -55,7 +56,23 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
             interface_members[name] = members
         parents = as_list(inode.fields.get("interface"))
         if parents:
-            interface_parent[name] = parents[0]
+            parent = parents[0]
+            interface_parent[name] = parent
+            interface_children.setdefault(parent, set()).add(name)
+
+    switch_table = get_table(tables, ("system", "switch-interface"))
+    for ifname, inode in switch_table.items():
+        if not isinstance(inode, Node):
+            continue
+        name = str(ifname)
+        members = set(as_list(inode.fields.get("member")))
+        if not members:
+            continue
+        existing = interface_members.get(name)
+        if existing:
+            existing.update(members)
+        else:
+            interface_members[name] = members
 
     resolved_interface_cache: Dict[str, Set[str]] = {}
 
@@ -70,7 +87,7 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
         walk = set(walk)
         walk.add(ifname)
 
-        out: Set[str] = set()
+        out: Set[str] = {ifname}
         for member in interface_members.get(ifname, set()):
             out.update(resolve_interface_targets(member, walk))
 
@@ -78,8 +95,8 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
         if parent:
             out.update(resolve_interface_targets(parent, walk))
 
-        if not out:
-            out.add(ifname)
+        for child in interface_children.get(ifname, set()):
+            out.update(resolve_interface_targets(child, walk))
 
         resolved_interface_cache[ifname] = set(out)
         return out

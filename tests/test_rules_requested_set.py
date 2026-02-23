@@ -125,6 +125,30 @@ end
     assert findings == []
 
 
+def test_admin_no_trusted_hosts_not_triggered_when_trusthost2_is_set(tmp_path: Path):
+    _write_schema(
+        tmp_path,
+        "7.4",
+        {"tables": {"system admin": {"fields": {"trusthost1": {"allowed_values": []}, "trusthost2": {"allowed_values": []}}}}},
+    )
+    conf = """
+config system admin
+    edit "admin"
+        set trusthost2 192.0.2.10 255.255.255.255
+    next
+end
+""".strip()
+    model, warnings = parse_fortios_text(conf, file_id="inline.conf")
+    assert warnings == []
+    findings = run(
+        model,
+        rule_files=["rules/builtin/FGT-ADMIN-NO-TRUSTED-HOSTS.yaml"],
+        fortios_version="7.4",
+        schema_base_dir=tmp_path,
+    )
+    assert findings == []
+
+
 def test_localin_no_protection_triggers(tmp_path: Path):
     _write_schema(
         tmp_path,

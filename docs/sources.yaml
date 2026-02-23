@@ -10,6 +10,7 @@ allowed_domains:
   - "docs.fortinet.com"
   - "fortinetweb.s3.amazonaws.com"
   - "fortiguard.com"
+  - "fortiguard.fortinet.com"
   - "cisa.gov"
 
 sources:
@@ -25,6 +26,7 @@ sources:
     - id: "fortiguard_psirt"
       kind: "html"
       domain: "fortiguard.com"
+      url: "https://fortiguard.fortinet.com/rss/ir.xml"
       description: "FortiGuard PSIRT advisories."
   kev:
     - id: "cisa_kev"

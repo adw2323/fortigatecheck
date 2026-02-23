@@ -103,6 +103,43 @@ end
     assert findings[0].confidence == "likely"
 
 
+def test_admin_trusthost_unrestricted_triggers_for_trusthost2(tmp_path: Path):
+    _write_schema(
+        tmp_path,
+        "7.4",
+        {
+            "tables": {
+                "system admin": {
+                    "fields": {
+                        "accprofile": {"allowed_values": []},
+                        "trusthost1": {"allowed_values": []},
+                        "trusthost2": {"allowed_values": []},
+                    }
+                }
+            }
+        },
+    )
+    conf = """
+config system admin
+    edit "admin"
+        set accprofile "super_admin"
+        set trusthost2 0.0.0.0 0.0.0.0
+    next
+end
+""".strip()
+    model, warnings = parse_fortios_text(conf, file_id="inline.conf")
+    assert warnings == []
+    findings = run(
+        model,
+        rule_files=["rules/builtin/FGT-ADMIN-TRUSTHOST-UNRESTRICTED.yaml"],
+        fortios_version="7.4",
+        schema_base_dir=tmp_path,
+    )
+    assert findings
+    assert findings[0].rule_id == "FGT-ADMIN-TRUSTHOST-UNRESTRICTED"
+    assert findings[0].confidence == "likely"
+
+
 def test_new_rules_degrade_when_schema_is_partial(tmp_path: Path):
     _write_schema(
         tmp_path,
@@ -328,3 +365,67 @@ end
         schema_base_dir=tmp_path,
     )
     assert findings == []
+
+
+def test_admin_edge_telnet_triggers(tmp_path: Path):
+    _write_schema(
+        tmp_path,
+        "7.4",
+        {"tables": {"system interface": {"fields": {"allowaccess": {"allowed_values": ["https", "telnet"]}}}}},
+    )
+    conf = """
+config system interface
+    edit "wan1"
+        set allowaccess "telnet"
+    next
+end
+config router static
+    edit 1
+        set dst 0.0.0.0 0.0.0.0
+        set device "wan1"
+    next
+end
+""".strip()
+    model, warnings = parse_fortios_text(conf, file_id="inline.conf")
+    assert warnings == []
+    findings = run(
+        model,
+        rule_files=["rules/builtin/FGT-ADMIN-EDGE-TELNET.yaml"],
+        fortios_version="7.4",
+        schema_base_dir=tmp_path,
+    )
+    assert findings
+    assert findings[0].rule_id == "FGT-ADMIN-EDGE-TELNET"
+    assert findings[0].confidence == "certain"
+
+
+def test_admin_edge_http_triggers(tmp_path: Path):
+    _write_schema(
+        tmp_path,
+        "7.4",
+        {"tables": {"system interface": {"fields": {"allowaccess": {"allowed_values": ["http", "https"]}}}}},
+    )
+    conf = """
+config system interface
+    edit "wan1"
+        set allowaccess "http"
+    next
+end
+config router static
+    edit 1
+        set dst 0.0.0.0 0.0.0.0
+        set device "wan1"
+    next
+end
+""".strip()
+    model, warnings = parse_fortios_text(conf, file_id="inline.conf")
+    assert warnings == []
+    findings = run(
+        model,
+        rule_files=["rules/builtin/FGT-ADMIN-EDGE-HTTP.yaml"],
+        fortios_version="7.4",
+        schema_base_dir=tmp_path,
+    )
+    assert findings
+    assert findings[0].rule_id == "FGT-ADMIN-EDGE-HTTP"
+    assert findings[0].confidence == "certain"

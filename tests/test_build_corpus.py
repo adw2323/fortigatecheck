@@ -356,3 +356,81 @@ end</pre></body></html>
     assert schema["tables"]["vpn ipsec phase1-interface"]["fields"]["dhgrp"]["allowed_values"] == ["1", "2", "5", "14"]
     assert schema["tables"]["log syslogd setting"]["fields"]["status"]["allowed_values"] == ["enable", "disable"]
     assert schema["tables"]["log fortianalyzer-cloud setting"]["fields"]["status"]["allowed_values"] == ["enable", "disable"]
+
+
+def test_build_corpus_ingests_psirt_sources(tmp_path: Path):
+    mod = _load_build_corpus_module(Path(".").resolve())
+    _write_sources(
+        tmp_path,
+        {
+            "fortios_versions": {"first_class": ["7.4"]},
+            "allowed_domains": ["fortiguard.com"],
+            "sources": {
+                "schema": [],
+                "psirt": [
+                    {
+                        "id": "fortiguard_psirt",
+                        "url": "https://fortiguard.com/psirt/feed.json",
+                    }
+                ],
+            },
+        },
+    )
+
+    psirt_payload = json.dumps(
+        {
+            "advisories": [
+                {
+                    "id": "FG-IR-24-001",
+                    "title": "Example advisory",
+                    "published": "2024-01-02",
+                    "cve": "CVE-2024-0001",
+                }
+            ]
+        }
+    )
+
+    mod.build_corpus(repo_root=tmp_path, fetcher=lambda _: psirt_payload)
+    cves = json.loads((tmp_path / "docs" / "derived" / "cves" / "cves.json").read_text(encoding="utf-8"))
+    ids = {entry.get("cve_id") for entry in cves["entries"]}
+    assert "CVE-2024-0001" in ids
+
+
+def test_build_corpus_ingests_psirt_rss_sources(tmp_path: Path):
+    mod = _load_build_corpus_module(Path(".").resolve())
+    _write_sources(
+        tmp_path,
+        {
+            "fortios_versions": {"first_class": ["7.4"]},
+            "allowed_domains": ["fortiguard.fortinet.com"],
+            "sources": {
+                "schema": [],
+                "psirt": [
+                    {
+                        "id": "fortiguard_psirt",
+                        "url": "https://fortiguard.fortinet.com/rss/ir.xml",
+                    }
+                ],
+            },
+        },
+    )
+
+    rss_payload = """
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>FortiGuard PSIRT Advisories</title>
+    <item>
+      <title>FG-IR-24-001 Example Advisory (CVE-2024-0002)</title>
+      <link>https://fortiguard.fortinet.com/psirt/FG-IR-24-001</link>
+      <pubDate>Tue, 02 Jan 2024 00:00:00 GMT</pubDate>
+      <description>Addresses CVE-2024-0002 and CVE-2024-0003.</description>
+    </item>
+  </channel>
+</rss>
+""".strip()
+
+    mod.build_corpus(repo_root=tmp_path, fetcher=lambda _: rss_payload)
+    cves = json.loads((tmp_path / "docs" / "derived" / "cves" / "cves.json").read_text(encoding="utf-8"))
+    ids = {entry.get("cve_id") for entry in cves["entries"]}
+    assert {"CVE-2024-0002", "CVE-2024-0003"}.issubset(ids)

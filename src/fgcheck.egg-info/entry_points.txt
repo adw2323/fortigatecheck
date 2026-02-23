@@ -1,0 +1,2 @@
+[console_scripts]
+fgcheck = fgcheck.cli:main

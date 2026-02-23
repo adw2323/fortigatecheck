@@ -117,6 +117,8 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 ## Builtin Rules (Current)
 - `FGT-ADMIN-EDGE-SSH`
 - `FGT-ADMIN-EDGE-HTTPS`
+- `FGT-ADMIN-EDGE-TELNET`
+- `FGT-ADMIN-EDGE-HTTP`
 - `FGT-ADMIN-EDGE-ALLACCESS`
 - `FGT-ADMIN-NO-TRUSTED-HOSTS`
 - `FGT-ADMIN-TRUSTHOST-UNRESTRICTED`
@@ -133,6 +135,8 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`
+- `FGT-ADMIN-EDGE-TELNET`
+- `FGT-ADMIN-EDGE-HTTP`
 - `FGT-ADMIN-NO-TRUSTED-HOSTS`
 - `FGT-LOCALIN-NO-PROTECTION`
 - `FGT-POLICY-ANY-ANY-ALL`

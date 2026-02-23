@@ -29,23 +29,9 @@ from .report import (
 )
 from .versioning import resolve_target_fortios
 
-DEFAULT_RULE_FILES = [
-    "rules/builtin/FGT-ADMIN-EDGE-SSH.yaml",
-    "rules/builtin/FGT-ADMIN-EDGE-HTTPS.yaml",
-    "rules/builtin/FGT-POLICY-LOG-001.yaml",
-    "rules/builtin/FGT-SSLVPN-MIN-TLS.yaml",
-    "rules/builtin/FGT-SSLVPN-SRCINTF-ANY.yaml",
-    "rules/builtin/FGT-SSLVPN-SRCADDR-ALL.yaml",
-    "rules/builtin/FGT-LOCAL-IN-PERMISSIVE.yaml",
-    "rules/builtin/FGT-ADMIN-TRUSTHOST-UNRESTRICTED.yaml",
-    "rules/builtin/FGT-ADMIN-SUPER-NO-2FA.yaml",
-    "rules/builtin/FGT-ADMIN-EDGE-ALLACCESS.yaml",
-    "rules/builtin/FGT-ADMIN-NO-TRUSTED-HOSTS.yaml",
-    "rules/builtin/FGT-LOCALIN-NO-PROTECTION.yaml",
-    "rules/builtin/FGT-POLICY-ANY-ANY-ALL.yaml",
-    "rules/builtin/FGT-IPSEC-WEAK-DH.yaml",
-    "rules/builtin/FGT-NO-REMOTE-LOGGING.yaml",
-]
+DEFAULT_RULE_FILES = sorted(
+    str(p).replace("\\", "/") for p in (Path("rules") / "builtin").glob("*.yaml")
+)
 
 _SEVERITY_ORDER = {
     "critical": 0,

@@ -1,0 +1,5 @@
+id: FGT-ADMIN-EDGE-TELNET
+title: Edge interface allows Telnet management
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_admin_edge_telnet
