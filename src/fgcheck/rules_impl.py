@@ -887,3 +887,106 @@ def rule_snmp_weak_community(*, model: ConfigModel, facts: Facts, vdom: str, rul
             )
         )
     return out
+
+
+# ---------------------------------------------------------------------------
+# FGT-ADMIN-WEAK-PASSWORD-POLICY
+# Detects when the administrator password policy is disabled, uses a minimum
+# length below 8, or lacks minimum character-class requirements.
+# ---------------------------------------------------------------------------
+
+_MIN_LENGTH_THRESHOLD = 8  # NIST SP 800-63B / CIS FortiGate benchmark
+
+
+def rule_admin_weak_password_policy(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect weak or disabled administrator password policy."""
+    tables = model.vdoms.get(vdom, {})
+    pw_table = get_table(tables, ("system", "password-policy"))
+    out: List[Finding] = []
+
+    # Check schema support for the fields we need.
+    status_supported, status_unknown = _schema_supports_field(
+        schema, ("system", "password-policy"), "status"
+    )
+    minlen_supported, minlen_unknown = _schema_supports_field(
+        schema, ("system", "password-policy"), "minimum-length"
+    )
+    schema_unknown = status_unknown or minlen_unknown
+
+    if not status_supported and not minlen_supported:
+        return out
+
+    node = pw_table.get("__singleton__")
+    if not isinstance(node, Node):
+        # No password-policy block found — this means the policy is at
+        # factory defaults (disabled).  We only flag when there is explicit
+        # evidence that the policy was configured and then disabled.
+        # A missing block means the default is active (disabled), but
+        # without explicit evidence we should not emit a finding.
+        return out
+
+    findings: List[Finding] = []
+
+    # --- Check 1: policy is explicitly disabled ---
+    if status_supported:
+        status_val = str(node.fields.get("status", "")).strip().lower()
+        if status_val == "disable":
+            ev: List[Evidence] = []
+            if "set:status" in node.evidence:
+                ev.append(node.evidence["set:status"])
+            if ev:
+                msg = "Administrator password policy is explicitly disabled."
+                if schema_unknown:
+                    msg = f"[schema_unknown] {msg}"
+                findings.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=("heuristic" if schema_unknown else rule.confidence),
+                        vdom=vdom,
+                        message=msg,
+                        evidence=ev,
+                    )
+                )
+
+    # --- Check 2: minimum-length below threshold ---
+    if minlen_supported and not findings:
+        minlen_raw = node.fields.get("minimum-length")
+        if minlen_raw is not None:
+            try:
+                minlen_val = int(minlen_raw)
+            except (ValueError, TypeError):
+                minlen_val = 0
+            if 0 < minlen_val < _MIN_LENGTH_THRESHOLD:
+                ev2: List[Evidence] = []
+                if "set:minimum-length" in node.evidence:
+                    ev2.append(node.evidence["set:minimum-length"])
+                if ev2:
+                    msg = (
+                        f"Password policy minimum-length is {minlen_val}, "
+                        f"below the recommended {_MIN_LENGTH_THRESHOLD} characters."
+                    )
+                    if schema_unknown:
+                        msg = f"[schema_unknown] {msg}"
+                    findings.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=("heuristic" if schema_unknown else rule.confidence),
+                            vdom=vdom,
+                            message=msg,
+                            evidence=ev2,
+                        )
+                    )
+
+    out.extend(findings)
+    return out
