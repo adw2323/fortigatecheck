@@ -797,6 +797,129 @@ def rule_dns_zone_transfer(*, model: ConfigModel, facts: Facts, vdom: str, rule:
     return out
 
 
+# ---------------------------------------------------------------------------
+# FGT-DNS-DEFAULT-ONLY
+# Detects when DNS resolution uses only well-known public/default resolvers
+# (e.g. 8.8.8.8, 1.1.1.1) with cleartext protocol, indicating an unreviewed
+# out-of-box configuration with unencrypted DNS queries.
+# ---------------------------------------------------------------------------
+
+_DEFAULT_DNS_SERVERS: frozenset[str] = frozenset({
+    "8.8.8.8",
+    "8.8.4.4",
+    "1.1.1.1",
+    "1.0.0.1",
+    "208.67.222.222",
+    "208.67.220.220",
+    "9.9.9.9",
+    "149.112.112.112",
+    "64.6.64.6",
+    "64.6.65.6",
+})
+
+
+def rule_dns_default_only(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect DNS configured with only default public resolvers and cleartext."""
+    out: List[Finding] = []
+
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("system", "dns"), "primary"
+    )
+    if not supported:
+        return out
+
+    # DNS config lives in config global scope or in vdom scope
+    global_tables = model.global_cfg
+    vdom_tables = model.vdoms.get(vdom, {})
+
+    dns_global = get_table(global_tables, ("system", "dns"))
+    dns_vdom = get_table(vdom_tables, ("system", "dns"))
+
+    node_global = dns_global.get("__singleton__")
+    node_vdom = dns_vdom.get("__singleton__")
+    node = node_global if isinstance(node_global, Node) else node_vdom
+    if not isinstance(node, Node):
+        return out
+
+    primary = str(node.fields.get("primary", "")).strip()
+    secondary = str(node.fields.get("secondary", "")).strip()
+    protocol = str(node.fields.get("protocol", "")).strip().lower()
+
+    # Collect all configured DNS servers
+    servers: list[str] = []
+    if primary:
+        servers.append(primary)
+    if secondary:
+        servers.append(secondary)
+
+    # Also check for additional DNS entries (alt-*, etc.)
+    for field_name in node.fields:
+        if field_name.startswith("alt"):
+            val = str(node.fields[field_name]).strip()
+            if val:
+                servers.append(val)
+
+    if not servers:
+        return out
+
+    # All servers must be default public resolvers
+    all_default = all(s in _DEFAULT_DNS_SERVERS for s in servers)
+    if not all_default:
+        return out
+
+    # Build evidence
+    ev: List[Evidence] = []
+    for field_name in ("set:primary", "set:secondary", "set:protocol"):
+        if field_name in node.evidence:
+            ev.append(node.evidence[field_name])
+    # Also collect alt-* evidence
+    for field_name in node.evidence:
+        if field_name.startswith("set:alt"):
+            ev.append(node.evidence[field_name])
+
+    if not ev:
+        return out
+
+    # Determine message based on protocol
+    if protocol == "cleartext" or protocol == "":
+        msg = (
+            f"DNS is configured with only default public resolvers "
+            f"({', '.join(servers)}) using cleartext protocol. "
+            f"DNS queries are unencrypted and may be intercepted or spoofed. "
+            f"Consider using DNS-over-TLS, DNS-over-HTTPS, or internal resolvers."
+        )
+    else:
+        msg = (
+            f"DNS is configured with only default public resolvers "
+            f"({', '.join(servers)}). While protocol is '{protocol}', "
+            f"using default resolvers may indicate an unreviewed configuration. "
+            f"Consider using internal resolvers."
+        )
+
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
+    return out
+
+
 def rule_ntp_no_ntps(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
     """Detect NTP configuration without NTPS (unencrypted time sync)."""
     tables = model.vdoms.get(vdom, {})

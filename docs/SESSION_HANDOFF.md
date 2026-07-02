@@ -17,13 +17,13 @@ Last updated: 2026-07-02
 ### Schema State
 - **7.4**: 597 tables, 17 with field details (priority tables: system interface 374 fields, firewall policy 176 fields, system admin 50 fields, vpn ssl settings 77 fields, etc.)
 - **7.6**: 625 tables, 17 with field details (system interface 389 fields, firewall policy 185 fields, system admin 50 fields, vpn ssl settings 60 fields, etc.)
-- **8.0**: Not yet generated (CLI reference URL added to sources.yaml, awaiting build_corpus run)
+- **8.0**: 646 tables, 17 with field details
 
 ### Test Coverage
-- 202 tests passing
-- 23 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls, password_policy, idle_timeout), versioning, authority, baseline, CLI, report, build_corpus
+- 217 tests passing
+- 24 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls, password_policy, idle_timeout, dns_default_only), versioning, authority, baseline, CLI, report, build_corpus, readme
 
-### Builtin Rules (22 total)
+### Builtin Rules (23 total)
 - Admin access: FGT-ADMIN-EDGE-SSH, FGT-ADMIN-EDGE-HTTPS, FGT-ADMIN-EDGE-TELNET, FGT-ADMIN-EDGE-HTTP, FGT-ADMIN-EDGE-ALLACCESS, FGT-ADMIN-NO-TRUSTED-HOSTS, FGT-ADMIN-TRUSTHOST-UNRESTRICTED, FGT-ADMIN-SUPER-NO-2FA
 - Firewall: FGT-POLICY-ANY-ANY-ALL, FGT-POLICY-LOG-001
 - Local-in: FGT-LOCAL-IN-PERMISSIVE, FGT-LOCALIN-NO-PROTECTION
@@ -32,6 +32,9 @@ Last updated: 2026-07-02
 - Logging: FGT-NO-REMOTE-LOGGING
 - Password: FGT-ADMIN-WEAK-PASSWORD-POLICY
 - Admin idle: FGT-ADMIN-NO-IDLE-TIMEOUT
+- DNS: FGT-DNS-NO-ZT, FGT-DNS-DEFAULT-ONLY
+- NTP: FGT-NTP-NO-NTPS
+- SNMP: FGT-SNMP-WEAK-COMMUNITY
 
 ## Version Policy Update
 - First-class: 7.4.x (latest 7.4.12), 7.6.x (latest 7.6.7), 8.0.x (8.0.0 just released)
@@ -40,18 +43,17 @@ Last updated: 2026-07-02
 
 ## Known Gaps / Open Work
 1. Schema corpus is table_only for ~600 tables; field extraction needed for security-critical tables beyond the 17 priority ones
-2. Rule set is growing (22 rules); should be expanded to 30+ covering DNS, NTP, SNMP, password policy, firmware currency, idle timeout
-3. FortiOS 8.0 schema not yet generated; build_corpus.py and versioning.py need 8.0 support
-4. Facts engine needs deeper interface hierarchy: software switch member ports, nested parent/child interface ancestry
-5. No CI pipeline yet (GitHub Actions)
-6. No real-config regression suite with sanitized fixtures
+2. Rule set is growing (23 rules); should be expanded to 30+ covering firmware outdated, DHCP snooping, SSH weak ciphers, SNMP no ACL, certificate expiry, FGFM default override, interface VLAN security
+3. Facts engine needs deeper interface hierarchy: HA cluster topology, virtual-wire pair detection, IPsec tunnel endpoint topology
+4. No CI pipeline yet (GitHub Actions)
+5. No real-config regression suite with sanitized fixtures
 
 ## Active Priorities (Ordered)
-1. Add new rules (DNS default, DHCP snooping, firmware outdated, SSH weak ciphers, SNMP no ACL) — target 30+ rules
-2. Generate FortiOS 8.0 schema and add full version support
-3. Expand schema field extraction for security-critical tables beyond priority 17
-4. Add CI pipeline (GitHub Actions with pytest + schema validation)
-5. Deepen facts engine for interface hierarchy and HA topology
+1. Add new rules (firmware outdated, DHCP snooping, SSH weak ciphers, SNMP no ACL, certificate expiry) — target 30+ rules
+2. Expand schema field extraction for security-critical tables beyond priority 17
+3. Add CI pipeline (GitHub Actions with pytest + schema validation)
+4. Deepen facts engine for HA topology and virtual-wire pair detection
+5. Add SARIF output for GitHub code scanning integration
 
 ## Do-Next Checklist
 1. ~~Add FGT-ADMIN-NO-IDLE-TIMEOUT rule with tests~~ ✅ DONE
@@ -59,13 +61,13 @@ Last updated: 2026-07-02
 3. Add FGT-SSH-WEAK-CIPHERS rule with tests
 4. Add FGT-SNMP-NO-ACL rule with tests
 5. Add FGT-CERT-EXPIRING rule with tests
-6. Add FGT-DNS-DEFAULT-ONLY rule with tests
+6. ~~Add FGT-DNS-DEFAULT-ONLY rule with tests~~ ✅ DONE (this session)
 7. Add FGT-FGFM-DEFAULT-OVERRIDE rule with tests
 8. Add FGT-IFACE-NO-VLAN-SECURITY rule with tests
-9. Update build_corpus.py to support 8.0 version
-10. Update versioning.py to recognize 8.0 family
-11. Run build_corpus.py to generate 8.0 schema.json
-12. Add schema tests for 8.0 fallback behavior
+9. Add FGT-DHCP-SNOOP rule with tests
+10. Add model.py unit tests (untested module — HIGH priority per Track 7)
+11. Add util.py unit tests
+12. Update build_corpus.py to support 8.0 version
 
 ## Known Pitfalls / Guardrails
 - Do not present guessed FortiOS knobs as facts

@@ -1,0 +1,5 @@
+id: FGT-DNS-DEFAULT-ONLY
+title: DNS uses only default public resolvers without encryption
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_dns_default_only
