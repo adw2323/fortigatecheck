@@ -1206,3 +1206,143 @@ def rule_admin_no_idle_timeout(
         )
 
     return out
+
+
+# ---------------------------------------------------------------------------
+# FGT-FIRMWARE-OUTDATED
+# Detects when the FortiGate firmware version is not at the latest known
+# patch level for its version family. Outdated firmware may contain known
+# security vulnerabilities that have been patched in subsequent releases.
+#
+# The version is extracted from the config header line
+# (#config-version=...) which the parser stores in model.meta["header_lines"].
+# If no header is present, the rule falls back to the target_fortios value
+# set by rules.run() (family only, e.g. "7.4"), which provides less
+# granularity but still allows family-level freshness checks.
+# ---------------------------------------------------------------------------
+
+# Latest known stable patch release per version family.
+# Updated when new FortiOS patch releases are validated against schema.
+_LATEST_PER_FAMILY: dict[str, tuple[int, ...]] = {
+    "7.4": (7, 4, 12),
+    "7.6": (7, 6, 7),
+    "8.0": (8, 0, 0),
+}
+
+
+def _parse_version_tuple(version_str: str) -> tuple[int, ...] | None:
+    """Parse a dotted version string like '7.4.3' into (7, 4, 3)."""
+    parts = version_str.strip().split(".")
+    try:
+        return tuple(int(p) for p in parts)
+    except (ValueError, TypeError):
+        return None
+
+
+def _get_header_versions(meta: dict) -> list[str]:
+    """Extract firmware version strings from config header lines."""
+    from .versioning import _extract_header_fortios_version, _header_lines
+
+    versions: list[str] = []
+    for header in _header_lines(meta):
+        v = _extract_header_fortios_version(header)
+        if v:
+            versions.append(v)
+    return versions
+
+
+def rule_firmware_outdated(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect outdated firmware version relative to latest known patch."""
+    out: List[Finding] = []
+
+    # Extract the exact version from the config header.
+    header_versions = _get_header_versions(model.meta)
+
+    # If no header present, fall back to target_fortios (family only).
+    detected_version: str | None = None
+    if header_versions:
+        detected_version = header_versions[0]
+    else:
+        detected_version = model.meta.get("target_fortios")
+
+    if detected_version is None:
+        return out
+
+    detected_tuple = _parse_version_tuple(detected_version)
+    if detected_tuple is None or len(detected_tuple) < 3:
+        # Need full 3-component version (e.g. 7.4.3) to compare against
+        # patch-level latest. Family-only versions (e.g. 7.4) are not
+        # specific enough to determine if firmware is outdated.
+        return out
+
+    # Determine the family from the first two components.
+    family = f"{detected_tuple[0]}.{detected_tuple[1]}"
+    latest = _LATEST_PER_FAMILY.get(family)
+    if latest is None:
+        # Unknown family - cannot compare; skip gracefully.
+        return out
+
+    # Compare: is the detected version older than the latest known?
+    if detected_tuple >= latest:
+        return out  # firmware is up to date (or newer than known)
+
+    # Build evidence from the config header line.
+    ev: List[Evidence] = []
+    header_lines = model.meta.get("header_lines", [])
+    for item in header_lines:
+        if isinstance(item, tuple) and len(item) >= 2:
+            line_no, raw = item[0], item[1]
+            if detected_version in str(raw):
+                ev.append(Evidence(
+                    file_id=model.meta.get("file_id", ""),
+                    line_range=(line_no, line_no),
+                    path=(),
+                    raw_lines=[str(raw)],
+                ))
+                break
+
+    detected_str = ".".join(str(p) for p in detected_tuple)
+    latest_str = ".".join(str(p) for p in latest)
+
+    # Determine severity based on how far behind the detected version is.
+    # For same-family versions, compare the full version tuple.
+    # major+minor gap >= 2 -> critical; 1 minor behind -> high;
+    # same minor but patch behind -> high if 5+ patches, else medium.
+    version_gap = latest[1] - detected_tuple[1]
+    patch_gap = latest[2] - detected_tuple[2] if len(detected_tuple) >= 3 else 0
+
+    if version_gap >= 2:
+        severity = "critical"
+    elif version_gap >= 1:
+        severity = "high"
+    elif patch_gap >= 5:
+        severity = "high"
+    else:
+        severity = "medium"
+
+    msg = (
+        f"FortiOS firmware version {detected_str} is outdated. "
+        f"The latest known release for the {family}.x family is "
+        f"{latest_str}. Running outdated firmware may expose the "
+        f"device to known security vulnerabilities that have been "
+        f"patched in later releases."
+    )
+
+    out.append(Finding(
+        rule_id=rule.id,
+        title=rule.title,
+        severity=severity,
+        confidence=rule.confidence,
+        vdom=vdom,
+        message=msg,
+        evidence=ev,
+    ))
+
+    return out

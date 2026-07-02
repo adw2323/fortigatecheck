@@ -1,0 +1,5 @@
+id: FGT-FIRMWARE-OUTDATED
+title: Firmware version is outdated
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_firmware_outdated
