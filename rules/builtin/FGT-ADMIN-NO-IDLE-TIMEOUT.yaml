@@ -1,0 +1,5 @@
+id: FGT-ADMIN-NO-IDLE-TIMEOUT
+title: Administrator idle timeout is disabled or excessively long
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_no_idle_timeout

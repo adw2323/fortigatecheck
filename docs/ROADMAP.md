@@ -13,10 +13,10 @@ Last updated: 2026-07-02
 ### By the Numbers
 | Metric | Value | Trend |
 |--------|-------|-------|
-| Tests passing | 190 | Up from 180 |
+| Tests passing | 202 | Up from 190 |
 | Source files | 13 modules | Growing |
-| Test files | 22 | Growing |
-| Builtin rules | 21 | Up from 20 |
+| Test files | 23 | Growing |
+| Builtin rules | 22 | Up from 21 |
 | Schema versions | 3 (7.4, 7.6, 8.0) | Up from 2 |
 | Quality signal (Sentrux) | 0.6411 | Target: 0.80+ |
 | Test coverage (Sentrux) | 20% | Target: 80%+ |
@@ -70,7 +70,7 @@ Start with critical/likely findings, expand to best-practice and hardening check
 | Rule | Category | Severity | Status |
 |------|----------|----------|--------|
 | FGT-ADMIN-WEAK-PASSWORD-POLICY | Password | high | DONE |
-| FGT-ADMIN-NO-IDLE-TIMEOUT | Admin | medium | PLANNED |
+| FGT-ADMIN-NO-IDLE-TIMEOUT | Admin | high | DONE |
 | FGT-FIRMWARE-OUTDATED | Firmware | high | PLANNED |
 | FGT-DNS-DEFAULT-ONLY | DNS | medium | PLANNED |
 | FGT-DHCP-SNOOP | DHCP | medium | PLANNED |

@@ -136,6 +136,7 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - `FGT-NTP-NO-NTPS`
 - `FGT-SNMP-WEAK-COMMUNITY`
 - `FGT-ADMIN-WEAK-PASSWORD-POLICY`
+- `FGT-ADMIN-NO-IDLE-TIMEOUT`
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`

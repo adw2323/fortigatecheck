@@ -990,3 +990,96 @@ def rule_admin_weak_password_policy(
 
     out.extend(findings)
     return out
+
+
+# ---------------------------------------------------------------------------
+# FGT-ADMIN-NO-IDLE-TIMEOUT
+# Detects when the administrator idle timeout is explicitly set to 0 (disabled,
+# meaning sessions never expire) or exceeds the recommended maximum.
+# The FortiGate default is 5 minutes; best practice recommends <= 15 minutes.
+# ---------------------------------------------------------------------------
+
+_IDLE_TIMEOUT_DISABLED = 0   # never timeout — high risk
+_IDLE_TIMEOUT_MAX = 15       # recommended maximum in minutes
+
+
+def rule_admin_no_idle_timeout(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect disabled or excessively long administrator idle timeout."""
+    out: List[Finding] = []
+
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("system", "global"), "admin-idle-timeout"
+    )
+    if not supported:
+        return out
+
+    # config system global is stored in the global scope (config global block)
+    # but may also appear directly in the vdom scope for exported configs.
+    global_table = get_table(model.global_cfg, ("system", "global"))
+    vdom_table = get_table(model.vdoms.get(vdom, {}), ("system", "global"))
+
+    # Prefer the global scope; fall back to vdom scope.
+    node_global = global_table.get("__singleton__")
+    node_vdom = vdom_table.get("__singleton__")
+    node = node_global if isinstance(node_global, Node) else node_vdom
+    if not isinstance(node, Node):
+        return out
+
+    raw = node.fields.get("admin-idle-timeout")
+    if raw is None:
+        return out
+
+    try:
+        timeout_val = int(raw)
+    except (ValueError, TypeError):
+        return out
+
+    ev: List[Evidence] = []
+    if "set:admin-idle-timeout" in node.evidence:
+        ev.append(node.evidence["set:admin-idle-timeout"])
+
+    if not ev:
+        return out
+
+    msg: str = ""
+    severity = rule.severity
+
+    if timeout_val == _IDLE_TIMEOUT_DISABLED:
+        msg = (
+            "Administrator idle timeout is set to 0 (disabled). "
+            "Administrator sessions will never expire, allowing abandoned "
+            "sessions to remain active indefinitely."
+        )
+        severity = "high"
+    elif timeout_val > _IDLE_TIMEOUT_MAX:
+        msg = (
+            f"Administrator idle timeout is {timeout_val} minutes, "
+            f"exceeding the recommended maximum of {_IDLE_TIMEOUT_MAX} "
+            f"minutes. Long-lived abandoned sessions increase the risk "
+            f"of unauthorized access."
+        )
+        severity = "medium"
+
+    if msg:
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            )
+        )
+
+    return out

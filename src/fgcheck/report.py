@@ -63,6 +63,7 @@ _RULE_EXPLANATIONS = {
     "FGT-ADMIN-NO-TRUSTED-HOSTS": "Administrator login is not restricted to trusted source hosts.",
     "FGT-ADMIN-TRUSTHOST-UNRESTRICTED": "A super-admin account is effectively open to any source host.",
     "FGT-ADMIN-SUPER-NO-2FA": "A super-admin account does not enforce two-factor authentication.",
+    "FGT-ADMIN-NO-IDLE-TIMEOUT": "Administrator idle timeout is disabled or exceeds recommended limits.",
     "FGT-LOCAL-IN-PERMISSIVE": "Local-in policy accepts broad traffic directly to the FortiGate.",
     "FGT-LOCALIN-NO-PROTECTION": "No enabled local-in deny protection is present.",
     "FGT-POLICY-LOG-001": "A permit firewall policy is not logging traffic.",
