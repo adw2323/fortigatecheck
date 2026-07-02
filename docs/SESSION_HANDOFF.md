@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
 ## Current Status Snapshot
 
@@ -20,7 +20,7 @@ Last updated: 2026-07-01
 - **8.0**: Not yet generated (CLI reference URL added to sources.yaml, awaiting build_corpus run)
 
 ### Test Coverage
-- 152 tests passing
+- 190 tests passing
 - 20 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls), versioning, authority, baseline, CLI, report, build_corpus
 
 ### Builtin Rules (17 total)
@@ -30,6 +30,7 @@ Last updated: 2026-07-01
 - SSL VPN: FGT-SSLVPN-MIN-TLS, FGT-SSLVPN-SRCINTF-ANY, FGT-SSLVPN-SRCADDR-ALL
 - IPSec: FGT-IPSEC-WEAK-DH
 - Logging: FGT-NO-REMOTE-LOGGING
+- Password: FGT-ADMIN-WEAK-PASSWORD-POLICY
 
 ## Version Policy Update
 - First-class: 7.4.x (latest 7.4.12), 7.6.x (latest 7.6.7), 8.0.x (8.0.0 just released)
@@ -38,7 +39,7 @@ Last updated: 2026-07-01
 
 ## Known Gaps / Open Work
 1. Schema corpus is table_only for ~600 tables; field extraction needed for security-critical tables beyond the 17 priority ones
-2. Rule set is minimal (17 rules); should be expanded to 30+ covering DNS, NTP, SNMP, password policy, firmware currency, idle timeout
+2. Rule set is growing (21 rules); should be expanded to 30+ covering DNS, NTP, SNMP, password policy, firmware currency, idle timeout
 3. FortiOS 8.0 schema not yet generated; build_corpus.py and versioning.py need 8.0 support
 4. Facts engine needs deeper interface hierarchy: software switch member ports, nested parent/child interface ancestry
 5. No CI pipeline yet (GitHub Actions)
@@ -55,7 +56,7 @@ Last updated: 2026-07-01
 1. Add FGT-DNS-NO-ZT, FGT-DNS-DEFAULT-ONLY rules with tests
 2. Add FGT-NTP-NO-NTPS rule with tests
 3. Add FGT-SNMP-WEAK-COMMUNITY rule with tests
-4. Add FGT-ADMIN-WEAK-PASSWORD-POLICY rule with tests
+4. ~~Add FGT-ADMIN-WEAK-PASSWORD-POLICY rule with tests~~ ✅ DONE
 5. Add FGT-ADMIN-NO-IDLE-TIMEOUT rule with tests
 6. Add FGT-FIRMWARE-OUTDATED rule with tests
 7. Update build_corpus.py to support 8.0 version
