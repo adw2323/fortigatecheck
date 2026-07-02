@@ -5,6 +5,12 @@ from typing import Any
 
 from .model import ConfigModel
 
+# Supported FortiOS version families.  The schema loader (schema.py) resolves
+# point-release versions (e.g. "8.0.0") to family directories (e.g. "8.0") via
+# ``_version_candidates``, but versioning lives here so other callers can
+# validate user-supplied versions against the set we ship data for.
+SUPPORTED_VERSION_FAMILIES: tuple[str, ...] = ("7.4", "7.6", "8.0")
+
 _VERSION_RE = re.compile(r"(\d+\.\d+\.\d+)")
 
 
@@ -39,4 +45,4 @@ def resolve_target_fortios(model: ConfigModel, *, explicit_version: str | None) 
         return explicit_version, warnings
 
     warnings.append("version_defaulted")
-    return "7.4", warnings
+    return SUPPORTED_VERSION_FAMILIES[0], warnings

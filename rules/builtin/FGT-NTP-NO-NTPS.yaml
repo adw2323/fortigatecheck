@@ -1,0 +1,5 @@
+id: FGT-NTP-NO-NTPS
+title: NTP configured without NTPS (unencrypted)
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ntp_no_ntps

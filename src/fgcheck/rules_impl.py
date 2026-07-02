@@ -758,3 +758,132 @@ def rule_no_remote_logging(*, model: ConfigModel, facts: Facts, vdom: str, rule:
         )
     )
     return out
+
+
+def rule_dns_zone_transfer(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
+    """Detect DNS server entries with zone-transfer enabled."""
+    tables = model.vdoms.get(vdom, {})
+    dns_table = get_table(tables, ("dns", "server"))
+    out: List[Finding] = []
+    supported, schema_unknown = _schema_supports_field(schema, ("dns", "server"), "zone-transfer")
+    if not supported:
+        return out
+
+    for name, node in dns_table.items():
+        if not isinstance(node, Node):
+            continue
+        zt_val = str(node.fields.get("zone-transfer", "")).strip().lower()
+        if zt_val != "enable":
+            continue
+        ev: List[Evidence] = []
+        if "set:zone-transfer" in node.evidence:
+            ev.append(node.evidence["set:zone-transfer"])
+        if not ev:
+            continue
+        msg = f'DNS server entry "{name}" has zone-transfer enabled, allowing AXFR requests.'
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            )
+        )
+    return out
+
+
+def rule_ntp_no_ntps(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
+    """Detect NTP configuration without NTPS (unencrypted time sync)."""
+    tables = model.vdoms.get(vdom, {})
+    ntp_table = get_table(tables, ("system", "ntp"))
+    out: List[Finding] = []
+    ntps_supported, ntps_unknown = _schema_supports_field(schema, ("system", "ntp"), "ntps")
+    type_supported, type_unknown = _schema_supports_field(schema, ("system", "ntp"), "type")
+    if not ntps_supported:
+        return out
+    schema_unknown = ntps_unknown or type_unknown
+
+    node = ntp_table.get("__singleton__")
+    if not isinstance(node, Node):
+        return out
+    ntps_val = str(node.fields.get("ntps", "")).strip().lower()
+    if ntps_val == "enable":
+        return out
+    ev: List[Evidence] = []
+    if "set:ntps" in node.evidence:
+        ev.append(node.evidence["set:ntps"])
+    if "set:type" in node.evidence:
+        ev.append(node.evidence["set:type"])
+    if not ev:
+        return out
+    msg = "NTP is configured without NTPS; time synchronization is unencrypted."
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
+    return out
+
+
+_WEAK_SNMP_COMMUNITIES: set[str] = {
+    "public",
+    "private",
+    "community",
+    "snmp",
+    "monitoring",
+    "default",
+    "readonly",
+    "readwrite",
+    "read-only",
+    "read-write",
+}
+
+
+def rule_snmp_weak_community(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
+    """Detect SNMP communities using default or well-known weak strings."""
+    tables = model.vdoms.get(vdom, {})
+    snmp_table = get_table(tables, ("system", "snmp", "community"))
+    out: List[Finding] = []
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "snmp", "community"), "name")
+    if not supported:
+        return out
+
+    for entry_name, node in snmp_table.items():
+        if not isinstance(node, Node):
+            continue
+        community = str(node.fields.get("name", "")).strip().lower()
+        if community not in _WEAK_SNMP_COMMUNITIES:
+            continue
+        ev: List[Evidence] = []
+        if "set:name" in node.evidence:
+            ev.append(node.evidence["set:name"])
+        if not ev:
+            continue
+        msg = f'SNMP community "{community}" is a default or well-known weak community string.'
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            )
+        )
+    return out

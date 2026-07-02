@@ -5,427 +5,431 @@
   "tables": {
     "alertemail setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/239356323/config-alertemail-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/239356323/config-alertemail-setting"
     },
     "antivirus exempt-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/232184791/config-antivirus-exempt-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/232184791/config-antivirus-exempt-list"
     },
     "antivirus profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/110338989/config-antivirus-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/110338989/config-antivirus-profile"
     },
     "antivirus quarantine": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/263764366/config-antivirus-quarantine"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/263764366/config-antivirus-quarantine"
     },
     "antivirus settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/252375733/config-antivirus-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/252375733/config-antivirus-settings"
     },
     "application custom": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/330402526/config-application-custom"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/330402526/config-application-custom"
     },
     "application group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/293598044/config-application-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/293598044/config-application-group"
     },
     "application list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/117262721/config-application-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/117262721/config-application-list"
     },
     "application name": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/207752394/config-application-name"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/207752394/config-application-name"
     },
     "application rule-settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/273088439/config-application-rule-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/273088439/config-application-rule-settings"
     },
     "authentication rule": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/286221557/config-authentication-rule"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/286221557/config-authentication-rule"
     },
     "authentication scheme": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/241272880/config-authentication-scheme"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/241272880/config-authentication-scheme"
     },
     "authentication setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/277229215/config-authentication-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/277229215/config-authentication-setting"
     },
     "automation setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/225348970/config-automation-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/225348970/config-automation-setting"
     },
     "aws vpce": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/960903735/config-aws-vpce"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/960903735/config-aws-vpce"
     },
     "azure migration": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/114783488/config-azure-migration"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/114783488/config-azure-migration"
     },
     "azure nva": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/205671653/config-azure-nva"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/205671653/config-azure-nva"
     },
     "azure vwan-ingress-public-ips": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/234828748/config-azure-vwan-ingress-public-ips"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/234828748/config-azure-vwan-ingress-public-ips"
     },
     "azure vwan-slb": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/229493575/config-azure-vwan-slb"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/229493575/config-azure-vwan-slb"
     },
     "casb profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/211842648/config-casb-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/211842648/config-casb-profile"
     },
     "casb saas-application": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/834015638/config-casb-saas-application"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/834015638/config-casb-saas-application"
     },
     "casb user-activity": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/184463717/config-casb-user-activity"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/184463717/config-casb-user-activity"
     },
     "certificate ca": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/159014160/config-certificate-ca"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/159014160/config-certificate-ca"
     },
     "certificate crl": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/132591827/config-certificate-crl"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/132591827/config-certificate-crl"
     },
     "certificate local": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/254051044/config-certificate-local"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/254051044/config-certificate-local"
     },
     "certificate remote": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/319339820/config-certificate-remote"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/319339820/config-certificate-remote"
     },
     "diameter-filter profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/206175865/config-diameter-filter-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/206175865/config-diameter-filter-profile"
     },
     "dlp data-type": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/624395066/config-dlp-data-type"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/624395066/config-dlp-data-type"
     },
     "dlp dictionary": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/125200258/config-dlp-dictionary"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/125200258/config-dlp-dictionary"
     },
     "dlp exact-data-match": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/155920547/config-dlp-exact-data-match"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/155920547/config-dlp-exact-data-match"
     },
     "dlp filepattern": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/243768347/config-dlp-filepattern"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/243768347/config-dlp-filepattern"
     },
     "dlp fp-doc-source": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/108962553/config-dlp-fp-doc-source"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/108962553/config-dlp-fp-doc-source"
     },
     "dlp profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/144318225/config-dlp-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/144318225/config-dlp-profile"
     },
     "dlp sensitivity": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/955831026/config-dlp-sensitivity"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/955831026/config-dlp-sensitivity"
     },
     "dlp sensor": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/329567803/config-dlp-sensor"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/329567803/config-dlp-sensor"
     },
     "dlp settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/272456114/config-dlp-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/272456114/config-dlp-settings"
     },
     "dnsfilter domain-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/238558396/config-dnsfilter-domain-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/238558396/config-dnsfilter-domain-filter"
     },
     "dnsfilter profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/111629848/config-dnsfilter-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/111629848/config-dnsfilter-profile"
     },
     "dpdk cpus": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/322209183/config-dpdk-cpus"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/322209183/config-dpdk-cpus"
     },
     "dpdk global": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/302019978/config-dpdk-global"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/302019978/config-dpdk-global"
     },
     "emailfilter block-allow-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/445985486/config-emailfilter-block-allow-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/445985486/config-emailfilter-block-allow-list"
     },
     "emailfilter bword": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/240978890/config-emailfilter-bword"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/240978890/config-emailfilter-bword"
     },
     "emailfilter dnsbl": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/333173583/config-emailfilter-dnsbl"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/333173583/config-emailfilter-dnsbl"
     },
     "emailfilter fortishield": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/733514645/config-emailfilter-fortishield"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/733514645/config-emailfilter-fortishield"
     },
     "emailfilter iptrust": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/440248200/config-emailfilter-iptrust"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/440248200/config-emailfilter-iptrust"
     },
     "emailfilter mheader": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/211964338/config-emailfilter-mheader"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/211964338/config-emailfilter-mheader"
     },
     "emailfilter options": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/183305485/config-emailfilter-options"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/183305485/config-emailfilter-options"
     },
     "emailfilter profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/268788570/config-emailfilter-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/268788570/config-emailfilter-profile"
     },
     "endpoint-control fctems": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/792766782/config-endpoint-control-fctems"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/792766782/config-endpoint-control-fctems"
     },
     "endpoint-control fctems-override": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/774217896/config-endpoint-control-fctems-override"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/774217896/config-endpoint-control-fctems-override"
     },
     "endpoint-control settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/126504424/config-endpoint-control-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/126504424/config-endpoint-control-settings"
     },
     "ethernet-oam cfm": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/570361923/config-ethernet-oam-cfm"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/570361923/config-ethernet-oam-cfm"
     },
     "extension-controller dataplan": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/260554699/config-extension-controller-dataplan"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/260554699/config-extension-controller-dataplan"
     },
     "extension-controller extender": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/278860181/config-extension-controller-extender"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/278860181/config-extension-controller-extender"
     },
     "extension-controller extender-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/119972587/config-extension-controller-extender-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/119972587/config-extension-controller-extender-profile"
     },
     "extension-controller extender-vap": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/136862991/config-extension-controller-extender-vap"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/136862991/config-extension-controller-extender-vap"
     },
     "extension-controller fortigate": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/287318706/config-extension-controller-fortigate"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/287318706/config-extension-controller-fortigate"
     },
     "extension-controller fortigate-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/181925749/config-extension-controller-fortigate-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/181925749/config-extension-controller-fortigate-profile"
     },
     "file-filter profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/317994547/config-file-filter-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/317994547/config-file-filter-profile"
     },
     "firewall dos-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/561707922/config-firewall-dos-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/561707922/config-firewall-dos-policy"
     },
     "firewall dos-policy6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/302266572/config-firewall-dos-policy6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/302266572/config-firewall-dos-policy6"
     },
     "firewall access-proxy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/279706760/config-firewall-access-proxy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/279706760/config-firewall-access-proxy"
     },
     "firewall access-proxy6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/145153878/config-firewall-access-proxy6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/145153878/config-firewall-access-proxy6"
     },
     "firewall access-proxy-ssh-client-cert": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/290392971/config-firewall-access-proxy-ssh-client-cert"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/290392971/config-firewall-access-proxy-ssh-client-cert"
     },
     "firewall access-proxy-virtual-host": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/128426226/config-firewall-access-proxy-virtual-host"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/128426226/config-firewall-access-proxy-virtual-host"
     },
     "firewall acl": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/178694387/config-firewall-acl"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/178694387/config-firewall-acl"
     },
     "firewall acl6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/260842926/config-firewall-acl6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/260842926/config-firewall-acl6"
     },
     "firewall address": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/306021697/config-firewall-address"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/306021697/config-firewall-address"
     },
     "firewall address6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/137851815/config-firewall-address6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/137851815/config-firewall-address6"
     },
     "firewall address6-template": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/282237258/config-firewall-address6-template"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/282237258/config-firewall-address6-template"
     },
     "firewall addrgrp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/301511994/config-firewall-addrgrp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/301511994/config-firewall-addrgrp"
     },
     "firewall addrgrp6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/304397755/config-firewall-addrgrp6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/304397755/config-firewall-addrgrp6"
     },
     "firewall auth-portal": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/316141366/config-firewall-auth-portal"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/316141366/config-firewall-auth-portal"
     },
     "firewall central-snat-map": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/135632652/config-firewall-central-snat-map"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/135632652/config-firewall-central-snat-map"
     },
     "firewall city": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/235958615/config-firewall-city"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/235958615/config-firewall-city"
     },
     "firewall country": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/200987373/config-firewall-country"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/200987373/config-firewall-country"
     },
     "firewall decrypted-traffic-mirror": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/272149487/config-firewall-decrypted-traffic-mirror"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/272149487/config-firewall-decrypted-traffic-mirror"
     },
     "firewall dnstranslation": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/933890991/config-firewall-dnstranslation"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/933890991/config-firewall-dnstranslation"
     },
     "firewall global": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/964452328/config-firewall-global"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/964452328/config-firewall-global"
+    },
+    "firewall gtp": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/110339729/config-firewall-gtp"
     },
     "firewall identity-based-route": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/266463931/config-firewall-identity-based-route"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/266463931/config-firewall-identity-based-route"
     },
     "firewall interface-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/160113994/config-firewall-interface-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/160113994/config-firewall-interface-policy"
     },
     "firewall interface-policy6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/893496946/config-firewall-interface-policy6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/893496946/config-firewall-interface-policy6"
     },
     "firewall internet-service": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/105652166/config-firewall-internet-service"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/105652166/config-firewall-internet-service"
     },
     "firewall internet-service-addition": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/920640797/config-firewall-internet-service-addition"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/920640797/config-firewall-internet-service-addition"
     },
     "firewall internet-service-append": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/278397869/config-firewall-internet-service-append"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/278397869/config-firewall-internet-service-append"
     },
     "firewall internet-service-botnet": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/212556008/config-firewall-internet-service-botnet"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/212556008/config-firewall-internet-service-botnet"
     },
     "firewall internet-service-custom": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/337277657/config-firewall-internet-service-custom"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/337277657/config-firewall-internet-service-custom"
     },
     "firewall internet-service-custom-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/181079461/config-firewall-internet-service-custom-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/181079461/config-firewall-internet-service-custom-group"
     },
     "firewall internet-service-definition": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/103790963/config-firewall-internet-service-definition"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/103790963/config-firewall-internet-service-definition"
     },
     "firewall internet-service-extension": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/776407203/config-firewall-internet-service-extension"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/776407203/config-firewall-internet-service-extension"
     },
     "firewall internet-service-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/306275382/config-firewall-internet-service-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/306275382/config-firewall-internet-service-group"
     },
     "firewall internet-service-ipbl-reason": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/105410228/config-firewall-internet-service-ipbl-reason"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/105410228/config-firewall-internet-service-ipbl-reason"
     },
     "firewall internet-service-ipbl-vendor": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/183854596/config-firewall-internet-service-ipbl-vendor"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/183854596/config-firewall-internet-service-ipbl-vendor"
     },
     "firewall internet-service-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/211168781/config-firewall-internet-service-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/211168781/config-firewall-internet-service-list"
     },
     "firewall internet-service-name": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/120245663/config-firewall-internet-service-name"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/120245663/config-firewall-internet-service-name"
     },
     "firewall internet-service-owner": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/197932613/config-firewall-internet-service-owner"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/197932613/config-firewall-internet-service-owner"
     },
     "firewall internet-service-reputation": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/315060576/config-firewall-internet-service-reputation"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/315060576/config-firewall-internet-service-reputation"
     },
     "firewall internet-service-sld": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/249183591/config-firewall-internet-service-sld"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/249183591/config-firewall-internet-service-sld"
     },
     "firewall internet-service-subapp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/283521473/config-firewall-internet-service-subapp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/283521473/config-firewall-internet-service-subapp"
     },
     "firewall ipmacbinding setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/985312136/config-firewall-ipmacbinding-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/985312136/config-firewall-ipmacbinding-setting"
     },
     "firewall ipmacbinding table": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/124043061/config-firewall-ipmacbinding-table"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/124043061/config-firewall-ipmacbinding-table"
     },
     "firewall ippool": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/182407590/config-firewall-ippool"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/182407590/config-firewall-ippool"
     },
     "firewall ippool6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/767867650/config-firewall-ippool6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/767867650/config-firewall-ippool6"
     },
     "firewall ipv6-eh-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/634841056/config-firewall-ipv6-eh-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/634841056/config-firewall-ipv6-eh-filter"
     },
     "firewall ip-translation": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/542420545/config-firewall-ip-translation"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/542420545/config-firewall-ip-translation"
     },
     "firewall ldb-monitor": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/210668324/config-firewall-ldb-monitor"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/210668324/config-firewall-ldb-monitor"
     },
     "firewall local-in-policy": {
       "fields": {
@@ -495,35 +499,39 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/185227842/config-firewall-local-in-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/185227842/config-firewall-local-in-policy"
     },
     "firewall local-in-policy6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/871912328/config-firewall-local-in-policy6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/871912328/config-firewall-local-in-policy6"
     },
     "firewall multicast-address": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/205326263/config-firewall-multicast-address"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/205326263/config-firewall-multicast-address"
     },
     "firewall multicast-address6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/228898164/config-firewall-multicast-address6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/228898164/config-firewall-multicast-address6"
     },
     "firewall multicast-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/258529109/config-firewall-multicast-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/258529109/config-firewall-multicast-policy"
     },
     "firewall multicast-policy6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/114614907/config-firewall-multicast-policy6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/114614907/config-firewall-multicast-policy6"
     },
     "firewall network-service-dynamic": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/280526503/config-firewall-network-service-dynamic"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/280526503/config-firewall-network-service-dynamic"
     },
     "firewall on-demand-sniffer": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/105105929/config-firewall-on-demand-sniffer"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/105105929/config-firewall-on-demand-sniffer"
+    },
+    "firewall pfcp": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/567689520/config-firewall-pfcp"
     },
     "firewall policy": {
       "fields": {
@@ -681,6 +689,7 @@
           ]
         },
         "groups": {},
+        "gtp-profile": {},
         "http-policy-redirect": {
           "allowed_values": [
             "enable",
@@ -888,6 +897,7 @@
             "disable"
           ]
         },
+        "pfcp-profile": {},
         "policy-expiry": {
           "allowed_values": [
             "enable",
@@ -1109,235 +1119,267 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/333889629/config-firewall-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/333889629/config-firewall-policy"
     },
     "firewall profile-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/109993161/config-firewall-profile-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/109993161/config-firewall-profile-group"
     },
     "firewall profile-protocol-options": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/166172817/config-firewall-profile-protocol-options"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/166172817/config-firewall-profile-protocol-options"
     },
     "firewall proxy-address": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/152481860/config-firewall-proxy-address"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/152481860/config-firewall-proxy-address"
     },
     "firewall proxy-addrgrp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/648355124/config-firewall-proxy-addrgrp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/648355124/config-firewall-proxy-addrgrp"
     },
     "firewall proxy-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/100133014/config-firewall-proxy-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/100133014/config-firewall-proxy-policy"
     },
     "firewall region": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/190721183/config-firewall-region"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/190721183/config-firewall-region"
     },
     "firewall schedule group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/289500442/config-firewall-schedule-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/289500442/config-firewall-schedule-group"
     },
     "firewall schedule onetime": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/260188243/config-firewall-schedule-onetime"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/260188243/config-firewall-schedule-onetime"
     },
     "firewall schedule recurring": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/161573977/config-firewall-schedule-recurring"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/161573977/config-firewall-schedule-recurring"
     },
     "firewall security-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/127930672/config-firewall-security-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/127930672/config-firewall-security-policy"
     },
     "firewall service category": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/108758363/config-firewall-service-category"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/108758363/config-firewall-service-category"
     },
     "firewall service custom": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/198499981/config-firewall-service-custom"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/198499981/config-firewall-service-custom"
     },
     "firewall service group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/242456538/config-firewall-service-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/242456538/config-firewall-service-group"
     },
     "firewall shaper per-ip-shaper": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/691568157/config-firewall-shaper-per-ip-shaper"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/691568157/config-firewall-shaper-per-ip-shaper"
     },
     "firewall shaper traffic-shaper": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/315847846/config-firewall-shaper-traffic-shaper"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/315847846/config-firewall-shaper-traffic-shaper"
     },
     "firewall shaping-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/968775025/config-firewall-shaping-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/968775025/config-firewall-shaping-policy"
     },
     "firewall shaping-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/202122851/config-firewall-shaping-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/202122851/config-firewall-shaping-profile"
     },
     "firewall sniffer": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/191172213/config-firewall-sniffer"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/191172213/config-firewall-sniffer"
     },
     "firewall ssh host-key": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/261733268/config-firewall-ssh-host-key"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/261733268/config-firewall-ssh-host-key"
     },
     "firewall ssh local-ca": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/228835467/config-firewall-ssh-local-ca"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/228835467/config-firewall-ssh-local-ca"
     },
     "firewall ssh local-key": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/739950788/config-firewall-ssh-local-key"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/739950788/config-firewall-ssh-local-key"
     },
     "firewall ssh setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/565750157/config-firewall-ssh-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/565750157/config-firewall-ssh-setting"
     },
     "firewall ssl setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/178756044/config-firewall-ssl-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/178756044/config-firewall-ssl-setting"
     },
     "firewall ssl-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/163598142/config-firewall-ssl-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/163598142/config-firewall-ssl-server"
     },
     "firewall ssl-ssh-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/116695140/config-firewall-ssl-ssh-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/116695140/config-firewall-ssl-ssh-profile"
     },
     "firewall traffic-class": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/337258313/config-firewall-traffic-class"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/337258313/config-firewall-traffic-class"
     },
     "firewall ttl-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/158447704/config-firewall-ttl-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/158447704/config-firewall-ttl-policy"
     },
     "firewall vendor-mac": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/130611841/config-firewall-vendor-mac"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/130611841/config-firewall-vendor-mac"
     },
     "firewall vip": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/939799654/config-firewall-vip"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/939799654/config-firewall-vip"
     },
     "firewall vip6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/595255035/config-firewall-vip6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/595255035/config-firewall-vip6"
     },
     "firewall vipgrp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/318298644/config-firewall-vipgrp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/318298644/config-firewall-vipgrp"
     },
     "firewall vipgrp6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/260795508/config-firewall-vipgrp6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/260795508/config-firewall-vipgrp6"
     },
     "firewall wildcard-fqdn custom": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/315310253/config-firewall-wildcard-fqdn-custom"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/315310253/config-firewall-wildcard-fqdn-custom"
     },
     "firewall wildcard-fqdn group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/219007912/config-firewall-wildcard-fqdn-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/219007912/config-firewall-wildcard-fqdn-group"
     },
     "ftp-proxy explicit": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/315040594/config-ftp-proxy-explicit"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/315040594/config-ftp-proxy-explicit"
+    },
+    "gtp apn": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/437584316/config-gtp-apn"
+    },
+    "gtp apngrp": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/243649555/config-gtp-apngrp"
+    },
+    "gtp apn-shaper": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/517599757/config-gtp-apn-shaper"
+    },
+    "gtp ie-allow-list": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/805245222/config-gtp-ie-allow-list"
+    },
+    "gtp message-filter-v0v1": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/109794327/config-gtp-message-filter-v0v1"
+    },
+    "gtp message-filter-v2": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/269870717/config-gtp-message-filter-v2"
+    },
+    "gtp rat-timeout-profile": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/276677119/config-gtp-rat-timeout-profile"
+    },
+    "gtp tunnel-limit": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/235006843/config-gtp-tunnel-limit"
     },
     "icap profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/306917704/config-icap-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/306917704/config-icap-profile"
     },
     "icap server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/214001587/config-icap-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/214001587/config-icap-server"
     },
     "icap server-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/578188804/config-icap-server-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/578188804/config-icap-server-group"
     },
     "ips custom": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/130115773/config-ips-custom"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/130115773/config-ips-custom"
     },
     "ips decoder": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/143484817/config-ips-decoder"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/143484817/config-ips-decoder"
     },
     "ips global": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/146663270/config-ips-global"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/146663270/config-ips-global"
     },
     "ips rule": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/302943290/config-ips-rule"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/302943290/config-ips-rule"
     },
     "ips rule-settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/224246931/config-ips-rule-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/224246931/config-ips-rule-settings"
     },
     "ips sensor": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/237852230/config-ips-sensor"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/237852230/config-ips-sensor"
     },
     "ips settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/221048928/config-ips-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/221048928/config-ips-settings"
     },
     "ips view-map": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/217095618/config-ips-view-map"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/217095618/config-ips-view-map"
     },
     "log azure-security-center filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/170272625/config-log-azure-security-center-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/170272625/config-log-azure-security-center-filter"
     },
     "log azure-security-center setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/228386080/config-log-azure-security-center-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/228386080/config-log-azure-security-center-setting"
     },
     "log azure-security-center2 filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/205627613/config-log-azure-security-center2-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/205627613/config-log-azure-security-center2-filter"
     },
     "log azure-security-center2 setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/373091884/config-log-azure-security-center2-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/373091884/config-log-azure-security-center2-setting"
     },
     "log custom-field": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/750581675/config-log-custom-field"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/750581675/config-log-custom-field"
     },
     "log disk filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/190583676/config-log-disk-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/190583676/config-log-disk-filter"
     },
     "log disk setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/188501544/config-log-disk-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/188501544/config-log-disk-setting"
     },
     "log eventfilter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/320373792/config-log-eventfilter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/320373792/config-log-eventfilter"
     },
     "log fortianalyzer filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/651630985/config-log-fortianalyzer-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/651630985/config-log-fortianalyzer-filter"
     },
     "log fortianalyzer override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/248072106/config-log-fortianalyzer-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/248072106/config-log-fortianalyzer-override-filter"
     },
     "log fortianalyzer override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/308525516/config-log-fortianalyzer-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/308525516/config-log-fortianalyzer-override-setting"
     },
     "log fortianalyzer setting": {
       "fields": {
@@ -1429,19 +1471,19 @@
         },
         "upload-time": {}
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/269170403/config-log-fortianalyzer-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/269170403/config-log-fortianalyzer-setting"
     },
     "log fortianalyzer2 filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/130799236/config-log-fortianalyzer2-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/130799236/config-log-fortianalyzer2-filter"
     },
     "log fortianalyzer2 override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/694133283/config-log-fortianalyzer2-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/694133283/config-log-fortianalyzer2-override-filter"
     },
     "log fortianalyzer2 override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/204016572/config-log-fortianalyzer2-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/204016572/config-log-fortianalyzer2-override-setting"
     },
     "log fortianalyzer2 setting": {
       "fields": {
@@ -1533,19 +1575,19 @@
         },
         "upload-time": {}
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/137500024/config-log-fortianalyzer2-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/137500024/config-log-fortianalyzer2-setting"
     },
     "log fortianalyzer3 filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/198326897/config-log-fortianalyzer3-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/198326897/config-log-fortianalyzer3-filter"
     },
     "log fortianalyzer3 override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/280667951/config-log-fortianalyzer3-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/280667951/config-log-fortianalyzer3-override-filter"
     },
     "log fortianalyzer3 override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/216756454/config-log-fortianalyzer3-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/216756454/config-log-fortianalyzer3-override-setting"
     },
     "log fortianalyzer3 setting": {
       "fields": {
@@ -1637,19 +1679,19 @@
         },
         "upload-time": {}
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/260538855/config-log-fortianalyzer3-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/260538855/config-log-fortianalyzer3-setting"
     },
     "log fortianalyzer-cloud filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/989245304/config-log-fortianalyzer-cloud-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/989245304/config-log-fortianalyzer-cloud-filter"
     },
     "log fortianalyzer-cloud override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/883333699/config-log-fortianalyzer-cloud-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/883333699/config-log-fortianalyzer-cloud-override-filter"
     },
     "log fortianalyzer-cloud override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/185479485/config-log-fortianalyzer-cloud-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/185479485/config-log-fortianalyzer-cloud-override-setting"
     },
     "log fortianalyzer-cloud setting": {
       "fields": {
@@ -1726,63 +1768,63 @@
         },
         "upload-time": {}
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/651691009/config-log-fortianalyzer-cloud-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/651691009/config-log-fortianalyzer-cloud-setting"
     },
     "log fortiguard filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/135984124/config-log-fortiguard-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/135984124/config-log-fortiguard-filter"
     },
     "log fortiguard override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/396250129/config-log-fortiguard-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/396250129/config-log-fortiguard-override-filter"
     },
     "log fortiguard override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/387114700/config-log-fortiguard-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/387114700/config-log-fortiguard-override-setting"
     },
     "log fortiguard setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/407706904/config-log-fortiguard-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/407706904/config-log-fortiguard-setting"
     },
     "log gui-display": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/779411444/config-log-gui-display"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/779411444/config-log-gui-display"
     },
     "log memory filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/737763185/config-log-memory-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/737763185/config-log-memory-filter"
     },
     "log memory global-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/130254894/config-log-memory-global-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/130254894/config-log-memory-global-setting"
     },
     "log memory setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/242626674/config-log-memory-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/242626674/config-log-memory-setting"
     },
     "log null-device filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/476771483/config-log-null-device-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/476771483/config-log-null-device-filter"
     },
     "log null-device setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/177725111/config-log-null-device-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/177725111/config-log-null-device-setting"
     },
     "log setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/196223761/config-log-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/196223761/config-log-setting"
     },
     "log syslogd filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/273422104/config-log-syslogd-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/273422104/config-log-syslogd-filter"
     },
     "log syslogd override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/143260568/config-log-syslogd-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/143260568/config-log-syslogd-override-filter"
     },
     "log syslogd override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/164349309/config-log-syslogd-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/164349309/config-log-syslogd-override-setting"
     },
     "log syslogd setting": {
       "fields": {
@@ -1843,19 +1885,19 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/141516630/config-log-syslogd-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/141516630/config-log-syslogd-setting"
     },
     "log syslogd2 filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/166898460/config-log-syslogd2-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/166898460/config-log-syslogd2-filter"
     },
     "log syslogd2 override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/577838379/config-log-syslogd2-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/577838379/config-log-syslogd2-override-filter"
     },
     "log syslogd2 override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/197826862/config-log-syslogd2-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/197826862/config-log-syslogd2-override-setting"
     },
     "log syslogd2 setting": {
       "fields": {
@@ -1916,19 +1958,19 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/328132097/config-log-syslogd2-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/328132097/config-log-syslogd2-setting"
     },
     "log syslogd3 filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/259846462/config-log-syslogd3-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/259846462/config-log-syslogd3-filter"
     },
     "log syslogd3 override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/992592525/config-log-syslogd3-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/992592525/config-log-syslogd3-override-filter"
     },
     "log syslogd3 override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/159996516/config-log-syslogd3-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/159996516/config-log-syslogd3-override-setting"
     },
     "log syslogd3 setting": {
       "fields": {
@@ -1989,19 +2031,19 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/230708524/config-log-syslogd3-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/230708524/config-log-syslogd3-setting"
     },
     "log syslogd4 filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/169962192/config-log-syslogd4-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/169962192/config-log-syslogd4-filter"
     },
     "log syslogd4 override-filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/318733177/config-log-syslogd4-override-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/318733177/config-log-syslogd4-override-filter"
     },
     "log syslogd4 override-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/241993663/config-log-syslogd4-override-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/241993663/config-log-syslogd4-override-setting"
     },
     "log syslogd4 setting": {
       "fields": {
@@ -2062,131 +2104,135 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/326975389/config-log-syslogd4-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/326975389/config-log-syslogd4-setting"
     },
     "log tacacs+accounting filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/336222423/config-log-tacacs-accounting-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/336222423/config-log-tacacs-accounting-filter"
     },
     "log tacacs+accounting setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/306881233/config-log-tacacs-accounting-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/306881233/config-log-tacacs-accounting-setting"
     },
     "log tacacs+accounting2 filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/124248630/config-log-tacacs-accounting2-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/124248630/config-log-tacacs-accounting2-filter"
     },
     "log tacacs+accounting2 setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/237654329/config-log-tacacs-accounting2-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/237654329/config-log-tacacs-accounting2-setting"
     },
     "log tacacs+accounting3 filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/253610719/config-log-tacacs-accounting3-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/253610719/config-log-tacacs-accounting3-filter"
     },
     "log tacacs+accounting3 setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/237208861/config-log-tacacs-accounting3-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/237208861/config-log-tacacs-accounting3-setting"
     },
     "log threat-weight": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/305436417/config-log-threat-weight"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/305436417/config-log-threat-weight"
     },
     "log webtrends filter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/334811073/config-log-webtrends-filter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/334811073/config-log-webtrends-filter"
     },
     "log webtrends setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/827728607/config-log-webtrends-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/827728607/config-log-webtrends-setting"
     },
     "monitoring np6-ipsec-engine": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/260345061/config-monitoring-np6-ipsec-engine"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/260345061/config-monitoring-np6-ipsec-engine"
     },
     "monitoring npu-hpe": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/203871562/config-monitoring-npu-hpe"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/203871562/config-monitoring-npu-hpe"
     },
     "nsxt service-chain": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/203647089/config-nsxt-service-chain"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/203647089/config-nsxt-service-chain"
     },
     "nsxt setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/353696382/config-nsxt-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/353696382/config-nsxt-setting"
+    },
+    "pfcp message-filter": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/812476901/config-pfcp-message-filter"
     },
     "report layout": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/249930383/config-report-layout"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/249930383/config-report-layout"
     },
     "report setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/303922876/config-report-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/303922876/config-report-setting"
     },
     "router access-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/291768841/config-router-access-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/291768841/config-router-access-list"
     },
     "router access-list6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/132029776/config-router-access-list6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/132029776/config-router-access-list6"
     },
     "router aspath-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/217014437/config-router-aspath-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/217014437/config-router-aspath-list"
     },
     "router auth-path": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/261108417/config-router-auth-path"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/261108417/config-router-auth-path"
     },
     "router bfd": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/191777831/config-router-bfd"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/191777831/config-router-bfd"
     },
     "router bfd6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/203469623/config-router-bfd6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/203469623/config-router-bfd6"
     },
     "router bgp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/225427711/config-router-bgp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/225427711/config-router-bgp"
     },
     "router community-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/102224540/config-router-community-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/102224540/config-router-community-list"
     },
     "router extcommunity-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/796218767/config-router-extcommunity-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/796218767/config-router-extcommunity-list"
     },
     "router isis": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/164164570/config-router-isis"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/164164570/config-router-isis"
     },
     "router key-chain": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/137506479/config-router-key-chain"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/137506479/config-router-key-chain"
     },
     "router multicast": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/183110249/config-router-multicast"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/183110249/config-router-multicast"
     },
     "router multicast6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/709599639/config-router-multicast6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/709599639/config-router-multicast6"
     },
     "router multicast-flow": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/454180783/config-router-multicast-flow"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/454180783/config-router-multicast-flow"
     },
     "router ospf": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/103419153/config-router-ospf"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/103419153/config-router-ospf"
     },
     "router ospf6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/110953645/config-router-ospf6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/110953645/config-router-ospf6"
     },
     "router policy": {
       "fields": {
@@ -2238,35 +2284,35 @@
         "tos": {},
         "tos-mask": {}
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/796289482/config-router-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/796289482/config-router-policy"
     },
     "router policy6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/122553023/config-router-policy6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/122553023/config-router-policy6"
     },
     "router prefix-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/197238270/config-router-prefix-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/197238270/config-router-prefix-list"
     },
     "router prefix-list6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/156775425/config-router-prefix-list6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/156775425/config-router-prefix-list6"
     },
     "router rip": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/220705713/config-router-rip"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/220705713/config-router-rip"
     },
     "router ripng": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/755030214/config-router-ripng"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/755030214/config-router-ripng"
     },
     "router route-map": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/254669892/config-router-route-map"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/254669892/config-router-route-map"
     },
     "router setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/263404019/config-router-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/263404019/config-router-setting"
     },
     "router static": {
       "fields": {
@@ -2316,243 +2362,243 @@
         "vrf": {},
         "weight": {}
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/200835411/config-router-static"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/200835411/config-router-static"
     },
     "router static6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/210378249/config-router-static6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/210378249/config-router-static6"
     },
     "rule fmwp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/280014807/config-rule-fmwp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/280014807/config-rule-fmwp"
     },
     "rule otdt": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/588045892/config-rule-otdt"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/588045892/config-rule-otdt"
     },
     "rule otvp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/149712422/config-rule-otvp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/149712422/config-rule-otvp"
     },
     "sctp-filter profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/772097183/config-sctp-filter-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/772097183/config-sctp-filter-profile"
     },
     "ssh-filter profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/302613935/config-ssh-filter-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/302613935/config-ssh-filter-profile"
     },
     "switch-controller 802-1x-settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/261414769/config-switch-controller-802-1x-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/261414769/config-switch-controller-802-1x-settings"
     },
     "switch-controller acl group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/254542224/config-switch-controller-acl-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/254542224/config-switch-controller-acl-group"
     },
     "switch-controller acl ingress": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/137022238/config-switch-controller-acl-ingress"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/137022238/config-switch-controller-acl-ingress"
     },
     "switch-controller auto-config custom": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/206892731/config-switch-controller-auto-config-custom"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/206892731/config-switch-controller-auto-config-custom"
     },
     "switch-controller auto-config default": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/992716380/config-switch-controller-auto-config-default"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/992716380/config-switch-controller-auto-config-default"
     },
     "switch-controller auto-config policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/192799506/config-switch-controller-auto-config-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/192799506/config-switch-controller-auto-config-policy"
     },
     "switch-controller custom-command": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/454027989/config-switch-controller-custom-command"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/454027989/config-switch-controller-custom-command"
     },
     "switch-controller dsl policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/208278323/config-switch-controller-dsl-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/208278323/config-switch-controller-dsl-policy"
     },
     "switch-controller dynamic-port-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/691320696/config-switch-controller-dynamic-port-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/691320696/config-switch-controller-dynamic-port-policy"
     },
     "switch-controller flow-tracking": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/773472463/config-switch-controller-flow-tracking"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/773472463/config-switch-controller-flow-tracking"
     },
     "switch-controller fortilink-settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/334325055/config-switch-controller-fortilink-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/334325055/config-switch-controller-fortilink-settings"
     },
     "switch-controller global": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/265637966/config-switch-controller-global"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/265637966/config-switch-controller-global"
     },
     "switch-controller igmp-snooping": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/110601252/config-switch-controller-igmp-snooping"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/110601252/config-switch-controller-igmp-snooping"
     },
     "switch-controller initial-config template": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/568450468/config-switch-controller-initial-config-template"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/568450468/config-switch-controller-initial-config-template"
     },
     "switch-controller initial-config vlans": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/905612511/config-switch-controller-initial-config-vlans"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/905612511/config-switch-controller-initial-config-vlans"
     },
     "switch-controller lldp-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/323513350/config-switch-controller-lldp-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/323513350/config-switch-controller-lldp-profile"
     },
     "switch-controller lldp-settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/515445176/config-switch-controller-lldp-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/515445176/config-switch-controller-lldp-settings"
     },
     "switch-controller location": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/900314841/config-switch-controller-location"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/900314841/config-switch-controller-location"
     },
     "switch-controller mac-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/575173826/config-switch-controller-mac-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/575173826/config-switch-controller-mac-policy"
     },
     "switch-controller managed-switch": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/308952696/config-switch-controller-managed-switch"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/308952696/config-switch-controller-managed-switch"
     },
     "switch-controller network-monitor-settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/245771094/config-switch-controller-network-monitor-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/245771094/config-switch-controller-network-monitor-settings"
     },
     "switch-controller ptp interface-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/316914254/config-switch-controller-ptp-interface-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/316914254/config-switch-controller-ptp-interface-policy"
     },
     "switch-controller ptp profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/162177657/config-switch-controller-ptp-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/162177657/config-switch-controller-ptp-profile"
     },
     "switch-controller qos dot1p-map": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/328706444/config-switch-controller-qos-dot1p-map"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/328706444/config-switch-controller-qos-dot1p-map"
     },
     "switch-controller qos ip-dscp-map": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/195051355/config-switch-controller-qos-ip-dscp-map"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/195051355/config-switch-controller-qos-ip-dscp-map"
     },
     "switch-controller qos qos-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/267970246/config-switch-controller-qos-qos-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/267970246/config-switch-controller-qos-qos-policy"
     },
     "switch-controller qos queue-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/279707025/config-switch-controller-qos-queue-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/279707025/config-switch-controller-qos-queue-policy"
     },
     "switch-controller quarantine": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/292952547/config-switch-controller-quarantine"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/292952547/config-switch-controller-quarantine"
     },
     "switch-controller remote-log": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/199563149/config-switch-controller-remote-log"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/199563149/config-switch-controller-remote-log"
     },
     "switch-controller security-policy 802-1x": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/105117164/config-switch-controller-security-policy-802-1x"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/105117164/config-switch-controller-security-policy-802-1x"
     },
     "switch-controller security-policy local-access": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/305574535/config-switch-controller-security-policy-local-access"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/305574535/config-switch-controller-security-policy-local-access"
     },
     "switch-controller sflow": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/132341850/config-switch-controller-sflow"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/132341850/config-switch-controller-sflow"
     },
     "switch-controller snmp-community": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/156837068/config-switch-controller-snmp-community"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/156837068/config-switch-controller-snmp-community"
     },
     "switch-controller snmp-sysinfo": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/314871907/config-switch-controller-snmp-sysinfo"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/314871907/config-switch-controller-snmp-sysinfo"
     },
     "switch-controller snmp-trap-threshold": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/298089334/config-switch-controller-snmp-trap-threshold"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/298089334/config-switch-controller-snmp-trap-threshold"
     },
     "switch-controller snmp-user": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/323826479/config-switch-controller-snmp-user"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/323826479/config-switch-controller-snmp-user"
     },
     "switch-controller storm-control": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/206734840/config-switch-controller-storm-control"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/206734840/config-switch-controller-storm-control"
     },
     "switch-controller storm-control-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/295749914/config-switch-controller-storm-control-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/295749914/config-switch-controller-storm-control-policy"
     },
     "switch-controller stp-instance": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/204903469/config-switch-controller-stp-instance"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/204903469/config-switch-controller-stp-instance"
     },
     "switch-controller stp-settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/338809026/config-switch-controller-stp-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/338809026/config-switch-controller-stp-settings"
     },
     "switch-controller switch-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/111976024/config-switch-controller-switch-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/111976024/config-switch-controller-switch-group"
     },
     "switch-controller switch-interface-tag": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/217241963/config-switch-controller-switch-interface-tag"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/217241963/config-switch-controller-switch-interface-tag"
     },
     "switch-controller switch-log": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/111333988/config-switch-controller-switch-log"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/111333988/config-switch-controller-switch-log"
     },
     "switch-controller switch-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/772820924/config-switch-controller-switch-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/772820924/config-switch-controller-switch-profile"
     },
     "switch-controller system": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/170244381/config-switch-controller-system"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/170244381/config-switch-controller-system"
     },
     "switch-controller traffic-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/205853363/config-switch-controller-traffic-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/205853363/config-switch-controller-traffic-policy"
     },
     "switch-controller traffic-sniffer": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/495835893/config-switch-controller-traffic-sniffer"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/495835893/config-switch-controller-traffic-sniffer"
     },
     "switch-controller virtual-port-pool": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/309776372/config-switch-controller-virtual-port-pool"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/309776372/config-switch-controller-virtual-port-pool"
     },
     "switch-controller vlan-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/134245756/config-switch-controller-vlan-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/134245756/config-switch-controller-vlan-policy"
     },
     "system 3g-modem custom": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/111656022/config-system-3g-modem-custom"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/111656022/config-system-3g-modem-custom"
     },
     "system 5g-modem": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/961913955/config-system-5g-modem"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/961913955/config-system-5g-modem"
     },
     "system accprofile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/309990135/config-system-accprofile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/309990135/config-system-accprofile"
     },
     "system acme": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/176011231/config-system-acme"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/176011231/config-system-acme"
     },
     "system admin": {
       "fields": {
@@ -2667,219 +2713,223 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/390485493/config-system-admin"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/390485493/config-system-admin"
     },
     "system affinity-interrupt": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/176980109/config-system-affinity-interrupt"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/176980109/config-system-affinity-interrupt"
     },
     "system affinity-packet-redistribution": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/255714620/config-system-affinity-packet-redistribution"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/255714620/config-system-affinity-packet-redistribution"
     },
     "system alarm": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/136530721/config-system-alarm"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/136530721/config-system-alarm"
     },
     "system alias": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/154234240/config-system-alias"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/154234240/config-system-alias"
     },
     "system api-user": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/625450553/config-system-api-user"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/625450553/config-system-api-user"
     },
     "system arp-table": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/121274056/config-system-arp-table"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/121274056/config-system-arp-table"
     },
     "system automation-action": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/332365236/config-system-automation-action"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/332365236/config-system-automation-action"
     },
     "system automation-condition": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/589962035/config-system-automation-condition"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/589962035/config-system-automation-condition"
     },
     "system automation-destination": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/110925403/config-system-automation-destination"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/110925403/config-system-automation-destination"
     },
     "system automation-stitch": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/878454488/config-system-automation-stitch"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/878454488/config-system-automation-stitch"
     },
     "system automation-trigger": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/160942731/config-system-automation-trigger"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/160942731/config-system-automation-trigger"
     },
     "system autoupdate schedule": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/198389567/config-system-autoupdate-schedule"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/198389567/config-system-autoupdate-schedule"
     },
     "system autoupdate tunneling": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/240666209/config-system-autoupdate-tunneling"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/240666209/config-system-autoupdate-tunneling"
     },
     "system auto-install": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/304730529/config-system-auto-install"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/304730529/config-system-auto-install"
     },
     "system auto-scale": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/336417547/config-system-auto-scale"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/336417547/config-system-auto-scale"
     },
     "system auto-script": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/265298105/config-system-auto-script"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/265298105/config-system-auto-script"
     },
     "system bypass": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/417774001/config-system-bypass"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/417774001/config-system-bypass"
     },
     "system central-management": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/327901742/config-system-central-management"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/327901742/config-system-central-management"
     },
     "system console": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/141236613/config-system-console"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/141236613/config-system-console"
     },
     "system csf": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/120351875/config-system-csf"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/120351875/config-system-csf"
     },
     "system custom-language": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/100242587/config-system-custom-language"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/100242587/config-system-custom-language"
     },
     "system ddns": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/323334900/config-system-ddns"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/323334900/config-system-ddns"
     },
     "system dedicated-mgmt": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/112538628/config-system-dedicated-mgmt"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/112538628/config-system-dedicated-mgmt"
     },
     "system device-upgrade": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/239776996/config-system-device-upgrade"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/239776996/config-system-device-upgrade"
     },
     "system dhcp server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/121865377/config-system-dhcp-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/121865377/config-system-dhcp-server"
     },
     "system dhcp6 server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/204620936/config-system-dhcp6-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/204620936/config-system-dhcp6-server"
     },
     "system digital-io": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/128753062/config-system-digital-io"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/128753062/config-system-digital-io"
     },
     "system dnp3-proxy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/237283045/config-system-dnp3-proxy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/237283045/config-system-dnp3-proxy"
     },
     "system dns": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/190194324/config-system-dns"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/190194324/config-system-dns"
     },
     "system dns64": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/234319058/config-system-dns64"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/234319058/config-system-dns64"
     },
     "system dns-database": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/193609391/config-system-dns-database"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/193609391/config-system-dns-database"
     },
     "system dns-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/109980766/config-system-dns-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/109980766/config-system-dns-server"
     },
     "system dscp-based-priority": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/259314700/config-system-dscp-based-priority"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/259314700/config-system-dscp-based-priority"
     },
     "system elbc": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/716529452/config-system-elbc"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/716529452/config-system-elbc"
     },
     "system email-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/328340547/config-system-email-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/328340547/config-system-email-server"
     },
     "system evpn": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/126425277/config-system-evpn"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/126425277/config-system-evpn"
     },
     "system external-resource": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/549356530/config-system-external-resource"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/549356530/config-system-external-resource"
     },
     "system fabric-vpn": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/323819537/config-system-fabric-vpn"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/323819537/config-system-fabric-vpn"
     },
     "system federated-upgrade": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/262771434/config-system-federated-upgrade"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/262771434/config-system-federated-upgrade"
     },
     "system fips-cc": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/102385268/config-system-fips-cc"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/102385268/config-system-fips-cc"
     },
     "system fortiguard": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/256936931/config-system-fortiguard"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/256936931/config-system-fortiguard"
     },
     "system fortindr": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/247315682/config-system-fortindr"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/247315682/config-system-fortindr"
     },
     "system fortisandbox": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/532438794/config-system-fortisandbox"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/532438794/config-system-fortisandbox"
     },
     "system fsso-polling": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/554353072/config-system-fsso-polling"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/554353072/config-system-fsso-polling"
     },
     "system ftm-push": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/157258996/config-system-ftm-push"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/157258996/config-system-ftm-push"
     },
     "system geneve": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/294673694/config-system-geneve"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/294673694/config-system-geneve"
     },
     "system geoip-override": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/548700923/config-system-geoip-override"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/548700923/config-system-geoip-override"
+    },
+    "system gi-gk": {
+      "fields": {},
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/309493123/config-system-gi-gk"
     },
     "system global": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/339914554/config-system-global"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/339914554/config-system-global"
     },
     "system gre-tunnel": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/414405667/config-system-gre-tunnel"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/414405667/config-system-gre-tunnel"
     },
     "system ha": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/857448677/config-system-ha"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/857448677/config-system-ha"
     },
     "system ha-monitor": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/324669782/config-system-ha-monitor"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/324669782/config-system-ha-monitor"
     },
     "system icond": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/939427465/config-system-icond"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/939427465/config-system-icond"
     },
     "system ike": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/193360997/config-system-ike"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/193360997/config-system-ike"
     },
     "system interface": {
       "fields": {
@@ -3181,6 +3231,12 @@
           ]
         },
         "gateway-address": {},
+        "gi-gk": {
+          "allowed_values": [
+            "enable",
+            "disable"
+          ]
+        },
         "gwaddr": {},
         "gwdetect": {
           "allowed_values": [
@@ -4058,571 +4114,571 @@
         "wifi-usergroup": {},
         "wins-ip": {}
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/317104469/config-system-interface"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/317104469/config-system-interface"
     },
     "system ipam": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/180909885/config-system-ipam"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/180909885/config-system-ipam"
     },
     "system ipip-tunnel": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/665891747/config-system-ipip-tunnel"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/665891747/config-system-ipip-tunnel"
     },
     "system ips": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/781356570/config-system-ips"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/781356570/config-system-ips"
     },
     "system ipsec-aggregate": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/113411192/config-system-ipsec-aggregate"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/113411192/config-system-ipsec-aggregate"
     },
     "system ips-urlfilter-dns": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/310403019/config-system-ips-urlfilter-dns"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/310403019/config-system-ips-urlfilter-dns"
     },
     "system ips-urlfilter-dns6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/192061034/config-system-ips-urlfilter-dns6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/192061034/config-system-ips-urlfilter-dns6"
     },
     "system ipv6-neighbor-cache": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/149392283/config-system-ipv6-neighbor-cache"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/149392283/config-system-ipv6-neighbor-cache"
     },
     "system ipv6-tunnel": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/698770689/config-system-ipv6-tunnel"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/698770689/config-system-ipv6-tunnel"
     },
     "system iscsi": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/101778647/config-system-iscsi"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/101778647/config-system-iscsi"
     },
     "system isf-queue-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/442264941/config-system-isf-queue-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/442264941/config-system-isf-queue-profile"
     },
     "system link-monitor": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/320711343/config-system-link-monitor"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/320711343/config-system-link-monitor"
     },
     "system lldp network-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/885987215/config-system-lldp-network-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/885987215/config-system-lldp-network-policy"
     },
     "system lte-modem": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/156534764/config-system-lte-modem"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/156534764/config-system-lte-modem"
     },
     "system mac-address-table": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/192775810/config-system-mac-address-table"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/192775810/config-system-mac-address-table"
     },
     "system management-tunnel": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/130600820/config-system-management-tunnel"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/130600820/config-system-management-tunnel"
     },
     "system mobile-tunnel": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/283391146/config-system-mobile-tunnel"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/283391146/config-system-mobile-tunnel"
     },
     "system modem": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/229069641/config-system-modem"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/229069641/config-system-modem"
     },
     "system nd-proxy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/766230958/config-system-nd-proxy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/766230958/config-system-nd-proxy"
     },
     "system netflow": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/105185180/config-system-netflow"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/105185180/config-system-netflow"
     },
     "system network-visibility": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/278813649/config-system-network-visibility"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/278813649/config-system-network-visibility"
     },
     "system np6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/232019420/config-system-np6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/232019420/config-system-np6"
     },
     "system np6xlite": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/148956957/config-system-np6xlite"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/148956957/config-system-np6xlite"
     },
     "system npu": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/249766674/config-system-npu"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/249766674/config-system-npu"
     },
     "system npu-post": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/142436840/config-system-npu-post"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/142436840/config-system-npu-post"
     },
     "system npu-setting prp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/656612232/config-system-npu-setting-prp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/656612232/config-system-npu-setting-prp"
     },
     "system npu-vlink": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/270069900/config-system-npu-vlink"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/270069900/config-system-npu-vlink"
     },
     "system ntp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/105110478/config-system-ntp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/105110478/config-system-ntp"
     },
     "system object-tagging": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/134869288/config-system-object-tagging"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/134869288/config-system-object-tagging"
     },
     "system password-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/127236326/config-system-password-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/127236326/config-system-password-policy"
     },
     "system password-policy-guest-admin": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/157859029/config-system-password-policy-guest-admin"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/157859029/config-system-password-policy-guest-admin"
     },
     "system pcp-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/437202313/config-system-pcp-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/437202313/config-system-pcp-server"
     },
     "system physical-switch": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/121410846/config-system-physical-switch"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/121410846/config-system-physical-switch"
     },
     "system pppoe-interface": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/268798926/config-system-pppoe-interface"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/268798926/config-system-pppoe-interface"
     },
     "system probe-response": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/294062949/config-system-probe-response"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/294062949/config-system-probe-response"
     },
     "system proxy-arp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/230821373/config-system-proxy-arp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/230821373/config-system-proxy-arp"
     },
     "system ptp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/193226766/config-system-ptp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/193226766/config-system-ptp"
     },
     "system replacemsg admin": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/245877078/config-system-replacemsg-admin"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/245877078/config-system-replacemsg-admin"
     },
     "system replacemsg alertmail": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/236777973/config-system-replacemsg-alertmail"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/236777973/config-system-replacemsg-alertmail"
     },
     "system replacemsg auth": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/128494555/config-system-replacemsg-auth"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/128494555/config-system-replacemsg-auth"
     },
     "system replacemsg automation": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/147922298/config-system-replacemsg-automation"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/147922298/config-system-replacemsg-automation"
     },
     "system replacemsg custom-message": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/267021242/config-system-replacemsg-custom-message"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/267021242/config-system-replacemsg-custom-message"
     },
     "system replacemsg fortiguard-wf": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/900802082/config-system-replacemsg-fortiguard-wf"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/900802082/config-system-replacemsg-fortiguard-wf"
     },
     "system replacemsg ftp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/302479622/config-system-replacemsg-ftp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/302479622/config-system-replacemsg-ftp"
     },
     "system replacemsg http": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/624981811/config-system-replacemsg-http"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/624981811/config-system-replacemsg-http"
     },
     "system replacemsg icap": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/225732013/config-system-replacemsg-icap"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/225732013/config-system-replacemsg-icap"
     },
     "system replacemsg mail": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/302501243/config-system-replacemsg-mail"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/302501243/config-system-replacemsg-mail"
     },
     "system replacemsg nac-quar": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/205761205/config-system-replacemsg-nac-quar"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/205761205/config-system-replacemsg-nac-quar"
     },
     "system replacemsg spam": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/331878033/config-system-replacemsg-spam"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/331878033/config-system-replacemsg-spam"
     },
     "system replacemsg sslvpn": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/186393497/config-system-replacemsg-sslvpn"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/186393497/config-system-replacemsg-sslvpn"
     },
     "system replacemsg traffic-quota": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/149541237/config-system-replacemsg-traffic-quota"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/149541237/config-system-replacemsg-traffic-quota"
     },
     "system replacemsg utm": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/193742748/config-system-replacemsg-utm"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/193742748/config-system-replacemsg-utm"
     },
     "system replacemsg webproxy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/298554607/config-system-replacemsg-webproxy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/298554607/config-system-replacemsg-webproxy"
     },
     "system replacemsg-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/270742116/config-system-replacemsg-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/270742116/config-system-replacemsg-group"
     },
     "system replacemsg-image": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/283048739/config-system-replacemsg-image"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/283048739/config-system-replacemsg-image"
     },
     "system resource-limits": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/432515570/config-system-resource-limits"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/432515570/config-system-resource-limits"
     },
     "system saml": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/139082119/config-system-saml"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/139082119/config-system-saml"
     },
     "system sdn-connector": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/783867834/config-system-sdn-connector"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/783867834/config-system-sdn-connector"
     },
     "system sdn-proxy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/276484310/config-system-sdn-proxy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/276484310/config-system-sdn-proxy"
     },
     "system sdwan": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/838040159/config-system-sdwan"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/838040159/config-system-sdwan"
     },
     "system serial-port": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/247623140/config-system-serial-port"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/247623140/config-system-serial-port"
     },
     "system session-helper": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/180488892/config-system-session-helper"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/180488892/config-system-session-helper"
     },
     "system session-ttl": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/325536976/config-system-session-ttl"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/325536976/config-system-session-ttl"
     },
     "system settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/130421147/config-system-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/130421147/config-system-settings"
     },
     "system sflow": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/144115275/config-system-sflow"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/144115275/config-system-sflow"
     },
     "system sit-tunnel": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/297289002/config-system-sit-tunnel"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/297289002/config-system-sit-tunnel"
     },
     "system smc-ntp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/262516878/config-system-smc-ntp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/262516878/config-system-smc-ntp"
     },
     "system sms-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/196409634/config-system-sms-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/196409634/config-system-sms-server"
     },
     "system snmp community": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/111967164/config-system-snmp-community"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/111967164/config-system-snmp-community"
     },
     "system snmp mib-view": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/121038485/config-system-snmp-mib-view"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/121038485/config-system-snmp-mib-view"
     },
     "system snmp sysinfo": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/195798379/config-system-snmp-sysinfo"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/195798379/config-system-snmp-sysinfo"
     },
     "system snmp user": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/292257317/config-system-snmp-user"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/292257317/config-system-snmp-user"
     },
     "system speed-test-schedule": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/559215371/config-system-speed-test-schedule"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/559215371/config-system-speed-test-schedule"
     },
     "system speed-test-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/116264550/config-system-speed-test-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/116264550/config-system-speed-test-server"
     },
     "system speed-test-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/705162583/config-system-speed-test-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/705162583/config-system-speed-test-setting"
     },
     "system ssh-config": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/207795941/config-system-ssh-config"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/207795941/config-system-ssh-config"
     },
     "system sso-admin": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/167336105/config-system-sso-admin"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/167336105/config-system-sso-admin"
     },
     "system sso-forticloud-admin": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/114270059/config-system-sso-forticloud-admin"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/114270059/config-system-sso-forticloud-admin"
     },
     "system sso-fortigate-cloud-admin": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/228997310/config-system-sso-fortigate-cloud-admin"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/228997310/config-system-sso-fortigate-cloud-admin"
     },
     "system standalone-cluster": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/302062596/config-system-standalone-cluster"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/302062596/config-system-standalone-cluster"
     },
     "system storage": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/314711681/config-system-storage"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/314711681/config-system-storage"
     },
     "system stp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/129965190/config-system-stp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/129965190/config-system-stp"
     },
     "system switch-interface": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/103147613/config-system-switch-interface"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/103147613/config-system-switch-interface"
     },
     "system timezone": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/492830718/config-system-timezone"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/492830718/config-system-timezone"
     },
     "system tos-based-priority": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/250254934/config-system-tos-based-priority"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/250254934/config-system-tos-based-priority"
     },
     "system vdom": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/293564491/config-system-vdom"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/293564491/config-system-vdom"
     },
     "system vdom-dns": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/200885969/config-system-vdom-dns"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/200885969/config-system-vdom-dns"
     },
     "system vdom-exception": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/151002735/config-system-vdom-exception"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/151002735/config-system-vdom-exception"
     },
     "system vdom-link": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/232114316/config-system-vdom-link"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/232114316/config-system-vdom-link"
     },
     "system vdom-netflow": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/945928963/config-system-vdom-netflow"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/945928963/config-system-vdom-netflow"
     },
     "system vdom-property": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/497166414/config-system-vdom-property"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/497166414/config-system-vdom-property"
     },
     "system vdom-radius-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/140539091/config-system-vdom-radius-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/140539091/config-system-vdom-radius-server"
     },
     "system vdom-sflow": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/181925777/config-system-vdom-sflow"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/181925777/config-system-vdom-sflow"
     },
     "system vin-alarm": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/241981422/config-system-vin-alarm"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/241981422/config-system-vin-alarm"
     },
     "system virtual-switch": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/101854390/config-system-virtual-switch"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/101854390/config-system-virtual-switch"
     },
     "system virtual-wire-pair": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/204077709/config-system-virtual-wire-pair"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/204077709/config-system-virtual-wire-pair"
     },
     "system vne-tunnel": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/255048449/config-system-vne-tunnel"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/255048449/config-system-vne-tunnel"
     },
     "system vpce": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/138212890/config-system-vpce"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/138212890/config-system-vpce"
     },
     "system vxlan": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/296583352/config-system-vxlan"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/296583352/config-system-vxlan"
     },
     "system wccp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/227964791/config-system-wccp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/227964791/config-system-wccp"
     },
     "system wireless ap-status": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/167154666/config-system-wireless-ap-status"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/167154666/config-system-wireless-ap-status"
     },
     "system wireless settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/317184132/config-system-wireless-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/317184132/config-system-wireless-settings"
     },
     "system zone": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/314783845/config-system-zone"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/314783845/config-system-zone"
     },
     "user adgrp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/345929480/config-user-adgrp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/345929480/config-user-adgrp"
     },
     "user certificate": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/248399313/config-user-certificate"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/248399313/config-user-certificate"
     },
     "user domain-controller": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/168038580/config-user-domain-controller"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/168038580/config-user-domain-controller"
     },
     "user exchange": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/150553947/config-user-exchange"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/150553947/config-user-exchange"
     },
     "user external-identity-provider": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/423041802/config-user-external-identity-provider"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/423041802/config-user-external-identity-provider"
     },
     "user fortitoken": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/694071898/config-user-fortitoken"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/694071898/config-user-fortitoken"
     },
     "user fsso": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/614401817/config-user-fsso"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/614401817/config-user-fsso"
     },
     "user fsso-polling": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/825346697/config-user-fsso-polling"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/825346697/config-user-fsso-polling"
     },
     "user group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/328136827/config-user-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/328136827/config-user-group"
     },
     "user krb-keytab": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/198099072/config-user-krb-keytab"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/198099072/config-user-krb-keytab"
     },
     "user ldap": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/590785459/config-user-ldap"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/590785459/config-user-ldap"
     },
     "user local": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/109120963/config-user-local"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/109120963/config-user-local"
     },
     "user nac-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/154535537/config-user-nac-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/154535537/config-user-nac-policy"
     },
     "user password-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/282941989/config-user-password-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/282941989/config-user-password-policy"
     },
     "user peer": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/460117137/config-user-peer"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/460117137/config-user-peer"
     },
     "user peergrp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/208451302/config-user-peergrp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/208451302/config-user-peergrp"
     },
     "user pop3": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/194694641/config-user-pop3"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/194694641/config-user-pop3"
     },
     "user quarantine": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/777649911/config-user-quarantine"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/777649911/config-user-quarantine"
     },
     "user radius": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/164332072/config-user-radius"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/164332072/config-user-radius"
     },
     "user saml": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/104734780/config-user-saml"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/104734780/config-user-saml"
     },
     "user security-exempt-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/282331203/config-user-security-exempt-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/282331203/config-user-security-exempt-list"
     },
     "user setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/263822197/config-user-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/263822197/config-user-setting"
     },
     "user tacacs+": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/555694309/config-user-tacacs"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/555694309/config-user-tacacs"
     },
     "videofilter keyword": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/324571180/config-videofilter-keyword"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/324571180/config-videofilter-keyword"
     },
     "videofilter profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/105143270/config-videofilter-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/105143270/config-videofilter-profile"
     },
     "videofilter youtube-key": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/208237516/config-videofilter-youtube-key"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/208237516/config-videofilter-youtube-key"
     },
     "virtual-patch profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/235553430/config-virtual-patch-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/235553430/config-virtual-patch-profile"
     },
     "voip profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/295094155/config-voip-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/295094155/config-voip-profile"
     },
     "vpn certificate ca": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/144962638/config-vpn-certificate-ca"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/144962638/config-vpn-certificate-ca"
     },
     "vpn certificate crl": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/408996217/config-vpn-certificate-crl"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/408996217/config-vpn-certificate-crl"
     },
     "vpn certificate local": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/556354036/config-vpn-certificate-local"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/556354036/config-vpn-certificate-local"
     },
     "vpn certificate ocsp-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/251248056/config-vpn-certificate-ocsp-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/251248056/config-vpn-certificate-ocsp-server"
     },
     "vpn certificate remote": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/260190803/config-vpn-certificate-remote"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/260190803/config-vpn-certificate-remote"
     },
     "vpn certificate setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/211164210/config-vpn-certificate-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/211164210/config-vpn-certificate-setting"
     },
     "vpn ipsec concentrator": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/171932655/config-vpn-ipsec-concentrator"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/171932655/config-vpn-ipsec-concentrator"
     },
     "vpn ipsec fec": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/278722418/config-vpn-ipsec-fec"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/278722418/config-vpn-ipsec-fec"
     },
     "vpn ipsec forticlient": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/515588773/config-vpn-ipsec-forticlient"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/515588773/config-vpn-ipsec-forticlient"
     },
     "vpn ipsec manualkey": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/302168624/config-vpn-ipsec-manualkey"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/302168624/config-vpn-ipsec-manualkey"
     },
     "vpn ipsec manualkey-interface": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/263813893/config-vpn-ipsec-manualkey-interface"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/263813893/config-vpn-ipsec-manualkey-interface"
     },
     "vpn ipsec phase1": {
       "fields": {
@@ -5106,7 +5162,7 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/574570212/config-vpn-ipsec-phase1"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/574570212/config-vpn-ipsec-phase1"
     },
     "vpn ipsec phase1-interface": {
       "fields": {
@@ -5709,35 +5765,35 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/305883427/config-vpn-ipsec-phase1-interface"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/305883427/config-vpn-ipsec-phase1-interface"
     },
     "vpn ipsec phase2": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/143662319/config-vpn-ipsec-phase2"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/143662319/config-vpn-ipsec-phase2"
     },
     "vpn ipsec phase2-interface": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/252893715/config-vpn-ipsec-phase2-interface"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/252893715/config-vpn-ipsec-phase2-interface"
     },
     "vpn kmip-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/170596778/config-vpn-kmip-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/170596778/config-vpn-kmip-server"
     },
     "vpn l2tp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/997216877/config-vpn-l2tp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/997216877/config-vpn-l2tp"
     },
     "vpn pptp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/830118878/config-vpn-pptp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/830118878/config-vpn-pptp"
     },
     "vpn qkd": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/304582863/config-vpn-qkd"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/304582863/config-vpn-qkd"
     },
     "vpn ssl client": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/127681383/config-vpn-ssl-client"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/127681383/config-vpn-ssl-client"
     },
     "vpn ssl settings": {
       "fields": {
@@ -6004,327 +6060,327 @@
           ]
         }
       },
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/114404382/config-vpn-ssl-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/114404382/config-vpn-ssl-settings"
     },
     "vpn ssl web host-check-software": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/316077266/config-vpn-ssl-web-host-check-software"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/316077266/config-vpn-ssl-web-host-check-software"
     },
     "vpn ssl web portal": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/113121765/config-vpn-ssl-web-portal"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/113121765/config-vpn-ssl-web-portal"
     },
     "vpn ssl web realm": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/110330524/config-vpn-ssl-web-realm"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/110330524/config-vpn-ssl-web-realm"
     },
     "vpn ssl web user-bookmark": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/536283841/config-vpn-ssl-web-user-bookmark"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/536283841/config-vpn-ssl-web-user-bookmark"
     },
     "vpn ssl web user-group-bookmark": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/989225835/config-vpn-ssl-web-user-group-bookmark"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/989225835/config-vpn-ssl-web-user-group-bookmark"
     },
     "waf main-class": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/131622563/config-waf-main-class"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/131622563/config-waf-main-class"
     },
     "waf profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/320840487/config-waf-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/320840487/config-waf-profile"
     },
     "waf signature": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/143230460/config-waf-signature"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/143230460/config-waf-signature"
     },
     "waf sub-class": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/178175105/config-waf-sub-class"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/178175105/config-waf-sub-class"
     },
     "wanopt auth-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/214298351/config-wanopt-auth-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/214298351/config-wanopt-auth-group"
     },
     "wanopt cache-service": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/717690012/config-wanopt-cache-service"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/717690012/config-wanopt-cache-service"
     },
     "wanopt content-delivery-network-rule": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/946804468/config-wanopt-content-delivery-network-rule"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/946804468/config-wanopt-content-delivery-network-rule"
     },
     "wanopt peer": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/325210890/config-wanopt-peer"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/325210890/config-wanopt-peer"
     },
     "wanopt profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/365383488/config-wanopt-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/365383488/config-wanopt-profile"
     },
     "wanopt remote-storage": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/486153105/config-wanopt-remote-storage"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/486153105/config-wanopt-remote-storage"
     },
     "wanopt settings": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/321128567/config-wanopt-settings"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/321128567/config-wanopt-settings"
     },
     "wanopt webcache": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/299019971/config-wanopt-webcache"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/299019971/config-wanopt-webcache"
     },
     "web-proxy debug-url": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/187321315/config-web-proxy-debug-url"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/187321315/config-web-proxy-debug-url"
     },
     "web-proxy explicit": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/153691562/config-web-proxy-explicit"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/153691562/config-web-proxy-explicit"
     },
     "web-proxy fast-fallback": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/463563456/config-web-proxy-fast-fallback"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/463563456/config-web-proxy-fast-fallback"
     },
     "web-proxy forward-server": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/860610789/config-web-proxy-forward-server"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/860610789/config-web-proxy-forward-server"
     },
     "web-proxy forward-server-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/990957863/config-web-proxy-forward-server-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/990957863/config-web-proxy-forward-server-group"
     },
     "web-proxy global": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/217949951/config-web-proxy-global"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/217949951/config-web-proxy-global"
     },
     "web-proxy profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/183197322/config-web-proxy-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/183197322/config-web-proxy-profile"
     },
     "web-proxy url-match": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/224818171/config-web-proxy-url-match"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/224818171/config-web-proxy-url-match"
     },
     "web-proxy wisp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/250104525/config-web-proxy-wisp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/250104525/config-web-proxy-wisp"
     },
     "webfilter content": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/304754186/config-webfilter-content"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/304754186/config-webfilter-content"
     },
     "webfilter content-header": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/315619917/config-webfilter-content-header"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/315619917/config-webfilter-content-header"
     },
     "webfilter fortiguard": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/247552369/config-webfilter-fortiguard"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/247552369/config-webfilter-fortiguard"
     },
     "webfilter ftgd-local-cat": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/282094105/config-webfilter-ftgd-local-cat"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/282094105/config-webfilter-ftgd-local-cat"
     },
     "webfilter ftgd-local-rating": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/519592710/config-webfilter-ftgd-local-rating"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/519592710/config-webfilter-ftgd-local-rating"
     },
     "webfilter ips-urlfilter-cache-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/460196578/config-webfilter-ips-urlfilter-cache-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/460196578/config-webfilter-ips-urlfilter-cache-setting"
     },
     "webfilter ips-urlfilter-setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/239393984/config-webfilter-ips-urlfilter-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/239393984/config-webfilter-ips-urlfilter-setting"
     },
     "webfilter ips-urlfilter-setting6": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/167419833/config-webfilter-ips-urlfilter-setting6"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/167419833/config-webfilter-ips-urlfilter-setting6"
     },
     "webfilter override": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/282695361/config-webfilter-override"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/282695361/config-webfilter-override"
     },
     "webfilter profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/285848147/config-webfilter-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/285848147/config-webfilter-profile"
     },
     "webfilter search-engine": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/306959730/config-webfilter-search-engine"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/306959730/config-webfilter-search-engine"
     },
     "webfilter urlfilter": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/333203621/config-webfilter-urlfilter"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/333203621/config-webfilter-urlfilter"
     },
     "wireless-controller access-control-list": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/136054176/config-wireless-controller-access-control-list"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/136054176/config-wireless-controller-access-control-list"
     },
     "wireless-controller apcfg-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/160851855/config-wireless-controller-apcfg-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/160851855/config-wireless-controller-apcfg-profile"
     },
     "wireless-controller ap-status": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/169281763/config-wireless-controller-ap-status"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/169281763/config-wireless-controller-ap-status"
     },
     "wireless-controller arrp-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/321555942/config-wireless-controller-arrp-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/321555942/config-wireless-controller-arrp-profile"
     },
     "wireless-controller ble-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/976997538/config-wireless-controller-ble-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/976997538/config-wireless-controller-ble-profile"
     },
     "wireless-controller bonjour-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/201953780/config-wireless-controller-bonjour-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/201953780/config-wireless-controller-bonjour-profile"
     },
     "wireless-controller global": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/454774192/config-wireless-controller-global"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/454774192/config-wireless-controller-global"
     },
     "wireless-controller hotspot20 anqp-3gpp-cellular": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/112182140/config-wireless-controller-hotspot20-anqp-3gpp-cellular"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/112182140/config-wireless-controller-hotspot20-anqp-3gpp-cellular"
     },
     "wireless-controller hotspot20 anqp-ip-address-type": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/240822483/config-wireless-controller-hotspot20-anqp-ip-address-type"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/240822483/config-wireless-controller-hotspot20-anqp-ip-address-type"
     },
     "wireless-controller hotspot20 anqp-nai-realm": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/284381219/config-wireless-controller-hotspot20-anqp-nai-realm"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/284381219/config-wireless-controller-hotspot20-anqp-nai-realm"
     },
     "wireless-controller hotspot20 anqp-network-auth-type": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/243669226/config-wireless-controller-hotspot20-anqp-network-auth-type"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/243669226/config-wireless-controller-hotspot20-anqp-network-auth-type"
     },
     "wireless-controller hotspot20 anqp-roaming-consortium": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/735892387/config-wireless-controller-hotspot20-anqp-roaming-consortium"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/735892387/config-wireless-controller-hotspot20-anqp-roaming-consortium"
     },
     "wireless-controller hotspot20 anqp-venue-name": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/764566466/config-wireless-controller-hotspot20-anqp-venue-name"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/764566466/config-wireless-controller-hotspot20-anqp-venue-name"
     },
     "wireless-controller hotspot20 anqp-venue-url": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/191023987/config-wireless-controller-hotspot20-anqp-venue-url"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/191023987/config-wireless-controller-hotspot20-anqp-venue-url"
     },
     "wireless-controller hotspot20 h2qp-advice-of-charge": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/238153278/config-wireless-controller-hotspot20-h2qp-advice-of-charge"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/238153278/config-wireless-controller-hotspot20-h2qp-advice-of-charge"
     },
     "wireless-controller hotspot20 h2qp-conn-capability": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/301729542/config-wireless-controller-hotspot20-h2qp-conn-capability"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/301729542/config-wireless-controller-hotspot20-h2qp-conn-capability"
     },
     "wireless-controller hotspot20 h2qp-operator-name": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/239055391/config-wireless-controller-hotspot20-h2qp-operator-name"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/239055391/config-wireless-controller-hotspot20-h2qp-operator-name"
     },
     "wireless-controller hotspot20 h2qp-osu-provider": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/130344864/config-wireless-controller-hotspot20-h2qp-osu-provider"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/130344864/config-wireless-controller-hotspot20-h2qp-osu-provider"
     },
     "wireless-controller hotspot20 h2qp-osu-provider-nai": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/171492695/config-wireless-controller-hotspot20-h2qp-osu-provider-nai"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/171492695/config-wireless-controller-hotspot20-h2qp-osu-provider-nai"
     },
     "wireless-controller hotspot20 h2qp-terms-and-conditions": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/496994718/config-wireless-controller-hotspot20-h2qp-terms-and-conditions"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/496994718/config-wireless-controller-hotspot20-h2qp-terms-and-conditions"
     },
     "wireless-controller hotspot20 h2qp-wan-metric": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/877268770/config-wireless-controller-hotspot20-h2qp-wan-metric"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/877268770/config-wireless-controller-hotspot20-h2qp-wan-metric"
     },
     "wireless-controller hotspot20 hs-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/267746033/config-wireless-controller-hotspot20-hs-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/267746033/config-wireless-controller-hotspot20-hs-profile"
     },
     "wireless-controller hotspot20 icon": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/334017602/config-wireless-controller-hotspot20-icon"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/334017602/config-wireless-controller-hotspot20-icon"
     },
     "wireless-controller hotspot20 qos-map": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/210241922/config-wireless-controller-hotspot20-qos-map"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/210241922/config-wireless-controller-hotspot20-qos-map"
     },
     "wireless-controller inter-controller": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/294594760/config-wireless-controller-inter-controller"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/294594760/config-wireless-controller-inter-controller"
     },
     "wireless-controller log": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/259443092/config-wireless-controller-log"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/259443092/config-wireless-controller-log"
     },
     "wireless-controller mpsk-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/384547974/config-wireless-controller-mpsk-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/384547974/config-wireless-controller-mpsk-profile"
     },
     "wireless-controller nac-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/334596400/config-wireless-controller-nac-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/334596400/config-wireless-controller-nac-profile"
     },
     "wireless-controller qos-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/191814669/config-wireless-controller-qos-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/191814669/config-wireless-controller-qos-profile"
     },
     "wireless-controller region": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/610229687/config-wireless-controller-region"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/610229687/config-wireless-controller-region"
     },
     "wireless-controller setting": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/232220720/config-wireless-controller-setting"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/232220720/config-wireless-controller-setting"
     },
     "wireless-controller snmp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/601742472/config-wireless-controller-snmp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/601742472/config-wireless-controller-snmp"
     },
     "wireless-controller ssid-policy": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/281455026/config-wireless-controller-ssid-policy"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/281455026/config-wireless-controller-ssid-policy"
     },
     "wireless-controller syslog-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/170474908/config-wireless-controller-syslog-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/170474908/config-wireless-controller-syslog-profile"
     },
     "wireless-controller timers": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/203814668/config-wireless-controller-timers"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/203814668/config-wireless-controller-timers"
     },
     "wireless-controller vap": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/304313044/config-wireless-controller-vap"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/304313044/config-wireless-controller-vap"
     },
     "wireless-controller vap-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/154293989/config-wireless-controller-vap-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/154293989/config-wireless-controller-vap-group"
     },
     "wireless-controller wag-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/289896081/config-wireless-controller-wag-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/289896081/config-wireless-controller-wag-profile"
     },
     "wireless-controller wids-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/109977937/config-wireless-controller-wids-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/109977937/config-wireless-controller-wids-profile"
     },
     "wireless-controller wtp": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/221793529/config-wireless-controller-wtp"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/221793529/config-wireless-controller-wtp"
     },
     "wireless-controller wtp-group": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/105008268/config-wireless-controller-wtp-group"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/105008268/config-wireless-controller-wtp-group"
     },
     "wireless-controller wtp-profile": {
       "fields": {},
-      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.11/cli-reference/596642240/config-wireless-controller-wtp-profile"
+      "source_url": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/596642240/config-wireless-controller-wtp-profile"
     }
   }
 }

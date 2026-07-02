@@ -434,3 +434,74 @@ def test_build_corpus_ingests_psirt_rss_sources(tmp_path: Path):
     cves = json.loads((tmp_path / "docs" / "derived" / "cves" / "cves.json").read_text(encoding="utf-8"))
     ids = {entry.get("cve_id") for entry in cves["entries"]}
     assert {"CVE-2024-0002", "CVE-2024-0003"}.issubset(ids)
+
+
+def test_build_corpus_supports_80_version(tmp_path: Path):
+    """build_corpus creates the 8.0 schema directory when sources.yaml lists it."""
+    mod = _load_build_corpus_module(Path(".").resolve())
+
+    _write_sources(
+        tmp_path,
+        {
+            "fortios_versions": {"first_class": ["7.4", "7.6", "8.0"]},
+            "allowed_domains": ["docs.fortinet.com"],
+            "sources": {
+                "schema": [
+                    {
+                        "id": "fortinet_cli",
+                        "versions": {
+                            "7.4": "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/84566/fortios-cli-reference",
+                            "7.6": "https://docs.fortinet.com/document/fortigate/7.6.7/cli-reference/84566/fortios-cli-reference",
+                            "8.0": "https://docs.fortinet.com/document/fortigate/8.0.0/cli-reference/84566/fortios-cli-reference",
+                        },
+                    }
+                ]
+            },
+        },
+    )
+
+    toc_html_80 = """\
+<!DOCTYPE html>
+<html>
+  <body>
+    <a class="toc" href="/document/fortigate/8.0.0/cli-reference/999/config-antivirus-exempt-list">
+      config antivirus exempt-list
+    </a>
+  </body>
+</html>"""
+    toc_html_74 = """\
+<!DOCTYPE html>
+<html>
+  <body>
+    <a class="toc" href="/document/fortigate/7.4.12/cli-reference/1/config-system-global">
+      config system global
+    </a>
+  </body>
+</html>"""
+    toc_html_76 = """\
+<!DOCTYPE html>
+<html>
+  <body>
+    <a class="toc" href="/document/fortigate/7.6.7/cli-reference/2/config-antivirus-exempt-list">
+      config antivirus exempt-list
+    </a>
+  </body>
+</html>"""
+
+    payloads = {
+        "https://docs.fortinet.com/document/fortigate/8.0.0/cli-reference/84566/fortios-cli-reference": toc_html_80,
+        "https://docs.fortinet.com/document/fortigate/7.4.12/cli-reference/84566/fortios-cli-reference": toc_html_74,
+        "https://docs.fortinet.com/document/fortigate/7.6.7/cli-reference/84566/fortios-cli-reference": toc_html_76,
+    }
+
+    mod.build_corpus(repo_root=tmp_path, fetcher=lambda url: payloads[url])
+
+    schema_80 = json.loads(
+        (tmp_path / "docs" / "derived" / "schema" / "8.0" / "schema.json").read_text(encoding="utf-8")
+    )
+    assert schema_80["version"] == "8.0"
+    assert schema_80["coverage"] == "table_only"
+    assert "antivirus exempt-list" in schema_80["tables"]
+    assert schema_80["tables"]["antivirus exempt-list"]["source_url"].startswith(
+        "https://docs.fortinet.com/document/fortigate/8.0.0/"
+    )

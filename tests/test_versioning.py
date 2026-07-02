@@ -30,3 +30,10 @@ def test_resolve_target_fortios_defaults_to_74_and_warns():
     version, v_warnings = resolve_target_fortios(model, explicit_version=None)
     assert version == "7.4"
     assert "version_defaulted" in v_warnings
+
+
+def test_supported_version_families_includes_80():
+    from fgcheck.versioning import SUPPORTED_VERSION_FAMILIES
+
+    assert "8.0" in SUPPORTED_VERSION_FAMILIES
+    assert SUPPORTED_VERSION_FAMILIES[0] == "7.4"  # default

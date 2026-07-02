@@ -1,0 +1,5 @@
+id: FGT-SNMP-WEAK-COMMUNITY
+title: SNMP uses default or weak community string
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_snmp_weak_community

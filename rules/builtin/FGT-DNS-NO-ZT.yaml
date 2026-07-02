@@ -1,0 +1,5 @@
+id: FGT-DNS-NO-ZT
+title: DNS server has zone-transfer enabled
+severity: medium
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_dns_zone_transfer

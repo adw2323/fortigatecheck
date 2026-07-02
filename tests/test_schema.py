@@ -121,3 +121,73 @@ def test_schema_partial_flag_false_when_coverage_full_or_missing(tmp_path: Path)
     schema = load_schema("7.4", base_dir=tmp_path)
     assert schema.loaded is True
     assert schema.partial is False
+
+
+def test_load_schema_80_family_fallback(tmp_path: Path):
+    """8.0 point-release falls back to the 8.0 family schema."""
+    _write_schema(
+        tmp_path,
+        "8.0",
+        {
+            "tables": {
+                "system interface": {
+                    "fields": {
+                        "allowaccess": {"allowed_values": ["ssh", "https", "ping"]},
+                    }
+                }
+            }
+        },
+    )
+    _write_schema(
+        tmp_path,
+        "8.0.0",
+        {
+            "tables": {
+                "system interface": {
+                    "fields": {
+                        "allowaccess": {"allowed_values": ["ssh", "https"]},
+                    }
+                }
+            }
+        },
+    )
+
+    # Exact point-release match
+    exact = load_schema("8.0.0", base_dir=tmp_path)
+    assert exact.resolved_version == "8.0.0"
+    assert exact.loaded is True
+    assert exact.allowed_values(("system", "interface"), "allowaccess") == {"ssh", "https"}
+
+    # Unknown patch version falls back to family
+    fallback = load_schema("8.0.3", base_dir=tmp_path)
+    assert fallback.resolved_version == "8.0"
+    assert fallback.loaded is True
+    assert fallback.allowed_values(("system", "interface"), "allowaccess") == {"ssh", "https", "ping"}
+
+
+def test_load_schema_80_unknown_without_family_returns_empty(tmp_path: Path):
+    """8.0.x with no schema files at all returns schema_unknown."""
+    schema = load_schema("8.0.5", base_dir=tmp_path)
+    assert schema.loaded is False
+    assert "schema_unknown" in schema.warnings
+
+
+def test_load_schema_80_partial_coverage(tmp_path: Path):
+    """8.0 family schema with table_only coverage is flagged partial."""
+    _write_schema(
+        tmp_path,
+        "8.0",
+        {
+            "coverage": "table_only",
+            "tables": {
+                "firewall policy": {
+                    "fields": {},
+                    "source_url": "https://docs.fortinet.com/document/fortigate/8.0.0/cli-reference/123/config-firewall-policy",
+                }
+            },
+        },
+    )
+    schema = load_schema("8.0.0", base_dir=tmp_path)
+    assert schema.loaded is True
+    assert schema.partial is True
+    assert schema.resolved_version == "8.0"

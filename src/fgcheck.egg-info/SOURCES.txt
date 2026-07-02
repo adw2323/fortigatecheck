@@ -1,6 +1,7 @@
 README.md
 pyproject.toml
 src/fgcheck/__init__.py
+src/fgcheck/authority.py
 src/fgcheck/baseline.py
 src/fgcheck/cli.py
 src/fgcheck/facts.py
@@ -18,6 +19,7 @@ src/fgcheck.egg-info/dependency_links.txt
 src/fgcheck.egg-info/entry_points.txt
 src/fgcheck.egg-info/requires.txt
 src/fgcheck.egg-info/top_level.txt
+tests/test_authority.py
 tests/test_baseline.py
 tests/test_build_corpus.py
 tests/test_cli_defaults.py
@@ -30,6 +32,7 @@ tests/test_report.py
 tests/test_rules_catalog.py
 tests/test_rules_multivdom.py
 tests/test_rules_new_controls.py
+tests/test_rules_new_controls_2.py
 tests/test_rules_ordering.py
 tests/test_rules_requested_matrix.py
 tests/test_rules_requested_schema_gate.py

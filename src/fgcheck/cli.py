@@ -2,11 +2,13 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import sys
 from collections import Counter
 from pathlib import Path
 
 from rich.console import Console
 
+from .authority import lookup_authority, render_authority_human, render_authority_json
 from .baseline import (
     finding_to_record,
     load_baseline_matchers,
@@ -60,7 +62,34 @@ def _should_fail_on_severity(findings, threshold: str | None) -> bool:
     return any(_severity_rank(str(f.severity)) <= threshold_rank for f in findings)
 
 
+def authority_main(argv: list[str]) -> None:
+    command = argv[0]
+    ap = argparse.ArgumentParser(prog=f"fgcheck {command}")
+    ap.add_argument("query", help="FortiOS table, command, or field to validate.")
+    ap.add_argument("--fortios", default="7.6", help="Target FortiOS version, for example 7.4, 7.6, or 7.6.6.")
+    ap.add_argument("--format", choices=["json", "human"], default="human")
+    ap.add_argument("--strict", action="store_true", help="Exit non-zero unless validation is fully validated.")
+    args = ap.parse_args(argv[1:])
+
+    result = lookup_authority(args.query, fortios=args.fortios, base_dir=Path("."))
+    if command == "schema" and result.matched_table is None:
+        result.warnings = (result.warnings or []) + ["schema_command_expected_table_match"]
+    if command == "docs" and result.source_url is None:
+        result.warnings = (result.warnings or []) + ["docs_command_found_no_source_url"]
+
+    if args.format == "json":
+        print(render_authority_json(result), end="")
+    else:
+        print(render_authority_human(result), end="")
+
+    if args.strict and result.validation_result != "VALIDATED":
+        raise SystemExit(2)
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] in {"lookup", "schema", "docs"}:
+        return authority_main(sys.argv[1:])
+
     ap = argparse.ArgumentParser(prog="fgcheck")
     ap.add_argument("config", help="FortiOS text config .conf or folder containing .conf files")
     ap.add_argument("--rules", nargs="+", default=DEFAULT_RULE_FILES)

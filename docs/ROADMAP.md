@@ -1,148 +1,387 @@
-# fgcheck Roadmap
+# fgcheck Roadmap — Living Document
 
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
-## Current State Summary
+> This is a living roadmap. It grows as the project grows. Every completed milestone
+> adds the next frontier. The goal is never "done" — it is always expanding coverage,
+> deepening detection, and hardening production readiness.
+
+---
+
+## Current State
 
 ### By the Numbers
-- **152 tests** — all passing
-- **2,682 lines** of source code across 13 modules
-- **3,977 lines** of test code across 20 test files
-- **17 builtin rules** covering admin access, firewall policies, SSL VPN, IPSec, logging, local-in
-- **2 schema versions** — 7.4 (597 tables) and 7.6 (625 tables)
-- **17 priority tables** with field-level details (system interface, firewall policy, system admin, etc.)
-- **CVE/PSIRT/KEV** corpus pipeline functional
+| Metric | Value | Trend |
+|--------|-------|-------|
+| Tests passing | 180 | Up from 152 |
+| Source files | 13 modules | Growing |
+| Test files | 22 | Growing |
+| Builtin rules | 20 | Up from 17 |
+| Schema versions | 3 (7.4, 7.6, 8.0) | Up from 2 |
+| Quality signal (Sentrux) | 0.6411 | Target: 0.80+ |
+| Test coverage (Sentrux) | 20% | Target: 80%+ |
 
-### What Works
-- **Parser**: Multiline blob handling, VDOM scope switching, nested config/end restoration, line-preserving
-- **Facts engine**: Default-route edge detection, SD-WAN member resolution, policy-route edge projection, zone-to-interface mapping, software switch hierarchy, VLAN ancestry
-- **Schema system**: Version family fallback, table/field lookup, allowed_values, table_only vs full coverage flagging
-- **Versioning**: config-version header > --fortios flag > 7.4 default
-- **Authority lookup**: lookup/schema/docs subcommands, VALIDATED/PARTIALLY_VALIDATED/UNKNOWN classification
-- **Rule engine**: Schema-gated execution, confidence degradation when schema is partial, stable sorted output
-- **CLI**: Single-file and folder scan, json/md/human/html output, PDF export, baseline suppression, severity gating, VDOM filtering, summary JSON, CSV output
-- **Report**: Rich HTML with embedded documents, human-readable summaries, markdown tables
-
-### Schema Coverage Status
-Both 7.4 and 7.6 have `table_only` coverage for the corpus as a whole.
-Priority tables (system interface, firewall policy, system admin, vpn ssl settings, etc.) have full field-level extraction.
-600+ remaining tables have only table names without field details.
+### Schema Coverage
+| Version | Tables | With Fields | Coverage |
+|---------|--------|-------------|----------|
+| 7.4 | 597 | 17 | table_only |
+| 7.6 | 625 | 17 | table_only |
+| 8.0 | 646 | 17 | table_only |
 
 ---
 
-## Version Policy Update
+## Growth Tracks
 
-### Current First-Class Support
-- FortiOS **7.4.x** — latest point release: 7.4.12
-- FortiOS **7.6.x** — latest point release: 7.6.7
-
-### New Version to Add
-- FortiOS **8.0.x** — 8.0.0 just released (CLI reference available at docs.fortinet.com)
-
-### Version Support Tiers
-1. **First-class**: 7.4.x, 7.6.x (schema + rules + tests)
-2. **Next-first-class**: 8.0.x (schema ingestion + compatibility)
-3. **Legacy**: 7.0.x, 7.2.x (best-effort, heuristic only)
+Each track is a continuous effort that expands over time. Items move from
+Planned -> In Progress -> Done -> Expanded as the project matures.
 
 ---
 
-## Phase Roadmap
+### TRACK 1: Rule Coverage Expansion
 
-### Phase 1: Stabilize and Expand Rules (Week 1-2)
-**Goal**: Expand the detection surface from 17 to 30+ rules with full schema backing.
+**Goal**: Comprehensive detection of FortiGate security misconfigurations.
+Start with critical/likely findings, expand to best-practice and hardening checks.
 
-| Task | Priority | Rules Added |
-|------|----------|-------------|
-| DNS settings hardening | High | FGT-DNS-NO-ZT, FGT-DNS-DEFAULT-ONLY |
-| NTP source validation | High | FGT-NTP-NO-NTPS |
-| SNMP community hardening | High | FGT-SNMP-WEAK-COMMUNITY |
-| Interface security | High | FGT-IFACE-NO-VLAN-SECURITY |
-| DHCP snooping awareness | Medium | FGT-DHCP-SNOOP |
-| FortiGuard web filter | Medium | FGT-FGFM-DEFAULT-OVERRIDE |
-| Password policy | High | FGT-ADMIN-WEAK-PASSWORD-POLICY |
-| Admin idle timeout | Medium | FGT-ADMIN-NO-IDLE-TIMEOUT |
-| Certificate expiry | Medium | FGT-CERT-EXPIRING |
-| Firmware version currency | High | FGT-FIRMWARE-OUTDATED |
+#### Wave 1 — Core Security Controls (20/30 target)
+| Rule | Category | Severity | Status |
+|------|----------|----------|--------|
+| FGT-ADMIN-EDGE-SSH | Admin access | high | DONE |
+| FGT-ADMIN-EDGE-HTTPS | Admin access | high | DONE |
+| FGT-ADMIN-EDGE-TELNET | Admin access | critical | DONE |
+| FGT-ADMIN-EDGE-HTTP | Admin access | critical | DONE |
+| FGT-ADMIN-EDGE-ALLACCESS | Admin access | critical | DONE |
+| FGT-ADMIN-NO-TRUSTED-HOSTS | Admin access | high | DONE |
+| FGT-ADMIN-TRUSTHOST-UNRESTRICTED | Admin access | high | DONE |
+| FGT-ADMIN-SUPER-NO-2FA | Admin access | high | DONE |
+| FGT-POLICY-ANY-ANY-ALL | Firewall | critical | DONE |
+| FGT-POLICY-LOG-001 | Firewall | medium | DONE |
+| FGT-LOCAL-IN-PERMISSIVE | Local-in | high | DONE |
+| FGT-LOCALIN-NO-PROTECTION | Local-in | critical | DONE |
+| FGT-SSLVPN-MIN-TLS | SSL VPN | high | DONE |
+| FGT-SSLVPN-SRCINTF-ANY | SSL VPN | high | DONE |
+| FGT-SSLVPN-SRCADDR-ALL | SSL VPN | critical | DONE |
+| FGT-IPSEC-WEAK-DH | IPSec | high | DONE |
+| FGT-NO-REMOTE-LOGGING | Logging | high | DONE |
+| FGT-DNS-NO-ZT | DNS | medium | DONE |
+| FGT-NTP-NO-NTPS | NTP | medium | DONE |
+| FGT-SNMP-WEAK-COMMUNITY | SNMP | high | DONE |
 
-### Phase 2: Schema Corpus Enrichment (Week 2-3)
-**Goal**: Move from table_only to field-level coverage for all security-critical tables.
+#### Wave 2 — Hardening and Policy (target: +10 rules)
+| Rule | Category | Severity | Status |
+|------|----------|----------|--------|
+| FGT-ADMIN-WEAK-PASSWORD-POLICY | Password | high | PLANNED |
+| FGT-ADMIN-NO-IDLE-TIMEOUT | Admin | medium | PLANNED |
+| FGT-FIRMWARE-OUTDATED | Firmware | high | PLANNED |
+| FGT-DNS-DEFAULT-ONLY | DNS | medium | PLANNED |
+| FGT-DHCP-SNOOP | DHCP | medium | PLANNED |
+| FGT-IFACE-NO-VLAN-SECURITY | Interface | medium | PLANNED |
+| FGT-FGFM-DEFAULT-OVERRIDE | FortiGuard | medium | PLANNED |
+| FGT-CERT-EXPIRING | Certificate | high | PLANNED |
+| FGT-SSH-WEAK-CIPHERS | SSH | high | PLANNED |
+| FGT-SNMP-NO-ACL | SNMP | medium | PLANNED |
 
-| Task | Priority |
-|------|----------|
-| Extract fields from 7.4.12 CLI reference | High |
-| Extract fields from 7.6.7 CLI reference | High |
-| Extract fields from 8.0.0 CLI reference | High |
-| Add 8.0 to sources.yaml and build_corpus.py | High |
-| Validate priority table field extraction accuracy | High |
-| Add schema diff tooling (version-to-version changes) | Medium |
+#### Wave 3 — Deep Inspection (target: +15 rules)
+| Rule | Category | Severity | Status |
+|------|----------|----------|--------|
+| FGT-IPS-DEFAULT-SIGNATURE | IPS | medium | PLANNED |
+| FGT-WEBFILTER-DEFAULT-OVERRIDE | Web filter | medium | PLANNED |
+| FGT-AV-NO-HEURISTIC | Antivirus | medium | PLANNED |
+| FGT-DLP-NO-SENSOR | DLP | low | PLANNED |
+| FGT-WAF-NO-PROFILE | WAF | medium | PLANNED |
+| FGT-EMAILFILTER-NO-DNSBL | Email filter | low | PLANNED |
+| FGT-SSLVPN-NO-MFA | SSL VPN | high | PLANNED |
+| FGT-ADMIN-LOCKOUT-NO-TRIES | Admin | medium | PLANNED |
+| FGT-FW-NO-SENSITIVE-PATTERNS | Firewall | medium | PLANNED |
+| FGT-LOG-NO-TRAFFIC | Logging | medium | PLANNED |
+| FGT-HA-NO-HEARTBEAT | HA | high | PLANNED |
+| FGT-SDWAN-NO-HEALTH-CHECK | SD-WAN | medium | PLANNED |
+| FGT-ROUTING-NO-ROUTE-FILTER | Routing | low | PLANNED |
+| FGT-ZONE-NO-SEGMENTATION | Zone | medium | PLANNED |
+| FGT-VDOM-NO-RESOURCE-LIMIT | VDOM | low | PLANNED |
 
-### Phase 3: FortiOS 8.0 Support (Week 3-4)
-**Goal**: Full first-class support for 8.0.x alongside 7.4 and 7.6.
+#### Wave 4 — Compliance and Audit (target: +20 rules)
+Rules mapped to compliance frameworks:
+| Rule | Framework | Status |
+|------|-----------|--------|
+| FGT-COMPLIANCE-FIPS-MODE | FIPS/CC | PLANNED |
+| FGT-COMPLIANCE-NIST-AC-2 | NIST 800-53 | PLANNED |
+| FGT-COMPLIANCE-NIST-AC-3 | NIST 800-53 | PLANNED |
+| FGT-COMPLIANCE-NIST-SC-7 | NIST 800-53 | PLANNED |
+| FGT-COMPLIANCE-PCI-1-2-1 | PCI DSS | PLANNED |
+| FGT-COMPLIANCE-PCI-2-2-1 | PCI DSS | PLANNED |
+| FGT-COMPLIANCE-PCI-6-5-6 | PCI DSS | PLANNED |
+| FGT-COMPLIANCE-HIPAA-164-312 | HIPAA | PLANNED |
+| FGT-COMPLIANCE-CIS-1-1-1 | CIS Benchmark | PLANNED |
+| FGT-COMPLIANCE-CIS-1-2-1 | CIS Benchmark | PLANNED |
+| FGT-COMPLIANCE-CIS-3-1-1 | CIS Benchmark | PLANNED |
+| FGT-COMPLIANCE-CIS-4-1-1 | CIS Benchmark | PLANNED |
+| FGT-COMPLIANCE-CIS-5-1-1 | CIS Benchmark | PLANNED |
+| FGT-COMPLIANCE-CIS-6-1-1 | CIS Benchmark | PLANNED |
+| FGT-COMPLIANCE-CIS-7-1-1 | CIS Benchmark | PLANNED |
+| FGT-COMPLIANCE-STIG-CAT1 | DISA STIG | PLANNED |
+| FGT-COMPLIANCE-STIG-CAT2 | DISA STIG | PLANNED |
+| FGT-COMPLIANCE-STIG-CAT3 | DISA STIG | PLANNED |
+| FGT-COMPLIANCE-BESTPRACTICE-AUDIT | Best Practice | PLANNED |
+| FGT-COMPLIANCE-BESTPRACTICE-CHANGELOG | Best Practice | PLANNED |
 
-| Task | Priority |
-|------|----------|
-| Add 8.0 to sources.yaml with CLI reference URL | High |
-| Run build_corpus.py to generate 8.0 schema | High |
-| Add 8.0 version family to versioning.py | High |
-| Update tests to cover 8.0 version resolution | High |
-| Test all 17+ rules against 8.0 schema | High |
-| Document 8.0-specific new/changed config paths | Medium |
+#### Wave 5 — CVE-Aware Detection (target: +10 rules)
+Rules that cross-reference CVE/PSIRT/KEV data with config:
+| Rule | Description | Status |
+|------|-------------|--------|
+| FGT-CVE-UNPATCHED-SERVICE | Detect services exposed on unpatched versions | PLANNED |
+| FGT-CVE-KEV-EXPOSURE | Flag configs with services matching KEV entries | PLANNED |
+| FGT-CVE-PSIRT-OUTSTANDING | Check for outstanding PSIRT advisories | PLANNED |
+| FGT-CVE-SSLVPN-HISTORY | Flag SSL VPN on versions with known vulns | PLANNED |
+| FGT-CVE-IPSEC-WEAK | Cross-reference IPSec configs with CVE history | PLANNED |
+| FGT-CVE-ADMIN-EXPOSED | Admin access + known admin CVEs | PLANNED |
+| FGT-CVE-FIRMWARE-RISK | Firmware version + known CVE risk score | PLANNED |
+| FGT-CVE-DNS-AMPLIFICATION | DNS config + amplification CVEs | PLANNED |
+| FGT-CVE-SNMP-V2C | SNMPv2c + known SNMP CVEs | PLANNED |
+| FGT-CVE-LOCALIN-EXPOSURE | Local-in + known exposure CVEs | PLANNED |
 
-### Phase 4: Facts Engine Depth (Week 4-5)
-**Goal**: Deep interface hierarchy, HA topology, and wireless controller awareness.
-
-| Task | Priority |
-|------|----------|
-| Software switch member port resolution | High |
-| Nested parent/child interface ancestry (VLAN, LAG, etc.) | High |
-| HA cluster topology facts | Medium |
-| Wireless controller interface mapping | Medium |
-| Zone membership through nested interfaces (extended) | Medium |
-
-### Phase 5: Production Readiness (Week 5-6)
-**Goal**: CI integration, performance, and documentation completeness.
-
-| Task | Priority |
-|------|----------|
-| GitHub Actions CI with pytest + schema validation | High |
-| Performance benchmarks for large configs (1000+ policies) | Medium |
-| Baseline workflow documentation | Medium |
-| Real-config regression suite (sanitized fixtures) | High |
-| Rule documentation with rationale and remediation intent | Medium |
-| API/library usage documentation | Medium |
+**Running target: 75 rules total across 5 waves.**
 
 ---
 
-## Overnight Work Plan (Phase 1 Kickoff)
+### TRACK 2: Schema Corpus Depth
 
-### Workstream A: New Rules (Claude Code)
-- Add FGT-DNS-NO-ZT, FGT-DNS-DEFAULT-ONLY, FGT-NTP-NO-NTPS
-- Add FGT-SNMP-WEAK-COMMUNITY, FGT-ADMIN-WEAK-PASSWORD-POLICY
-- Add FGT-ADMIN-NO-IDLE-TIMEOUT, FGT-FIRMWARE-OUTDATED
-- Each rule: YAML definition + implementation in rules_impl.py + tests
+**Goal**: Full field-level coverage for every security-relevant table in every supported FortiOS version.
 
-### Workstream B: Schema Enrichment + 8.0 (Codex)
-- Update sources.yaml with 8.0 CLI reference URL
-- Update build_corpus.py to handle 8.0
-- Add 8.0 version family to schema.py and versioning.py
-- Add schema tests for 8.0 fallback behavior
+#### Current: 17 priority tables with fields, 600+ table-only
+#### Target: 100+ tables with full field extraction
 
-### Workstream C: Documentation + Session Handoff (Hermes)
-- Update SESSION_HANDOFF.md with current state
-- Update sources.yaml with latest version references
-- Update README.md with new rules and version info
-- Write this roadmap
+| Milestone | Tables Targeted | Status |
+|-----------|----------------|--------|
+| Priority 17 (interface, policy, admin, ssl, ipsec, local-in, logging) | 17 | DONE |
+| Security services (antivirus, ips, webfilter, emailfilter, dnsfilter) | +15 | PLANNED |
+| VPN infrastructure (certificate, ssh, ssl, ipsec phase2) | +12 | PLANNED |
+| System settings (global, settings, fips, ssh-config, password-policy) | +10 | PLANNED |
+| SNMP + NTP + DNS + DHCP full field extraction | +8 | PLANNED |
+| Switch controller + wireless controller tables | +15 | PLANNED |
+| HA and clustering tables | +5 | PLANNED |
+| DLP + WAF + reporting tables | +10 | PLANNED |
+| Remaining tables | +80 | PLANNED |
+
+#### Schema Tooling
+| Tool | Purpose | Status |
+|------|---------|--------|
+| build_corpus.py | HTML extraction from Fortinet docs | DONE |
+| schema diff (v2v) | Show what changed between versions | PLANNED |
+| schema coverage report | Table/field coverage stats | PLANNED |
+| schema validation CLI | Validate configs against schema directly | PLANNED |
+| schema changelog generator | Auto-generate changelog from schema diffs | PLANNED |
 
 ---
 
-## Definition of Done
+### TRACK 3: FortiOS Version Coverage
 
-The project reaches production-grade trust when:
+**Goal**: Support every actively maintained FortiOS version with schema-backed detection.
 
-1. Parser handles real FortiOS 7.4, 7.6, and 8.0 configs without systematic false warnings
-2. Facts correctly model edge/interface topology across common enterprise patterns
-3. Rules are version-scoped and schema-gated for all three version families
-4. Findings provide line-accurate evidence and truthful confidence
-5. Corpus pipeline is reproducible and restricted to official sources
-6. 30+ builtin rules covering the most critical FortiGate security checks
-7. CI runs automatically on every push with full test suite
+| Version | Status | Schema | Notes |
+|---------|--------|--------|-------|
+| 7.4.x (latest 7.4.12) | First-class | 597 tables, 17 fields | DONE |
+| 7.6.x (latest 7.6.7) | First-class | 625 tables, 17 fields | DONE |
+| 8.0.x (8.0.0) | First-class | 646 tables, 17 fields | DONE |
+| 7.0.x | Legacy/heuristic | Missing | PLANNED |
+| 7.2.x | Legacy/heuristic | Missing | PLANNED |
+| Future 7.6.x point releases | Auto-detect | Family fallback | DONE |
+| Future 8.0.x point releases | Auto-detect | Family fallback | DONE |
+| Future 8.2.x+ | Add on release | New extraction | PLANNED |
+
+#### Version-Aware Rule Behavior
+| Behavior | Status |
+|----------|--------|
+| Rules skip gracefully when schema is missing | DONE |
+| Rules degrade from certain -> heuristic when partial | DONE |
+| Version family fallback (8.0.1 -> 8.0) | DONE |
+| Config header version detection | DONE |
+| CLI --fortios override | DONE |
+
+---
+
+### TRACK 4: Facts Engine Depth
+
+**Goal**: Model the complete FortiGate topology — interfaces, routing, zones, HA, VPN, wireless.
+
+| Capability | Status |
+|------------|--------|
+| Default-route edge detection | DONE |
+| SD-WAN member resolution | DONE |
+| Policy-route output-device projection | DONE |
+| Zone-to-interface mapping | DONE |
+| Software switch hierarchy | DONE |
+| VLAN ancestry | DONE |
+| HA cluster topology | PLANNED |
+| Wireless controller interfaces | PLANNED |
+| 802.1Q VLAN trunk/access awareness | PLANNED |
+| LAG/bonding interface mapping | PLANNED |
+| Bridge domain facts | PLANNED |
+| Virtual-wire pair detection | PLANNED |
+| IPsec tunnel endpoint topology | PLANNED |
+| SSL VPN tunnel routing facts | PLANNED |
+| OSPF/BGP neighbor facts | PLANNED |
+| Multi-hop routing path detection | PLANNED |
+
+---
+
+### TRACK 5: Parser Robustness
+
+**Goal**: Handle every valid FortiOS config format without false warnings.
+
+| Capability | Status |
+|------------|--------|
+| Standard set/value pairs | DONE |
+| Multiline blobs (certs, keys) | DONE |
+| VDOM scope switching | DONE |
+| Nested config/end blocks | DONE |
+| Line-preserving output | DONE |
+| Encrypted blocks (redacted configs) | PLANNED |
+| FortiManager/FortiAnalyzer import configs | PLANNED |
+| Partial/truncated configs | PLANNED |
+| Config merge annotations | PLANNED |
+| Comment-only sections | PLANNED |
+| Unicode/internationalized values | PLANNED |
+
+---
+
+### TRACK 6: Reporting and Output
+
+**Goal**: Production-ready reporting for human consumers and CI pipelines.
+
+| Capability | Status |
+|------------|--------|
+| JSON output | DONE |
+| Markdown output | DONE |
+| Human-readable output | DONE |
+| HTML with embedded docs | DONE |
+| PDF export (via weasyprint) | DONE |
+| CSV findings export | DONE |
+| Summary JSON | DONE |
+| Baseline suppression | DONE |
+| Baseline merge/update | DONE |
+| Severity gating (fail on severity) | DONE |
+| VDOM filtering | DONE |
+| SARIF output (for GitHub code scanning) | PLANNED |
+| CycloneDX SBOM-style output | PLANNED |
+| JUnit XML output (for CI) | PLANNED |
+| Dashboard HTML (interactive) | PLANNED |
+| Trend tracking across scans | PLANNED |
+| Finding deduplication across config sets | PLANNED |
+| Comparative reports (before/after) | PLANNED |
+
+---
+
+### TRACK 7: Test Coverage
+
+**Goal**: Every source module has comprehensive tests. Sentrux coverage target: 80%+.
+
+#### Current: 20% coverage (11/55 source files tested)
+#### Target: 80%+ coverage
+
+| Module | Lines | Tests | Coverage Status |
+|--------|-------|-------|-----------------|
+| parse.py | 315 | test_parse.py (83 lines) | GOOD |
+| facts.py | 179 | test_facts.py (333 lines) | GOOD |
+| schema.py | 100 | test_schema.py (123 lines) | GOOD |
+| rules.py | 76 | test_rules_catalog.py, test_rules_* | GOOD |
+| rules_impl.py | 760 | test_rules_new_controls*.py, test_rules_requested_*.py | GOOD |
+| versioning.py | 42 | test_versioning.py (32 lines) | GOOD |
+| cli.py | 347 | test_cli_scan.py (743 lines), test_cli_defaults.py | GOOD |
+| report.py | 478 | test_report.py (171 lines) | PARTIAL |
+| baseline.py | 125 | test_baseline.py (80 lines) | PARTIAL |
+| authority.py | 217 | test_authority.py (69 lines) | PARTIAL |
+| model.py | 31 | — | NEEDS TESTS |
+| util.py | 11 | — | NEEDS TESTS |
+| __init__.py | 1 | — | N/A |
+
+#### Test Expansion Plan
+| Task | Priority | Status |
+|------|----------|--------|
+| model.py unit tests | HIGH | PLANNED |
+| util.py unit tests | LOW | PLANNED |
+| report.py edge cases (empty, huge, unicode) | MEDIUM | PLANNED |
+| authority.py edge cases (ambiguous, missing) | MEDIUM | PLANNED |
+| baseline.py edge cases (merge, conflict) | MEDIUM | PLANNED |
+| Integration tests (full scan pipeline) | HIGH | PLANNED |
+| Fuzz tests for parser | MEDIUM | PLANNED |
+| Property-based tests for schema normalization | LOW | PLANNED |
+| Performance regression tests | MEDIUM | PLANNED |
+
+---
+
+### TRACK 8: Production Infrastructure
+
+**Goal**: CI/CD, packaging, distribution, and operational readiness.
+
+| Milestone | Status |
+|-----------|--------|
+| pyproject.toml packaging | DONE |
+| pip install -e . editable install | DONE |
+| CLI entry point (fgcheck command) | DONE |
+| GitHub Actions CI | PLANNED |
+| PyPI package publishing | PLANNED |
+| Docker container image | PLANNED |
+| Pre-commit hooks | PLANNED |
+| Release versioning (semver) | PLANNED |
+| Changelog generation | PLANNED |
+| Code of Conduct / Contributing guide | PLANNED |
+| API reference docs (sphinx/mkdocs) | PLANNED |
+| Performance benchmarks (CI) | PLANNED |
+| Supply chain security (sigstore, SBOM) | PLANNED |
+
+---
+
+### TRACK 9: Integration Ecosystem
+
+**Goal**: fgcheck works with the tools teams already use.
+
+| Integration | Description | Status |
+|-------------|-------------|--------|
+| GitHub code scanning | SARIF output for GitHub Security tab | PLANNED |
+| GitLab SAST | SARIF/JUnit output for GitLab CI | PLANNED |
+| Azure DevOps | SARIF extension for Azure Pipelines | PLANNED |
+| Ansible lint | Custom Ansible rule for FortiGate configs | PLANNED |
+| Terraform validate | Cross-reference with terraform plan output | PLANNED |
+| FortiManager export | Parse configs exported from FortiManager | PLANNED |
+| FortiCloud API | Pull configs via FortiCloud REST API | PLANNED |
+| Slack/Teams notifications | Alert on critical findings | PLANNED |
+| Jira integration | Auto-create issues for critical findings | PLANNED |
+| SIEM ingestion | Output findings to SIEM (CEF/LEEF format) | PLANNED |
+| MCP server | Expose fgcheck as an MCP tool for AI agents | PLANNED |
+| Python library API | Import fgcheck as a library, not just CLI | PLANNED |
+
+---
+
+## Version Support Tiers
+
+| Tier | Versions | Schema | Rules | Confidence |
+|------|----------|--------|-------|------------|
+| First-class | 7.4.x, 7.6.x, 8.0.x | Full field extraction | All waves | certain/likely |
+| Second-class | 7.0.x, 7.2.x | Table-only | Wave 1-2 only | likely/heuristic |
+| Future | 8.2.x+ | Add on release | All waves | certain/likely |
+
+---
+
+## Sentrux Quality Targets
+
+| Metric | Current | Target |
+|--------|---------|--------|
+| Quality signal | 0.6411 | 0.80+ |
+| Modularity | 0.3333 | 0.60+ |
+| Test coverage | 20% | 80%+ |
+| Acyclicity | 1.0 | 1.0 (maintain) |
+| Redundancy | 0.8893 | 0.90+ (maintain) |
+| Bus factor | 1.0 | 2.0+ |
+
+---
+
+## How This Roadmap Grows
+
+1. **Every completed item moves the frontier forward.** When a wave is done, the next wave becomes the active target.
+2. **New rules are added as schema coverage expands.** More fields = more things to check = more rules.
+3. **New FortiOS versions trigger schema re-extraction.** Each new version adds tables, fields, and potential rule changes.
+4. **Community and real-world feedback shapes priorities.** False positives from real configs refine rules. New config patterns expand the parser.
+5. **Compliance frameworks are added on demand.** Each new framework (SOC2, ISO 27001, etc.) adds a wave of rules.
+6. **Integration targets are added as ecosystem needs emerge.** If a team uses a new tool, fgcheck should work with it.
+
+This roadmap is never complete. It is a living document that grows with the project.

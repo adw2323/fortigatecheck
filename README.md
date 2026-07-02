@@ -132,6 +132,9 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - `FGT-SSLVPN-SRCADDR-ALL`
 - `FGT-IPSEC-WEAK-DH`
 - `FGT-NO-REMOTE-LOGGING`
+- `FGT-DNS-NO-ZT`
+- `FGT-NTP-NO-NTPS`
+- `FGT-SNMP-WEAK-COMMUNITY`
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`
@@ -148,6 +151,19 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - Derived schema: `docs/derived/schema/<version>/schema.json`
 - Derived CVE/PSIRT/KEV: `docs/derived/cves/cves.json`
 - Corpus builder: `scripts/build_corpus.py`
+
+## Authority Lookup
+Use authority lookup commands to validate FortiOS tables, commands, and fields against local deterministic schema data:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m fgcheck.cli lookup "system interface" --fortios 7.6 --format json
+python -m fgcheck.cli schema "firewall policy" --fortios 7.6 --strict
+python -m fgcheck.cli docs "vpn ipsec phase1-interface" --fortios 7.6
+```
+
+Results classify commands as `VALIDATED`, `PARTIALLY_VALIDATED`, or `UNKNOWN`.
+Strict mode exits non-zero unless validation is fully deterministic. Context7 or MCP output should pass through this lookup before being treated as executable FortiOS syntax.
 
 ## Tests
 ```powershell
