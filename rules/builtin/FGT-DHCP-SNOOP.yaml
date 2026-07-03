@@ -1,0 +1,5 @@
+id: FGT-DHCP-SNOOP
+title: Switch controller interface lacks DHCP snooping
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_dhcp_snoop

@@ -1,0 +1,5 @@
+id: FGT-IFACE-NO-VLAN-SECURITY
+title: Switch controller interface lacks access VLAN security
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_iface_no_vlan_security

@@ -1950,3 +1950,99 @@ def rule_fgfm_default_override(
         ))
 
     return out
+
+
+# ---------------------------------------------------------------------------
+# Wave 2 — FGT-IFACE-NO-VLAN-SECURITY
+# ---------------------------------------------------------------------------
+
+def rule_iface_no_vlan_security(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
+    """Detect switch controller-managed interfaces without access VLAN security."""
+    tables = model.vdoms.get(vdom, {})
+    intf_table = get_table(tables, ("system", "interface"))
+    out: List[Finding] = []
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "interface"), "switch-controller-access-vlan")
+    if not supported:
+        return out
+
+    for ifname, inode in intf_table.items():
+        if not isinstance(inode, Node):
+            continue
+        # Only check interfaces managed by the switch controller
+        sc_feature = as_list(inode.fields.get("switch-controller-feature"))
+        if not sc_feature:
+            continue
+        access_vlan = str(inode.fields.get("switch-controller-access-vlan", "")).strip()
+        if access_vlan == "enable":
+            continue
+        ev = []
+        if "set:switch-controller-access-vlan" in inode.evidence:
+            ev.append(inode.evidence["set:switch-controller-access-vlan"])
+        elif "set:switch-controller-feature" in inode.evidence:
+            ev.append(inode.evidence["set:switch-controller-feature"])
+        msg = (
+            f'Interface "{ifname}" is managed by the switch controller '
+            f'(feature: {", ".join(sc_feature)}) but access VLAN security '
+            f"is not enabled. Without access VLAN filtering, the port may "
+            f"allow traffic from unauthorized VLANs."
+        )
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        ))
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Wave 2 — FGT-DHCP-SNOOP
+# ---------------------------------------------------------------------------
+
+def rule_dhcp_snoop(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
+    """Detect switch controller-managed interfaces without DHCP snooping."""
+    tables = model.vdoms.get(vdom, {})
+    intf_table = get_table(tables, ("system", "interface"))
+    out: List[Finding] = []
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "interface"), "switch-controller-dhcp-snooping")
+    if not supported:
+        return out
+
+    for ifname, inode in intf_table.items():
+        if not isinstance(inode, Node):
+            continue
+        # Only check interfaces managed by the switch controller
+        sc_feature = as_list(inode.fields.get("switch-controller-feature"))
+        if not sc_feature:
+            continue
+        dhcp_snoop = str(inode.fields.get("switch-controller-dhcp-snooping", "")).strip()
+        if dhcp_snoop == "enable":
+            continue
+        ev = []
+        if "set:switch-controller-dhcp-snooping" in inode.evidence:
+            ev.append(inode.evidence["set:switch-controller-dhcp-snooping"])
+        elif "set:switch-controller-feature" in inode.evidence:
+            ev.append(inode.evidence["set:switch-controller-feature"])
+        msg = (
+            f'Interface "{ifname}" is managed by the switch controller '
+            f'(feature: {", ".join(sc_feature)}) but DHCP snooping '
+            f"is not enabled. Without DHCP snooping, rogue DHCP servers "
+            f"on this network segment can assign malicious IP configurations."
+        )
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        ))
+    return out

@@ -13,10 +13,10 @@ Last updated: 2026-07-02
 ### By the Numbers
 | Metric | Value | Trend |
 |--------|-------|-------|
-| Tests passing | 289 | Up from 275 |
+| Tests passing | 336 | Up from 289 |
 | Source files | 13 modules | Growing |
-| Test files | 28 | Growing |
-| Builtin rules | 28 | Up from 26 |
+| Test files | 31 | Growing |
+| Builtin rules | 30 | Up from 28 |
 | Schema versions | 3 (7.4, 7.6, 8.0) | Up from 2 |
 | Quality signal (Sentrux) | 0.6411 | Target: 0.80+ |
 | Test coverage (Sentrux) | 20% | Target: 80%+ |
@@ -73,8 +73,8 @@ Start with critical/likely findings, expand to best-practice and hardening check
 | FGT-ADMIN-NO-IDLE-TIMEOUT | Admin | high | DONE |
 | FGT-FIRMWARE-OUTDATED | Firmware | high | DONE |
 | FGT-DNS-DEFAULT-ONLY | DNS | medium | DONE |
-| FGT-DHCP-SNOOP | DHCP | medium | PLANNED |
-| FGT-IFACE-NO-VLAN-SECURITY | Interface | medium | PLANNED |
+| FGT-DHCP-SNOOP | DHCP | medium | DONE |
+| FGT-IFACE-NO-VLAN-SECURITY | Interface | medium | DONE |
 | FGT-FGFM-DEFAULT-OVERRIDE | FortiGuard | medium | DONE |
 || FGT-CERT-EXPIRING | Certificate | high | DONE |
 | FGT-SSH-WEAK-CIPHERS | SSH | high | DONE |
@@ -275,7 +275,7 @@ Rules that cross-reference CVE/PSIRT/KEV data with config:
 
 **Goal**: Every source module has comprehensive tests. Sentrux coverage target: 80%+.
 
-#### Current: 20% coverage (11/55 source files tested)
+#### Current: 336 tests, 31 test files, 30 rules
 #### Target: 80%+ coverage
 
 | Module | Lines | Tests | Coverage Status |
@@ -284,21 +284,21 @@ Rules that cross-reference CVE/PSIRT/KEV data with config:
 | facts.py | 179 | test_facts.py (333 lines) | GOOD |
 | schema.py | 100 | test_schema.py (123 lines) | GOOD |
 | rules.py | 76 | test_rules_catalog.py, test_rules_* | GOOD |
-| rules_impl.py | 760 | test_rules_new_controls*.py, test_rules_requested_*.py | GOOD |
+| rules_impl.py | 2050 | test_rules_new_controls*.py, test_rules_requested_*.py, test_rules_iface_no_vlan_security.py, test_rules_dhcp_snoop.py | GOOD |
 | versioning.py | 42 | test_versioning.py (32 lines) | GOOD |
 | cli.py | 347 | test_cli_scan.py (743 lines), test_cli_defaults.py | GOOD |
 | report.py | 478 | test_report.py (171 lines) | PARTIAL |
 | baseline.py | 125 | test_baseline.py (80 lines) | PARTIAL |
 | authority.py | 217 | test_authority.py (69 lines) | PARTIAL |
-| model.py | 31 | — | NEEDS TESTS |
-| util.py | 11 | — | NEEDS TESTS |
+| model.py | 31 | test_model.py (19 tests) | GOOD |
+| util.py | 11 | test_util.py (10 tests) | GOOD |
 | __init__.py | 1 | — | N/A |
 
 #### Test Expansion Plan
 | Task | Priority | Status |
 |------|----------|--------|
-| model.py unit tests | HIGH | PLANNED |
-| util.py unit tests | LOW | PLANNED |
+| model.py unit tests | HIGH | DONE |
+| util.py unit tests | LOW | DONE |
 | report.py edge cases (empty, huge, unicode) | MEDIUM | PLANNED |
 | authority.py edge cases (ambiguous, missing) | MEDIUM | PLANNED |
 | baseline.py edge cases (merge, conflict) | MEDIUM | PLANNED |

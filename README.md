@@ -143,6 +143,8 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - `FGT-SNMP-NO-ACL`
 - `FGT-CERT-EXPIRING`
 - `FGT-FGFM-DEFAULT-OVERRIDE`
+- `FGT-IFACE-NO-VLAN-SECURITY`
+- `FGT-DHCP-SNOOP`
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`
