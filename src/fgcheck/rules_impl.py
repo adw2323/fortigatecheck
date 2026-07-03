@@ -1512,3 +1512,151 @@ def rule_ssh_weak_ciphers(
         )
 
     return out
+
+
+# ---------------------------------------------------------------------------
+# FGT-SNMP-NO-ACL
+# Detects SNMP communities configured without host ACL restrictions.
+#
+# When a FortiGate SNMP community has no hosts ACL configured, any host on
+# the network can query SNMP for system information. This information can be
+# used to fingerprint the device, enumerate interfaces, and identify services.
+#
+# Detection strategy (two signals):
+# 1. Community has a 'hosts' field set to 0.0.0.0 0.0.0.0 — unrestricted.
+# 2. Community has no 'hosts' field at all and no hosts sub-table entries
+#    exist in the model — no ACL whatsoever.
+#
+# The parser flattens nested 'config hosts' sub-tables to root level, losing
+# the parent community association. We handle this by:
+# - Checking each community node's own 'hosts' field (inline set syntax).
+# - If no community has hosts AND no hosts sub-table exists, all communities
+#   are flagged as unrestricted.
+# ---------------------------------------------------------------------------
+
+
+def _hosts_is_unrestricted(hosts_val: object) -> bool:
+    """Return True if a community hosts field allows all hosts."""
+    if isinstance(hosts_val, list):
+        # Parser stores 'set hosts 0.0.0.0 0.0.0.0' as ['0.0.0.0', '0.0.0.0']
+        if len(hosts_val) >= 2 and hosts_val[0] == "0.0.0.0":
+            return True
+    elif isinstance(hosts_val, str):
+        if hosts_val.strip() in ("0.0.0.0/0", "0.0.0.0 0.0.0.0"):
+            return True
+    return False
+
+
+def rule_snmp_no_acl(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect SNMP communities without host ACL restrictions."""
+    out: List[Finding] = []
+
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("system", "snmp", "community"), "name"
+    )
+    if not supported:
+        return out
+
+    tables = model.vdoms.get(vdom, {})
+    snmp_table = get_table(tables, ("system", "snmp", "community"))
+
+    # Collect all community entries
+    communities: list[dict] = []
+    for entry_name, node in snmp_table.items():
+        if not isinstance(node, Node):
+            continue
+        communities.append({
+            "name": str(node.fields.get("name", f"community-{entry_name}")).strip(),
+            "entry": entry_name,
+            "node": node,
+            "has_hosts_field": "hosts" in node.fields,
+            "hosts_field": node.fields.get("hosts"),
+        })
+
+    if not communities:
+        return out
+
+    # Check if any hosts sub-table entries exist in the model
+    hosts_table = get_table(tables, ("hosts",))
+    has_any_host_entry = any(
+        isinstance(v, Node) for k, v in hosts_table.items() if k != "__path__"
+    )
+
+    for comm in communities:
+        name = comm["name"]
+        node = comm["node"]
+
+        # Signal 1: community has hosts field set to 0.0.0.0/0 (unrestricted)
+        if comm["has_hosts_field"]:
+            if _hosts_is_unrestricted(comm["hosts_field"]):
+                ev: List[Evidence] = []
+                if "set:name" in node.evidence:
+                    ev.append(node.evidence["set:name"])
+                if "set:hosts" in node.evidence:
+                    ev.append(node.evidence["set:hosts"])
+                if not ev:
+                    continue
+                msg = (
+                    f'SNMP community "{name}" has a hosts ACL of 0.0.0.0/0, '
+                    f"allowing any host to query SNMP. Restrict to authorized "
+                    f"management stations only."
+                )
+                if schema_unknown:
+                    msg = f"[schema_unknown] {msg}"
+                out.append(Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                ))
+            # Community has specific hosts — skip
+            continue
+
+        # Signal 2: community has no hosts field at all
+        # Only flag if no hosts sub-table exists in the model either,
+        # because the sub-table might contain its ACL (parser flattening
+        # means we can't tell which community owns the sub-table entries).
+        if has_any_host_entry:
+            # Hosts sub-table exists — some community has ACL, we can't tell
+            # which ones are restricted vs unrestricted due to parser flattening.
+            # Skip rather than produce false positives.
+            continue
+
+        # No hosts field on community AND no hosts sub-table anywhere
+        ev2: List[Evidence] = []
+        if "set:name" in node.evidence:
+            ev2.append(node.evidence["set:name"])
+        if not ev2:
+            continue
+
+        msg = (
+            f'SNMP community "{name}" has no host ACL configured. '
+            f"Any host on the network can query SNMP for system "
+            f"information, including interface addresses, routing tables, "
+            f"and device version. Configure a hosts ACL to restrict "
+            f"SNMP access to authorized management stations."
+        )
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev2,
+        ))
+
+    return out

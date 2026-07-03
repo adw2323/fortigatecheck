@@ -1,0 +1,5 @@
+id: FGT-SNMP-NO-ACL
+title: SNMP community has no host ACL restriction
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_snmp_no_acl

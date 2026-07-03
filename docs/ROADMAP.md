@@ -13,10 +13,10 @@ Last updated: 2026-07-02
 ### By the Numbers
 | Metric | Value | Trend |
 |--------|-------|-------|
-| Tests passing | 251 | Up from 228 |
+| Tests passing | 263 | Up from 251 |
 | Source files | 13 modules | Growing |
 | Test files | 26 | Growing |
-| Builtin rules | 25 | Up from 24 |
+| Builtin rules | 26 | Up from 25 |
 | Schema versions | 3 (7.4, 7.6, 8.0) | Up from 2 |
 | Quality signal (Sentrux) | 0.6411 | Target: 0.80+ |
 | Test coverage (Sentrux) | 20% | Target: 80%+ |
@@ -78,7 +78,7 @@ Start with critical/likely findings, expand to best-practice and hardening check
 | FGT-FGFM-DEFAULT-OVERRIDE | FortiGuard | medium | PLANNED |
 | FGT-CERT-EXPIRING | Certificate | high | PLANNED |
 | FGT-SSH-WEAK-CIPHERS | SSH | high | DONE |
-| FGT-SNMP-NO-ACL | SNMP | medium | PLANNED |
+| FGT-SNMP-NO-ACL | SNMP | medium | DONE |
 
 #### Wave 3 — Deep Inspection (target: +15 rules)
 | Rule | Category | Severity | Status |
