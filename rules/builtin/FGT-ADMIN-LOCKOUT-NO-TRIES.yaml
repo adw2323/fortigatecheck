@@ -1,0 +1,5 @@
+id: FGT-ADMIN-LOCKOUT-NO-TRIES
+title: Administrator lockout not configured
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_lockout_no_tries

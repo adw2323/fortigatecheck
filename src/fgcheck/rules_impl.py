@@ -2534,3 +2534,166 @@ def rule_dlp_no_sensor(
         evidence=ev,
     ))
     return out
+
+
+def rule_admin_lockout_no_tries(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect administrator accounts without lockout threshold configured.
+
+    Without lockout protection, brute-force password attacks against
+    administrator accounts will never be blocked. Best practice is to
+    set a lockout threshold (e.g. 3-5 attempts) and a lockout duration.
+    """
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+
+    # Check schema support
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("system", "global"), "admin-lockout-threshold"
+    )
+    if not supported:
+        return out
+
+    # config system global may be in global scope or vdom scope
+    global_table = get_table(model.global_cfg, ("system", "global"))
+    vdom_table = get_table(tables, ("system", "global"))
+    node_global = global_table.get("__singleton__") if global_table else None
+    node_vdom = vdom_table.get("__singleton__") if vdom_table else None
+    node = node_global if isinstance(node_global, Node) else node_vdom
+
+    if not isinstance(node, Node):
+        # No admin config found — factory default = no lockout
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=rule.confidence,
+            vdom=vdom,
+            message=(
+                "Administrator lockout is not configured (factory default). "
+                "Without a lockout threshold, brute-force password attacks "
+                "against admin accounts will never be blocked. Configure "
+                "\"set admin-lockout-threshold\" in \"config system global\"."
+            ),
+            evidence=[],
+        ))
+        return out
+
+    raw = node.effective_fields().get("admin-lockout-threshold")
+    if raw is None:
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=rule.confidence,
+            vdom=vdom,
+            message=(
+                "Administrator lockout threshold is not set. Without a "
+                "lockout threshold, brute-force password attacks against "
+                "admin accounts will never be blocked. Configure "
+                "\"set admin-lockout-threshold\" in \"config system global\"."
+            ),
+            evidence=[],
+        ))
+        return out
+
+    try:
+        threshold = int(str(raw))
+    except (ValueError, TypeError):
+        return out
+
+    if threshold == 0:
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=rule.confidence,
+            vdom=vdom,
+            message=(
+                "Administrator lockout threshold is set to 0 (disabled). "
+                "Brute-force password attacks against admin accounts will "
+                "never be blocked. Set a non-zero threshold (recommended: 3-5)."
+            ),
+            evidence=[],
+        ))
+
+    return out
+
+
+def rule_ha_no_heartbeat(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect HA configuration without heartbeat interface or with unencrypted heartbeat.
+
+    HA heartbeat traffic is critical for failover. Without a dedicated
+    heartbeat interface, heartbeat traffic shares the data plane, risking
+    split-brain scenarios. Unencrypted heartbeat traffic can be intercepted
+    and used to manipulate failover state.
+    """
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+
+    # Check schema support
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("system", "ha"), "hbdev"
+    )
+    if not supported:
+        return out
+
+    # config system ha may be in global scope or vdom scope
+    global_table = get_table(model.global_cfg, ("system", "ha"))
+    vdom_table = get_table(tables, ("system", "ha"))
+    node_global = global_table.get("__singleton__") if global_table else None
+    node_vdom = vdom_table.get("__singleton__") if vdom_table else None
+    node = node_global if isinstance(node_global, Node) else node_vdom
+
+    if not isinstance(node, Node):
+        return out  # No HA config — not in HA mode
+
+    fields = node.effective_fields()
+
+    # Check heartbeat device
+    hbdev = fields.get("hbdev")
+    if hbdev is None or (isinstance(hbdev, str) and hbdev.strip() == ""):
+        ev = []
+        if "set:hbdev" in node.evidence:
+            ev.append(node.evidence["set:hbdev"])
+        msg = "HA configuration has no heartbeat interface (hbdev). Without a dedicated heartbeat interface, HA heartbeat traffic shares the data plane, risking split-brain scenarios."
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        ))
+
+    # Check for unencrypted heartbeat
+    hbdev_val = str(hbdev).strip() if hbdev else ""
+    if hbdev_val and "cluster-key" not in fields:
+        ev = []
+        if "set:hbdev" in node.evidence:
+            ev.append(node.evidence["set:hbdev"])
+        msg = (
+            f"HA heartbeat interface \"{hbdev_val}\" is configured but "
+            f"cluster encryption key (cluster-key) is not set. HA heartbeat "
+            f"traffic is unencrypted and can be intercepted. Configure "
+            f"\"set cluster-key\" to encrypt heartbeat traffic."
+        )
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        ))
+
+    return out

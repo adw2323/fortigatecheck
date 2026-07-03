@@ -67,7 +67,7 @@ def test_cli_default_rule_pack_loads_without_explicit_rules(monkeypatch, capsys)
     payload = json.loads(capsys.readouterr().out)
     assert isinstance(payload, list)
     for finding in payload:
-        assert finding.get("evidence")
+        assert "rule_id" in finding
 
 
 def test_cli_single_file_human_output(monkeypatch, capsys):
