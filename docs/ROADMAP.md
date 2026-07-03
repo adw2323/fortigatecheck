@@ -13,10 +13,10 @@ Last updated: 2026-07-02
 ### By the Numbers
 | Metric | Value | Trend |
 |--------|-------|-------|
-| Tests passing | 365 | Up from 352 |
+| Tests passing | 379 | Up from 365 |
 | Source files | 13 modules | Growing |
-| Test files | 33 | Growing |
-| Builtin rules | 32 | Up from 31 |
+| Test files | 34 | Growing |
+| Builtin rules | 33 | Up from 32 |
 | Schema versions | 3 (7.4, 7.6, 8.0) | Up from 2 |
 | Quality signal (Sentrux) | 0.6411 | Target: 0.80+ |
 | Test coverage (Sentrux) | 20% | Target: 80%+ |
@@ -84,7 +84,7 @@ Start with critical/likely findings, expand to best-practice and hardening check
 | Rule | Category | Severity | Status |
 |------|----------|----------|--------|
 | FGT-IPS-DEFAULT-SIGNATURE | IPS | medium | DONE |
-| FGT-WEBFILTER-DEFAULT-OVERRIDE | Web filter | medium | PLANNED |
+| FGT-WEBFILTER-DEFAULT-OVERRIDE | Web filter | medium | DONE |
 | FGT-AV-NO-HEURISTIC | Antivirus | medium | PLANNED |
 | FGT-DLP-NO-SENSOR | DLP | low | PLANNED |
 | FGT-WAF-NO-PROFILE | WAF | medium | PLANNED |
