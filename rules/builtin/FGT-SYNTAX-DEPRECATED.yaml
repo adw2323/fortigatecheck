@@ -1,0 +1,5 @@
+id: FGT-SYNTAX-DEPRECATED
+title: Deprecated FortiOS syntax detected
+severity: low
+confidence: certain
+entrypoint: fgcheck.rules_syntax:rule_deprecated_syntax
