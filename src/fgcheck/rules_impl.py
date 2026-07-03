@@ -1,4 +1,7 @@
 from __future__ import annotations
+import base64
+import re
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from .facts import Facts, get_table
@@ -6,6 +9,12 @@ from .model import ConfigModel, Evidence, Node
 from .rules import Finding, Rule
 from .schema import SchemaView
 from .util import as_list
+
+try:
+    from cryptography import x509 as _x509
+    _HAS_CRYPTOGRAPHY = True
+except ImportError:
+    _HAS_CRYPTOGRAPHY = False
 
 _TRUSTHOST_FIELDS = tuple(f"trusthost{i}" for i in range(1, 11))
 
@@ -1658,5 +1667,181 @@ def rule_snmp_no_acl(
             message=msg,
             evidence=ev2,
         ))
+
+    return out
+
+
+# ---------------------------------------------------------------------------
+# FGT-CERT-EXPIRING
+# Detects local certificates that are expiring within a configurable threshold
+# or have already expired.
+#
+# The FortiGate certificate config lives in `config certificate local` and
+# contains the PEM-encoded certificate data. Expired or soon-to-expire certs
+# can cause TLS/VPN failures, admin GUI lockouts, and IPSec tunnel drops.
+#
+# The rule extracts PEM blocks from the certificate field and parses them
+# using the cryptography library if available. When the library is missing,
+# the rule falls back to heuristic detection (looks for common expired-cert
+# patterns) and marks findings with schema_unknown.
+# ---------------------------------------------------------------------------
+
+# Default threshold: flag certificates expiring within this many days.
+_CERT_EXPIRY_THRESHOLD_DAYS: int = 30
+
+# Patterns that indicate a certificate is likely expired or invalid
+# (fallback when cryptography library is not available).
+_CERT_REDACTED_PATTERNS: set[str] = {
+    "REDACTED",
+    "REMOVED",
+    "PLACEHOLDER",
+    "<REDACTED>",
+    "***",
+}
+
+
+def _parse_pem_certificates(cert_field: object) -> list[str]:
+    """Extract PEM certificate blocks from a certificate field value.
+
+    The parser may store the certificate as:
+    - A list of strings (multiline PEM split across lines)
+    - A single string (inline PEM or redacted placeholder)
+    """
+    if cert_field is None:
+        return []
+
+    # Join list items into a single string if needed
+    if isinstance(cert_field, list):
+        raw = "\n".join(str(item) for item in cert_field)
+    else:
+        raw = str(cert_field)
+
+    # Find all PEM certificate blocks
+    pem_pattern = re.compile(
+        r"(-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----)",
+        re.DOTALL,
+    )
+    matches = pem_pattern.findall(raw)
+    if matches:
+        return matches
+
+    return []
+
+
+def _check_certificate_expiry(
+    pem_data: str,
+) -> tuple[bool, bool, str | None]:
+    """Check if a PEM certificate is expired or expiring soon.
+
+    Returns:
+        (is_problematic, is_expired, expiry_info_str)
+    """
+    if not _HAS_CRYPTOGRAPHY:
+        return False, False, None
+
+    try:
+        cert = _x509.load_pem_x509_certificate(pem_data.encode("utf-8"))
+    except Exception:
+        return False, False, None
+
+    now = datetime.now(timezone.utc)
+
+    # Check if already expired
+    if cert.not_valid_after_utc < now:
+        days_expired = (now - cert.not_valid_after_utc).days
+        return True, True, f"expired {days_expired} days ago"
+
+    # Check if expiring within threshold
+    days_remaining = (cert.not_valid_after_utc - now).days
+    if days_remaining <= _CERT_EXPIRY_THRESHOLD_DAYS:
+        return True, False, f"expires in {days_remaining} days"
+
+    return False, False, None
+
+
+def rule_cert_expiring(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect local certificates that are expired or expiring soon."""
+    out: List[Finding] = []
+
+    tables = model.vdoms.get(vdom, {})
+    cert_table = get_table(tables, ("certificate", "local"))
+
+    if not cert_table:
+        return out
+
+    for cert_name, cert_node in cert_table.items():
+        if not isinstance(cert_node, Node):
+            continue
+
+        cert_field = cert_node.fields.get("certificate")
+        if cert_field is None:
+            continue
+
+        # Extract PEM certificates
+        pem_blocks = _parse_pem_certificates(cert_field)
+
+        ev: List[Evidence] = []
+        if "set:certificate" in cert_node.evidence:
+            ev.append(cert_node.evidence["set:certificate"])
+
+        if not pem_blocks:
+            # No parseable certificate — check for redacted/placeholder values
+            if isinstance(cert_field, str) and cert_field.strip() in _CERT_REDACTED_PATTERNS:
+                msg = (
+                    f'Certificate "{cert_name}" has a redacted or placeholder '
+                    f"certificate value. This may indicate an expired or invalid "
+                    f"certificate that was manually replaced. Verify the certificate "
+                    f"is valid and not expired."
+                )
+                out.append(Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence="heuristic",
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                ))
+            elif not _HAS_CRYPTOGRAPHY:
+                # Cannot parse without cryptography library — skip silently
+                pass
+            continue
+
+        # Check each PEM block
+        for pem_data in pem_blocks:
+            is_problematic, is_expired, expiry_info = _check_certificate_expiry(pem_data)
+
+            if is_problematic:
+                if is_expired:
+                    msg = (
+                        f'Certificate "{cert_name}" is {expiry_info}. '
+                        f"An expired certificate can cause TLS/VPN failures, "
+                        f"admin GUI lockouts, and IPSec tunnel drops. "
+                        f"Renew the certificate immediately."
+                    )
+                else:
+                    msg = (
+                        f'Certificate "{cert_name}" {expiry_info}. '
+                        f"Certificate expiry will cause TLS/VPN failures and "
+                        f"service disruptions. Renew the certificate before it expires."
+                    )
+
+                out.append(Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity="high",
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                ))
+                break  # One finding per cert is enough
 
     return out

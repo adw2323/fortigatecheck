@@ -1,0 +1,5 @@
+id: FGT-CERT-EXPIRING
+title: Local certificate is expiring or already expired
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_cert_expiring

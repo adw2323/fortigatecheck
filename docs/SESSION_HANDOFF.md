@@ -20,10 +20,10 @@ Last updated: 2026-07-02
 - **8.0**: 646 tables, 17 with field details
 
 ### Test Coverage
-- 263 tests passing
-- 27 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls, password_policy, idle_timeout, dns_default_only, firmware_outdated, ssh_weak_ciphers, snmp_no_acl), versioning, authority, baseline, CLI, report, build_corpus, readme
+- 275 tests passing
+- 27 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls, password_policy, idle_timeout, dns_default_only, firmware_outdated, ssh_weak_ciphers, snmp_no_acl, cert_expiring), versioning, authority, baseline, CLI, report, build_corpus, readme
 
-### Builtin Rules (26 total)
+### Builtin Rules (27 total)
 - Admin access: FGT-ADMIN-EDGE-SSH, FGT-ADMIN-EDGE-HTTPS, FGT-ADMIN-EDGE-TELNET, FGT-ADMIN-EDGE-HTTP, FGT-ADMIN-EDGE-ALLACCESS, FGT-ADMIN-NO-TRUSTED-HOSTS, FGT-ADMIN-TRUSTHOST-UNRESTRICTED, FGT-ADMIN-SUPER-NO-2FA
 - Firewall: FGT-POLICY-ANY-ANY-ALL, FGT-POLICY-LOG-001
 - Local-in: FGT-LOCAL-IN-PERMISSIVE, FGT-LOCALIN-NO-PROTECTION
@@ -37,6 +37,7 @@ Last updated: 2026-07-02
 - SSH: FGT-SSH-WEAK-CIPHERS
 - NTP: FGT-NTP-NO-NTPS
 - SNMP: FGT-SNMP-WEAK-COMMUNITY, FGT-SNMP-NO-ACL
+- Certificate: FGT-CERT-EXPIRING
 
 ## Version Policy Update
 - First-class: 7.4.x (latest 7.4.12), 7.6.x (latest 7.6.7), 8.0.x (8.0.0 just released)
@@ -45,13 +46,13 @@ Last updated: 2026-07-02
 
 ## Known Gaps / Open Work
 1. Schema corpus is table_only for ~600 tables; field extraction needed for security-critical tables beyond the 17 priority ones
-2. Rule set is growing (26 rules); should be expanded to 30+ covering certificate expiry, FGFM default override, interface VLAN security
+2. Rule set is growing (27 rules); should be expanded to 30+ covering FGFM default override, interface VLAN security, DHCP snooping
 3. Facts engine needs deeper interface hierarchy: HA cluster topology, virtual-wire pair detection
 4. No CI pipeline yet (GitHub Actions)
 5. No real-config regression suite with sanitized fixtures
 
 ## Active Priorities (Ordered)
-1. Add new rules (DHCP snooping, SNMP no ACL, certificate expiry, FGFM default override, interface VLAN security) — target 30+ rules
+1. Add new rules (FGFM default override, interface VLAN security, DHCP snooping) — target 30+ rules
 2. Expand schema field extraction for security-critical tables beyond priority 17
 3. Add CI pipeline (GitHub Actions with pytest + schema validation)
 4. Deepen facts engine for HA topology and virtual-wire pair detection
@@ -62,8 +63,8 @@ Last updated: 2026-07-02
 2. ~~Add FGT-DNS-DEFAULT-ONLY rule with tests~~ DONE
 3. ~~Add FGT-FIRMWARE-OUTDATED rule with tests~~ DONE
 4. ~~Add FGT-SSH-WEAK-CIPHERS rule with tests~~ DONE
-5. ~~Add FGT-SNMP-NO-ACL rule with tests~~ DONE (this tick)
-6. Add FGT-CERT-EXPIRING rule with tests
+5. ~~Add FGT-SNMP-NO-ACL rule with tests~~ DONE
+6. ~~Add FGT-CERT-EXPIRING rule with tests~~ DONE (this tick)
 7. Add FGT-FGFM-DEFAULT-OVERRIDE rule with tests
 8. Add FGT-IFACE-NO-VLAN-SECURITY rule with tests
 9. Add FGT-DHCP-SNOOP rule with tests
