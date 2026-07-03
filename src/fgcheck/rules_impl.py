@@ -1346,3 +1346,169 @@ def rule_firmware_outdated(
     ))
 
     return out
+
+
+# ---------------------------------------------------------------------------
+# FGT-SSH-WEAK-CIPHERS
+# Detects SSH service configured with weak ciphers, weak key-exchange
+# algorithms, or weak MAC algorithms on the FortiGate.
+#
+# The FortiGate SSH config lives in `config system ssh-config` and controls
+# the SSH server (management access) and the SSH client (outgoing SSH).
+# Weak ciphers/exchange algorithms reduce the security of management plane
+# access and can be exploited by man-in-the-middle attackers.
+#
+# Schema status: system ssh-config is table_only in all versions.
+# This rule therefore always runs at heuristic confidence.
+# ---------------------------------------------------------------------------
+
+_WEAK_SSH_CIPHERS: set[str] = {
+    "3des-cbc",
+    "aes128-cbc",
+    "aes192-cbc",
+    "aes256-cbc",
+    "blowfish-cbc",
+    "arcfour",
+    "arcfour-md5",
+    "cast128-cbc",
+}
+
+_WEAK_SSH_KEX: set[str] = {
+    "diffie-hellman-group1-sha1",
+    "diffie-hellman-group14-sha1",
+    "diffie-hellman-group-exchange-sha1",
+}
+
+_WEAK_SSH_MAC: set[str] = {
+    "hmac-md5",
+    "hmac-md5-96",
+    "hmac-sha1-96",
+}
+
+
+def _check_ssh_config_field(
+    node: "Node",
+    field: str,
+    weak_set: set[str],
+    label: str,
+    rule: "Rule",
+    vdom: str,
+    schema_unknown: bool,
+) -> list["Finding"]:
+    """Check a single SSH config field for weak values."""
+    findings: list["Finding"] = []
+    raw = str(node.fields.get(field, "")).strip().lower()
+    if not raw:
+        return findings
+
+    # ssh-key-exchange may contain multiple space-separated algorithms
+    values = [v.strip() for v in raw.split() if v.strip()]
+    weak_found = [v for v in values if v in weak_set]
+    if not weak_found:
+        return findings
+
+    ev: list["Evidence"] = []
+    evidence_key = f"set:{field}"
+    if evidence_key in node.evidence:
+        ev.append(node.evidence[evidence_key])
+
+    if not ev:
+        return findings
+
+    msg = (
+        f"SSH config field '{field}' contains weak {label}: "
+        f"{', '.join(weak_found)}. "
+        f"Weak {label} can be exploited by man-in-the-middle attacks "
+        f"to downgrade the security of management plane SSH connections. "
+        f"Replace with strong alternatives (e.g. AES-CTR, "
+        f"diffie-hellman-group14-sha256, hmac-sha2-256)."
+    )
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+
+    findings.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
+    return findings
+
+
+def rule_ssh_weak_ciphers(
+    *,
+    model: "ConfigModel",
+    facts: "Facts",
+    vdom: str,
+    rule: "Rule",
+    schema: Optional["SchemaView"] = None,
+) -> list["Finding"]:
+    """Detect SSH service configured with weak ciphers, key-exchange, or MAC."""
+    out: list["Finding"] = []
+
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("system", "ssh-config"), "ssh-cipher-1"
+    )
+    if not supported:
+        return out
+
+    # ssh-config is a singleton — check both global and vdom scope
+    global_table = get_table(model.global_cfg, ("system", "ssh-config"))
+    vdom_table = get_table(model.vdoms.get(vdom, {}), ("system", "ssh-config"))
+
+    node_global = global_table.get("__singleton__")
+    node_vdom = vdom_table.get("__singleton__")
+    node = node_global if isinstance(node_global, Node) else node_vdom
+    if not isinstance(node, Node):
+        return out
+
+    # Check incoming SSH server ciphers (ssh-cipher-1, ssh-cipher-2, ssh-cipher-3)
+    for field in ("ssh-cipher-1", "ssh-cipher-2", "ssh-cipher-3"):
+        out.extend(
+            _check_ssh_config_field(
+                node, field, _WEAK_SSH_CIPHERS, "ciphers",
+                rule, vdom, schema_unknown,
+            )
+        )
+
+    # Check key-exchange algorithms
+    out.extend(
+        _check_ssh_config_field(
+            node, "ssh-key-exchange", _WEAK_SSH_KEX,
+            "key-exchange algorithms", rule, vdom, schema_unknown,
+        )
+    )
+
+    # Check MAC algorithms
+    for field in ("ssh-local-mac",):
+        out.extend(
+            _check_ssh_config_field(
+                node, field, _WEAK_SSH_MAC, "MAC algorithms",
+                rule, vdom, schema_unknown,
+            )
+        )
+
+    # Check outgoing SSH client ciphers
+    for field in ("ssh-local-cipher",):
+        out.extend(
+            _check_ssh_config_field(
+                node, field, _WEAK_SSH_CIPHERS, "ciphers",
+                rule, vdom, schema_unknown,
+            )
+        )
+
+    # Check outgoing SSH client key exchange
+    for field in ("ssh-local-kex",):
+        out.extend(
+            _check_ssh_config_field(
+                node, field, _WEAK_SSH_KEX,
+                "key-exchange algorithms", rule, vdom, schema_unknown,
+            )
+        )
+
+    return out

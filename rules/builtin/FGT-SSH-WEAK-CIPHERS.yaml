@@ -1,0 +1,5 @@
+id: FGT-SSH-WEAK-CIPHERS
+title: SSH service allows weak ciphers or key-exchange algorithms
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ssh_weak_ciphers

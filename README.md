@@ -139,6 +139,7 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - `FGT-ADMIN-NO-IDLE-TIMEOUT`
 - `FGT-DNS-DEFAULT-ONLY`
 - `FGT-FIRMWARE-OUTDATED`
+- `FGT-SSH-WEAK-CIPHERS`
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`
