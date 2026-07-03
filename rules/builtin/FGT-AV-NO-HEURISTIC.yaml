@@ -1,0 +1,5 @@
+id: FGT-AV-NO-HEURISTIC
+title: Antivirus profile configured without heuristic scanning
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_av_no_heuristic

@@ -2291,3 +2291,118 @@ def rule_webfilter_default_override(
         evidence=ev,
     ))
     return out
+
+
+# FGT-AV-NO-HEURISTIC
+# ---------------------------------------------------------------------------
+
+# Protocol sub-table names that appear inside antivirus profile edit blocks.
+# The parser flattens these to root-level tables (e.g. ``("http",)``).
+_AV_PROTOCOL_TABLES = ("http", "ftp", "imap", "pop3", "smtp", "smb", "nntp")
+
+
+def rule_av_no_heuristic(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect antivirus profiles configured without heuristic scanning.
+
+    FortiGate antivirus profiles define per-protocol scanning behaviour
+    inside ``config antivirus profile``.  Each protocol section (http,
+    ftp, imap, pop3, smtp, smb, nntp) can enable heuristic analysis via
+    ``set heuristic enable``.
+
+    Heuristic ( behavioural ) analysis detects zero-day and polymorphic
+    malware that signature-based scanning alone may miss.  When profiles
+    exist but heuristic scanning is not enabled in any protocol section,
+    the antivirus posture relies entirely on known signatures.
+
+    This is flagged because:
+    - Signature-only scanning cannot detect novel or obfuscated malware.
+    - Heuristic scanning is a recommended best practice for all
+      production FortiGate deployments.
+    - Without heuristic, zero-day threats pass through undetected.
+    """
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+
+    # Schema check: ``antivirus profile`` is a table in the schema.
+    if schema is None or not schema.loaded:
+        schema_unknown = True
+    elif schema.has_table(("antivirus", "profile")):
+        schema_unknown = schema.partial
+    else:
+        return out  # table not in schema — skip
+
+    av_table = get_table(tables, ("antivirus", "profile"))
+    if not av_table:
+        return out
+
+    # Collect profile names (skip __singleton__ if present)
+    profile_names = [
+        name for name in av_table
+        if isinstance(av_table[name], Node)
+    ]
+    if not profile_names:
+        return out
+
+    # Check for heuristic scanning evidence in flattened protocol tables.
+    # The parser flattens ``config http`` (etc.) inside edit blocks to
+    # root-level tables.  We look for any ``set heuristic enable`` in
+    # those tables.
+    has_heuristic = False
+    heuristic_evidence: Optional[Evidence] = None
+    for proto in _AV_PROTOCOL_TABLES:
+        proto_table = get_table(tables, (proto,))
+        if not proto_table:
+            continue
+        for _name, node in proto_table.items():
+            if not isinstance(node, Node):
+                continue
+            if node.fields.get("heuristic") == "enable":
+                has_heuristic = True
+                if "set:heuristic" in node.evidence:
+                    heuristic_evidence = node.evidence["set:heuristic"]
+                break
+        if has_heuristic:
+            break
+
+    if has_heuristic:
+        return out  # heuristic is enabled somewhere — OK
+
+    # Build evidence from first profile
+    ev: List[Evidence] = []
+    for name in profile_names:
+        node = av_table[name]
+        if node.evidence:
+            for _, e in node.evidence.items():
+                ev.append(e)
+                break
+            if ev:
+                break
+
+    profile_list = ", ".join(f'"{n}"' for n in profile_names)
+    msg = (
+        f"Antivirus is configured with {len(profile_names)} profile(s) "
+        f"({profile_list}) but heuristic scanning is not enabled in any "
+        f"protocol section. Heuristic analysis detects zero-day and "
+        f"unknown malware that signature-based scanning alone may miss. "
+        f"Enable heuristic scanning in antivirus profile protocol sections."
+    )
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+
+    out.append(Finding(
+        rule_id=rule.id,
+        title=rule.title,
+        severity=rule.severity,
+        confidence=("heuristic" if schema_unknown else rule.confidence),
+        vdom=vdom,
+        message=msg,
+        evidence=ev,
+    ))
+    return out

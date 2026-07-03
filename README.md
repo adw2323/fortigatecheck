@@ -148,6 +148,7 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - `FGT-SSLVPN-NO-MFA`
 - `FGT-IPS-DEFAULT-SIGNATURE`
 - `FGT-WEBFILTER-DEFAULT-OVERRIDE`
+- `FGT-AV-NO-HEURISTIC`
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`
