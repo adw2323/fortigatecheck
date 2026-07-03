@@ -20,10 +20,10 @@ Last updated: 2026-07-02
 - **8.0**: 646 tables, 17 with field details
 
 ### Test Coverage
-- 336 tests passing
-- 31 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls, password_policy, idle_timeout, dns_default_only, firmware_outdated, ssh_weak_ciphers, snmp_no_acl, cert_expiring, fgfm_default_override, iface_no_vlan_security, dhcp_snoop), versioning, authority, baseline, CLI, report, build_corpus, readme, model, util
+- 352 tests passing
+- 32 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls, password_policy, idle_timeout, dns_default_only, firmware_outdated, ssh_weak_ciphers, snmp_no_acl, cert_expiring, fgfm_default_override, iface_no_vlan_security, dhcp_snoop, sslvpn_no_mfa), versioning, authority, baseline, CLI, report, build_corpus, readme, model, util
 
-### Builtin Rules (30 total)
+### Builtin Rules (31 total)
 - Admin access: FGT-ADMIN-EDGE-SSH, FGT-ADMIN-EDGE-HTTPS, FGT-ADMIN-EDGE-TELNET, FGT-ADMIN-EDGE-HTTP, FGT-ADMIN-EDGE-ALLACCESS, FGT-ADMIN-NO-TRUSTED-HOSTS, FGT-ADMIN-TRUSTHOST-UNRESTRICTED, FGT-ADMIN-SUPER-NO-2FA
 - Firewall: FGT-POLICY-ANY-ANY-ALL, FGT-POLICY-LOG-001
 - Local-in: FGT-LOCAL-IN-PERMISSIVE, FGT-LOCALIN-NO-PROTECTION
@@ -40,6 +40,7 @@ Last updated: 2026-07-02
 - Certificate: FGT-CERT-EXPIRING
 - FortiManager: FGT-FGFM-DEFAULT-OVERRIDE
 - Switch controller: FGT-IFACE-NO-VLAN-SECURITY, FGT-DHCP-SNOOP
+- SSL VPN MFA: FGT-SSLVPN-NO-MFA
 
 ## Version Policy Update
 - First-class: 7.4.x (latest 7.4.12), 7.6.x (latest 7.6.7), 8.0.x (8.0.0 just released)
@@ -70,10 +71,11 @@ Last updated: 2026-07-02
 7. ~~Add FGT-FGFM-DEFAULT-OVERRIDE rule with tests~~ DONE (this tick)
 8. ~~Add FGT-IFACE-NO-VLAN-SECURITY rule with tests~~ DONE
 9. ~~Add FGT-DHCP-SNOOP rule with tests~~ DONE
-10. ~~Add model.py unit tests (untested module — HIGH priority per Track 7)~~ DONE
-11. ~~Add util.py unit tests~~ DONE
-12. Update build_corpus.py to support 8.0 version
-13. Add VDOM filtering edge case tests
+11. ~~Add model.py unit tests (untested module — HIGH priority per Track 7)~~ DONE
+12. ~~Add util.py unit tests~~ DONE
+13. ~~Add FGT-SSLVPN-NO-MFA rule with tests~~ DONE
+14. Expand schema field extraction for security-critical tables beyond priority 17
+15. Add CI pipeline (GitHub Actions with pytest + schema validation)
 
 ## Known Pitfalls / Guardrails
 - Do not present guessed FortiOS knobs as facts

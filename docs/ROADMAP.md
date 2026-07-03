@@ -13,10 +13,10 @@ Last updated: 2026-07-02
 ### By the Numbers
 | Metric | Value | Trend |
 |--------|-------|-------|
-| Tests passing | 336 | Up from 289 |
+| Tests passing | 352 | Up from 336 |
 | Source files | 13 modules | Growing |
-| Test files | 31 | Growing |
-| Builtin rules | 30 | Up from 28 |
+| Test files | 32 | Growing |
+| Builtin rules | 31 | Up from 30 |
 | Schema versions | 3 (7.4, 7.6, 8.0) | Up from 2 |
 | Quality signal (Sentrux) | 0.6411 | Target: 0.80+ |
 | Test coverage (Sentrux) | 20% | Target: 80%+ |
@@ -89,7 +89,7 @@ Start with critical/likely findings, expand to best-practice and hardening check
 | FGT-DLP-NO-SENSOR | DLP | low | PLANNED |
 | FGT-WAF-NO-PROFILE | WAF | medium | PLANNED |
 | FGT-EMAILFILTER-NO-DNSBL | Email filter | low | PLANNED |
-| FGT-SSLVPN-NO-MFA | SSL VPN | high | PLANNED |
+| FGT-SSLVPN-NO-MFA | SSL VPN | high | DONE |
 | FGT-ADMIN-LOCKOUT-NO-TRIES | Admin | medium | PLANNED |
 | FGT-FW-NO-SENSITIVE-PATTERNS | Firewall | medium | PLANNED |
 | FGT-LOG-NO-TRAFFIC | Logging | medium | PLANNED |
@@ -275,7 +275,7 @@ Rules that cross-reference CVE/PSIRT/KEV data with config:
 
 **Goal**: Every source module has comprehensive tests. Sentrux coverage target: 80%+.
 
-#### Current: 336 tests, 31 test files, 30 rules
+#### Current: 352 tests, 32 test files, 31 rules
 #### Target: 80%+ coverage
 
 | Module | Lines | Tests | Coverage Status |
