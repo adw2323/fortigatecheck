@@ -162,9 +162,9 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
     for _, pnode in policy_table.items():
         if not isinstance(pnode, Node):
             continue
-        if pnode.fields.get("status") == "disable":
+        if pnode.effective_fields().get("status") == "disable":
             continue
-        out_dev = pnode.fields.get("output-device")
+        out_dev = pnode.effective_fields().get("output-device")
         if out_dev is None:
             continue
         facts.edge_interfaces.update(resolve_device_targets(out_dev))

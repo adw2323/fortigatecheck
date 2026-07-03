@@ -76,6 +76,41 @@ class TestNode:
         n.evidence["set:allowaccess"] = ev
         assert n.evidence["set:allowaccess"] is ev
 
+    def test_effective_fields_empty_unsets(self):
+        """effective_fields returns all fields when unsets is empty."""
+        n = Node(fields={"a": 1, "b": 2})
+        assert n.effective_fields() == {"a": 1, "b": 2}
+
+    def test_effective_fields_with_unsets(self):
+        """effective_fields excludes fields that are in unsets."""
+        n = Node(fields={"a": 1, "b": 2, "c": 3}, unsets={"b"})
+        assert n.effective_fields() == {"a": 1, "c": 3}
+
+    def test_effective_fields_all_unset(self):
+        """effective_fields returns empty dict when all fields are unset."""
+        n = Node(fields={"a": 1}, unsets={"a"})
+        assert n.effective_fields() == {}
+
+    def test_effective_fields_no_overlap(self):
+        """effective_fields returns all fields when unsets don't overlap."""
+        n = Node(fields={"a": 1}, unsets={"z"})
+        assert n.effective_fields() == {"a": 1}
+
+    def test_effective_fields_returns_new_dict(self):
+        """effective_fields returns a new dict, not a reference to fields."""
+        n = Node(fields={"a": 1}, unsets=set())
+        eff = n.effective_fields()
+        n.fields["b"] = 2
+        assert "b" not in eff
+
+    def test_effective_fields_preserves_type(self):
+        """effective_fields preserves value types."""
+        n = Node(fields={"str_val": "hello", "list_val": [1, 2], "int_val": 42}, unsets=set())
+        eff = n.effective_fields()
+        assert eff["str_val"] == "hello"
+        assert eff["list_val"] == [1, 2]
+        assert eff["int_val"] == 42
+
 
 class TestConfigModel:
     """Test ConfigModel dataclass."""

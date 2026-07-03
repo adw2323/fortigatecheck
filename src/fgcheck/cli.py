@@ -242,6 +242,12 @@ def main():
                     console.print("[yellow]Warning:[/yellow] version_defaulted (using 7.4)")
                 else:
                     console.print(f"[yellow]Warning:[/yellow] {vw}")
+        if model.meta.get("fortimanager_config"):
+            console.print(
+                "[yellow]Warning:[/yellow] Config appears to be managed by FortiManager. "
+                "The exported configuration may not reflect the effective running "
+                "configuration on the device."
+            )
         if warnings:
             console.print(f"[yellow]Parse warnings:[/yellow] {len(warnings)}")
             for w in warnings[:30]:
@@ -289,6 +295,12 @@ def main():
             continue
         text = file_path.read_text(encoding="utf-8", errors="replace")
         model, warnings = parse_fortios_text(text, file_id=file_path.name)
+        if model.meta.get("fortimanager_config"):
+            console.print(
+                f"[yellow]Warning:[/yellow] {file_path.name}: Config appears to be managed by "
+                f"FortiManager. The exported configuration may not reflect the effective "
+                f"running configuration on the device."
+            )
         target_fortios, version_warnings = resolve_target_fortios(model, explicit_version=args.fortios)
         model.meta["target_fortios"] = target_fortios
         findings = run(model, vdoms=args.vdom, rule_files=args.rules, fortios_version=target_fortios)

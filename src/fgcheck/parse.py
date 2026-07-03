@@ -129,6 +129,10 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
         stripped = raw.strip()
         if stripped.startswith("#config-version"):
             model.meta.setdefault("header_lines", []).append((ln, stripped))
+            # Detect FortiManager-managed configs by checking for FMGR
+            # markers in the config-version header.
+            if "FMGR" in stripped.upper() or "FORTIMANAGER" in stripped.upper():
+                model.meta["fortimanager_config"] = True
 
     def scope_root() -> Dict[str, Any]:
         return model.global_cfg if scope == "global" else model.vdoms.setdefault(scope, {})

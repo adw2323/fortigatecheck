@@ -1007,7 +1007,7 @@ _WEAK_SNMP_COMMUNITIES: set[str] = {
 
 def rule_snmp_weak_community(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
     """Detect SNMP communities using default or well-known weak strings."""
-    tables = model.vdoms.get(vdom, {})
+    tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     snmp_table = get_table(tables, ("system", "snmp", "community"))
     out: List[Finding] = []
     supported, schema_unknown = _schema_supports_field(schema, ("system", "snmp", "community"), "name")
@@ -1594,7 +1594,7 @@ def rule_snmp_no_acl(
     if not supported:
         return out
 
-    tables = model.vdoms.get(vdom, {})
+    tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     snmp_table = get_table(tables, ("system", "snmp", "community"))
 
     # Collect all community entries
@@ -1905,7 +1905,7 @@ def rule_fgfm_default_override(
     if not supported:
         return out
 
-    tables = model.vdoms.get(vdom, {})
+    tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     fm_table = get_table(tables, ("system", "fortimanager"))
 
     if not fm_table:
@@ -2161,7 +2161,7 @@ def rule_ips_default_signature(
     - Best practice is to create dedicated IPS sensors with entries tuned
       to the network profile.
     """
-    tables = model.vdoms.get(vdom, {})
+    tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: List[Finding] = []
 
     # Schema check: ``ips sensor`` is a top-level table in the schema.
@@ -2348,7 +2348,7 @@ def rule_av_no_heuristic(
       production FortiGate deployments.
     - Without heuristic, zero-day threats pass through undetected.
     """
-    tables = model.vdoms.get(vdom, {})
+    tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: List[Finding] = []
 
     # Schema check: ``antivirus profile`` is a table in the schema.
@@ -2459,7 +2459,7 @@ def rule_dlp_no_sensor(
     - Best practice is to define DLP sensors with rules tuned to the
       organisation's data classification policy.
     """
-    tables = model.vdoms.get(vdom, {})
+    tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: List[Finding] = []
 
     # Schema check: ``dlp sensor`` is a top-level table in the schema.
