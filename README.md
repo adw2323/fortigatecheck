@@ -149,6 +149,7 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - `FGT-IPS-DEFAULT-SIGNATURE`
 - `FGT-WEBFILTER-DEFAULT-OVERRIDE`
 - `FGT-AV-NO-HEURISTIC`
+- `FGT-DLP-NO-SENSOR`
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`

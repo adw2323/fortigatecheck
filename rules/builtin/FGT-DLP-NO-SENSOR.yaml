@@ -1,0 +1,5 @@
+id: FGT-DLP-NO-SENSOR
+title: DLP sensor configured without any filter rules
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_dlp_no_sensor

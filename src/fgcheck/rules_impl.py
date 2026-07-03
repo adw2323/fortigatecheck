@@ -2406,3 +2406,110 @@ def rule_av_no_heuristic(
         evidence=ev,
     ))
     return out
+
+
+# FGT-DLP-NO-SENSOR
+# ---------------------------------------------------------------------------
+
+def rule_dlp_no_sensor(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect DLP sensors configured without any filter rules.
+
+    FortiGate Data Loss Prevention (DLP) works by defining *sensors* inside
+    ``config dlpsensor sensor`` that reference rule groups and profile
+    protocol options.  Each sensor can have:
+    - ``set rules <group> enable``  — attach a rule group
+    - ``set profile-protocol-options <profile>``  — attach a protocol profile
+
+    When sensors exist but none of them have any ``rules`` or
+    ``profile-protocol-options`` configured, the DLP engine has no detection
+    criteria and is effectively non-functional — all traffic passes through
+    without inspection for sensitive data.
+
+    This is flagged because:
+    - DLP without filter rules cannot detect sensitive data exfiltration.
+    - Empty sensors suggest DLP was partially configured but never completed.
+    - Best practice is to define DLP sensors with rules tuned to the
+      organisation's data classification policy.
+    """
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+
+    # Schema check: ``dlp sensor`` is a top-level table in the schema.
+    # Note: the parser treats ``dlpsensor`` as a single token, so the
+    # config path is ("dlpsensor", "sensor") while the schema names it
+    # "dlp sensor" -> ("dlp", "sensor").
+    if schema is None or not schema.loaded:
+        schema_unknown = True
+    elif schema.has_table(("dlp", "sensor")):
+        schema_unknown = schema.partial
+    else:
+        return out  # table not in schema — skip
+
+    # The parser creates ``dlpsensor`` -> ``sensor`` as nested dicts.
+    sensor_table = get_table(tables, ("dlpsensor", "sensor"))
+    if not sensor_table:
+        return out
+
+    # Collect sensor names (skip __singleton__ if present)
+    sensor_names = [
+        name for name in sensor_table
+        if isinstance(sensor_table[name], Node)
+    ]
+    if not sensor_names:
+        return out
+
+    # Check if any sensor has rules or profile-protocol-options configured.
+    _DLP_RULE_FIELDS = ("rules", "profile-protocol-options")
+    has_rules = False
+    for name in sensor_names:
+        node = sensor_table[name]
+        for field in _DLP_RULE_FIELDS:
+            val = node.fields.get(field)
+            if val and str(val).strip():
+                has_rules = True
+                break
+        if has_rules:
+            break
+
+    if has_rules:
+        return out  # at least one sensor has rules configured — OK
+
+    # Build evidence from first sensor
+    ev: List[Evidence] = []
+    for name in sensor_names:
+        node = sensor_table[name]
+        if node.evidence:
+            for _, e in node.evidence.items():
+                ev.append(e)
+                break
+            if ev:
+                break
+
+    sensor_list = ", ".join(f'"{n}"' for n in sensor_names)
+    msg = (
+        f"DLP is configured with {len(sensor_names)} sensor(s) "
+        f"({sensor_list}) but none contain filter rules. "
+        f"The DLP engine has no detection criteria and cannot identify "
+        f"sensitive data exfiltration. Configure DLP sensors with rules "
+        f"tuned to your organisation's data classification policy."
+    )
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+
+    out.append(Finding(
+        rule_id=rule.id,
+        title=rule.title,
+        severity=rule.severity,
+        confidence=("heuristic" if schema_unknown else rule.confidence),
+        vdom=vdom,
+        message=msg,
+        evidence=ev,
+    ))
+    return out
