@@ -2,6 +2,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import logging
 import sys
 from collections import Counter
 from pathlib import Path
@@ -113,6 +114,12 @@ def main():
     )
     ap.add_argument("--vdom", action="append", default=None, help="Specify vdom(s). Can repeat.")
     ap.add_argument("--fortios", default=None, help="Target FortiOS version (e.g. 7.4, 7.6, 7.6.6).")
+    ap.add_argument(
+        "--max-size",
+        type=int,
+        default=10 * 1024 * 1024,
+        help="Maximum config file size in bytes (default: 10485760 = 10 MB). Files exceeding this limit are skipped.",
+    )
     args = ap.parse_args()
     if args.baseline_strict and not args.baseline:
         ap.error("--baseline-strict requires --baseline")
@@ -152,7 +159,33 @@ def main():
                 writer.writerow({k: rec.get(k, "") for k in fieldnames})
 
     console = Console()
+    _log = logging.getLogger("fgcheck")
+
+    def _check_file_size(file_path: Path) -> str | None:
+        """Return None if file is within --max-size; otherwise log and return a skip reason."""
+        try:
+            size = file_path.stat().st_size
+        except OSError as exc:
+            return f"cannot stat file: {exc}"
+        if size > args.max_size:
+            return (
+                f"{file_path.name} is {size:,} bytes which exceeds --max-size "
+                f"limit of {args.max_size:,} bytes"
+            )
+        if size > args.max_size * 0.8:
+            _log.warning(
+                "%s is %d bytes (%.0f%% of --max-size limit)",
+                file_path.name,
+                size,
+                100 * size / args.max_size,
+            )
+        return None
+
     if not config_path.is_dir():
+        skip_reason = _check_file_size(config_path)
+        if skip_reason:
+            console.print(f"[yellow]Skipping {config_path.name}:[/yellow] {skip_reason}")
+            return
         text = config_path.read_text(encoding="utf-8", errors="replace")
         model, warnings = parse_fortios_text(text, file_id=config_path.name)
         target_fortios, version_warnings = resolve_target_fortios(model, explicit_version=args.fortios)
@@ -250,6 +283,10 @@ def main():
     baseline_records = []
     new_records = []
     for file_path in files:
+        skip_reason = _check_file_size(file_path)
+        if skip_reason:
+            console.print(f"[yellow]Skipping {file_path.name}:[/yellow] {skip_reason}")
+            continue
         text = file_path.read_text(encoding="utf-8", errors="replace")
         model, warnings = parse_fortios_text(text, file_id=file_path.name)
         target_fortios, version_warnings = resolve_target_fortios(model, explicit_version=args.fortios)

@@ -23,9 +23,23 @@ class _PendingSet:
     raw_lines: List[str]
 
 def _strip_comment(line: str) -> str:
+    """Strip full-line comments and inline comments (first unquoted ``#``)."""
     s = line.rstrip("\n")
     if s.lstrip().startswith("#"):
         return ""
+    # Find the first unquoted '#' and truncate there
+    in_quote = False
+    i = 0
+    while i < len(s):
+        ch = s[i]
+        if ch == "\\" and in_quote and i + 1 < len(s) and s[i + 1] == '"':
+            i += 2  # skip escaped quote inside a quoted string
+            continue
+        if ch == '"':
+            in_quote = not in_quote
+        elif ch == "#" and not in_quote:
+            return s[:i].rstrip()
+        i += 1
     return s
 
 def _tokenize(line: str) -> List[str]:

@@ -4,12 +4,37 @@ version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
   "pyyaml>=6.0.1",
-  "pydantic>=2.6",
   "rich>=13.7"
 ]
+
+[project.optional-dependencies]
+pdf = ["weasyprint>=60.0"]
+crypto = ["cryptography>=42.0"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.4.0"]
 
 [project.scripts]
 fgcheck = "fgcheck.cli:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "B008",   # function call in default argument
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["fgcheck"]

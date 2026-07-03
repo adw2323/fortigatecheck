@@ -51,10 +51,10 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
         if not isinstance(inode, Node):
             continue
         name = str(ifname)
-        members = set(as_list(inode.fields.get("member")))
+        members = set(as_list(inode.effective_fields().get("member")))
         if members:
             interface_members[name] = members
-        parents = as_list(inode.fields.get("interface"))
+        parents = as_list(inode.effective_fields().get("interface"))
         if parents:
             parent = parents[0]
             interface_parent[name] = parent
@@ -65,7 +65,7 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
         if not isinstance(inode, Node):
             continue
         name = str(ifname)
-        members = set(as_list(inode.fields.get("member")))
+        members = set(as_list(inode.effective_fields().get("member")))
         if not members:
             continue
         existing = interface_members.get(name)
@@ -105,13 +105,13 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
     for zone_name, znode in zone_table.items():
         if not isinstance(znode, Node):
             continue
-        _add_zone_membership(facts, str(zone_name), znode.fields.get("interface", []))
+        _add_zone_membership(facts, str(zone_name), znode.effective_fields().get("interface", []))
 
     sdwan_zone_table = get_table(tables, ("system", "sdwan", "zone"))
     for zone_name, znode in sdwan_zone_table.items():
         if not isinstance(znode, Node):
             continue
-        _add_zone_membership(facts, str(zone_name), znode.fields.get("interface", []))
+        _add_zone_membership(facts, str(zone_name), znode.effective_fields().get("interface", []))
 
     sdwan_members: Set[str] = set()
     for path in (("system", "sdwan", "members"), ("members",)):
@@ -119,7 +119,7 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
         for _, mnode in sdwan_member_table.items():
             if not isinstance(mnode, Node):
                 continue
-            sdwan_members.update(as_list(mnode.fields.get("interface")))
+            sdwan_members.update(as_list(mnode.effective_fields().get("interface")))
 
     # Expand zone membership through interface hierarchy so callers can
     # resolve both logical and concrete interfaces to their zone.
@@ -150,8 +150,8 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
     for _, snode in static_table.items():
         if not isinstance(snode, Node):
             continue
-        dst = snode.fields.get("dst")
-        dev = snode.fields.get("device")
+        dst = snode.effective_fields().get("dst")
+        dev = snode.effective_fields().get("device")
         if dev is None:
             continue
 

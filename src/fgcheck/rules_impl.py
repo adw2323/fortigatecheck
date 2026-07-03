@@ -2,13 +2,34 @@ from __future__ import annotations
 import base64
 import re
 from datetime import datetime, timezone
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from .facts import Facts, get_table
 from .model import ConfigModel, Evidence, Node
 from .rules import Finding, Rule
 from .schema import SchemaView
 from .util import as_list
+
+def _merged_scope_tables(
+    vdom_tables: dict[str, Any], global_tables: dict[str, Any]
+) -> dict[str, Any]:
+    """Return a combined view of vdom and global scope tables.
+
+    In multi-VDOM deployments many system-level configs (SNMP, IPS, NTP,
+    etc.) live under ``config global`` rather than inside individual VDOMs.
+    Rules that only inspect the per-VDOM scope miss these settings.  This
+    helper merges both scopes so callers can check both with a single dict
+    lookup.  Global entries take priority when the same key exists in both.
+    """
+    if not global_tables:
+        return vdom_tables
+    if not vdom_tables:
+        return global_tables
+    merged = dict(vdom_tables)
+    for k, v in global_tables.items():
+        if k != "__path__":
+            merged[k] = v
+    return merged
 
 try:
     from cryptography import x509 as _x509
@@ -60,7 +81,7 @@ def rule_admin_edge_ssh(*, model: ConfigModel, facts: Facts, vdom: str, rule: Ru
             continue
         if str(ifname) not in facts.edge_interfaces:
             continue
-        allowaccess = as_list(inode.fields.get("allowaccess"))
+        allowaccess = as_list(inode.effective_fields().get("allowaccess"))
         if "ssh" in allowaccess:
             ev = []
             if "set:allowaccess" in inode.evidence:
@@ -92,7 +113,7 @@ def rule_admin_edge_https(*, model: ConfigModel, facts: Facts, vdom: str, rule: 
             continue
         if str(ifname) not in facts.edge_interfaces:
             continue
-        allowaccess = as_list(inode.fields.get("allowaccess"))
+        allowaccess = as_list(inode.effective_fields().get("allowaccess"))
         if "https" in allowaccess:
             ev = []
             if "set:allowaccess" in inode.evidence:
@@ -124,7 +145,7 @@ def rule_admin_edge_telnet(*, model: ConfigModel, facts: Facts, vdom: str, rule:
             continue
         if str(ifname) not in facts.edge_interfaces:
             continue
-        allowaccess = as_list(inode.fields.get("allowaccess"))
+        allowaccess = as_list(inode.effective_fields().get("allowaccess"))
         if "telnet" in allowaccess:
             ev = []
             if "set:allowaccess" in inode.evidence:
@@ -156,7 +177,7 @@ def rule_admin_edge_http(*, model: ConfigModel, facts: Facts, vdom: str, rule: R
             continue
         if str(ifname) not in facts.edge_interfaces:
             continue
-        allowaccess = as_list(inode.fields.get("allowaccess"))
+        allowaccess = as_list(inode.effective_fields().get("allowaccess"))
         if "http" in allowaccess:
             ev = []
             if "set:allowaccess" in inode.evidence:
@@ -188,9 +209,9 @@ def rule_policy_accept_no_log(*, model: ConfigModel, facts: Facts, vdom: str, ru
     for pid, pnode in pol_table.items():
         if not isinstance(pnode, Node):
             continue
-        if pnode.fields.get("action") != "accept":
+        if pnode.effective_fields().get("action") != "accept":
             continue
-        logtraffic = pnode.fields.get("logtraffic")
+        logtraffic = pnode.effective_fields().get("logtraffic")
         if logtraffic in (None, "disable"):
             ev = []
             if "set:logtraffic" in pnode.evidence:
@@ -225,7 +246,7 @@ def rule_vpn_ssl_min_proto(*, model: ConfigModel, facts: Facts, vdom: str, rule:
     node = ssl_table.get("__singleton__")
     if not isinstance(node, Node):
         return out
-    value = str(node.fields.get("ssl-min-proto-ver", "")).strip().lower()
+    value = str(node.effective_fields().get("ssl-min-proto-ver", "")).strip().lower()
     if not value:
         return out
     if value not in {"tls1-0", "tls1-1"}:
@@ -269,14 +290,14 @@ def rule_local_in_policy_permissive(*, model: ConfigModel, facts: Facts, vdom: s
     for pid, pnode in lip_table.items():
         if not isinstance(pnode, Node):
             continue
-        if str(pnode.fields.get("status", "")).strip().lower() == "disable":
+        if str(pnode.effective_fields().get("status", "")).strip().lower() == "disable":
             continue
-        action = str(pnode.fields.get("action", "")).strip().lower()
+        action = str(pnode.effective_fields().get("action", "")).strip().lower()
         if action != "accept":
             continue
-        intf_vals = {v.lower() for v in as_list(pnode.fields.get("intf"))}
-        src_vals = {v.lower() for v in as_list(pnode.fields.get("srcaddr"))}
-        svc_vals = {v.lower() for v in as_list(pnode.fields.get("service"))}
+        intf_vals = {v.lower() for v in as_list(pnode.effective_fields().get("intf"))}
+        src_vals = {v.lower() for v in as_list(pnode.effective_fields().get("srcaddr"))}
+        svc_vals = {v.lower() for v in as_list(pnode.effective_fields().get("service"))}
         if "any" not in intf_vals:
             continue
         if "all" not in src_vals:
@@ -320,14 +341,14 @@ def rule_admin_trusthost_unrestricted(*, model: ConfigModel, facts: Facts, vdom:
     for admin_name, anode in admin_table.items():
         if not isinstance(anode, Node):
             continue
-        if str(anode.fields.get("accprofile", "")).strip().lower() != "super_admin":
+        if str(anode.effective_fields().get("accprofile", "")).strip().lower() != "super_admin":
             continue
         ev = []
         if "set:accprofile" in anode.evidence:
             ev.append(anode.evidence["set:accprofile"])
         unrestricted = False
         for field in supported_trusthosts:
-            vals = as_list(anode.fields.get(field))
+            vals = as_list(anode.effective_fields().get(field))
             if len(vals) >= 2 and vals[0] == "0.0.0.0" and vals[1] == "0.0.0.0":
                 unrestricted = True
             if f"set:{field}" in anode.evidence:
@@ -366,9 +387,9 @@ def rule_sslvpn_source_interface_any(*, model: ConfigModel, facts: Facts, vdom: 
     node = ssl_table.get("__singleton__")
     if not isinstance(node, Node):
         return out
-    if str(node.fields.get("status", "enable")).strip().lower() == "disable":
+    if str(node.effective_fields().get("status", "enable")).strip().lower() == "disable":
         return out
-    if "any" not in {v.lower() for v in as_list(node.fields.get("source-interface"))}:
+    if "any" not in {v.lower() for v in as_list(node.effective_fields().get("source-interface"))}:
         return out
 
     ev = []
@@ -408,11 +429,11 @@ def rule_sslvpn_source_address_all(*, model: ConfigModel, facts: Facts, vdom: st
     node = ssl_table.get("__singleton__")
     if not isinstance(node, Node):
         return out
-    if str(node.fields.get("status", "enable")).strip().lower() == "disable":
+    if str(node.effective_fields().get("status", "enable")).strip().lower() == "disable":
         return out
-    if str(node.fields.get("source-address-negate", "")).strip().lower() == "enable":
+    if str(node.effective_fields().get("source-address-negate", "")).strip().lower() == "enable":
         return out
-    if "all" not in {v.lower() for v in as_list(node.fields.get("source-address"))}:
+    if "all" not in {v.lower() for v in as_list(node.effective_fields().get("source-address"))}:
         return out
 
     ev = []
@@ -452,10 +473,10 @@ def rule_admin_super_no_2fa(*, model: ConfigModel, facts: Facts, vdom: str, rule
     for admin_name, anode in admin_table.items():
         if not isinstance(anode, Node):
             continue
-        if str(anode.fields.get("accprofile", "")).strip().lower() != "super_admin":
+        if str(anode.effective_fields().get("accprofile", "")).strip().lower() != "super_admin":
             continue
-        tf = str(anode.fields.get("two-factor", "")).strip().lower()
-        tfa = str(anode.fields.get("two-factor-authentication", "")).strip().lower()
+        tf = str(anode.effective_fields().get("two-factor", "")).strip().lower()
+        tfa = str(anode.effective_fields().get("two-factor-authentication", "")).strip().lower()
         enabled = (tf == "enable") or (tfa == "enable")
         if enabled:
             continue
@@ -497,7 +518,7 @@ def rule_admin_edge_allaccess(*, model: ConfigModel, facts: Facts, vdom: str, ru
             continue
         if str(ifname) not in facts.edge_interfaces:
             continue
-        access_set = {v.lower() for v in as_list(inode.fields.get("allowaccess"))}
+        access_set = {v.lower() for v in as_list(inode.effective_fields().get("allowaccess"))}
         if len(access_set.intersection(broad_access)) < 4:
             continue
         ev = []
@@ -533,7 +554,7 @@ def rule_admin_no_trusted_hosts(*, model: ConfigModel, facts: Facts, vdom: str, 
             continue
         has_trusthost = False
         for field in supported_trusthosts:
-            if as_list(anode.fields.get(field)):
+            if as_list(anode.effective_fields().get(field)):
                 has_trusthost = True
                 break
         if has_trusthost:
@@ -579,10 +600,10 @@ def rule_localin_no_protection(*, model: ConfigModel, facts: Facts, vdom: str, r
     for _, pnode in lip_table.items():
         if not isinstance(pnode, Node):
             continue
-        if str(pnode.fields.get("status", "")).strip().lower() == "disable":
+        if str(pnode.effective_fields().get("status", "")).strip().lower() == "disable":
             continue
         enabled_entries.append(pnode)
-        if str(pnode.fields.get("action", "")).strip().lower() == "deny":
+        if str(pnode.effective_fields().get("action", "")).strip().lower() == "deny":
             has_deny = True
     if not enabled_entries or has_deny:
         return out
@@ -629,13 +650,13 @@ def rule_policy_any_any_all(*, model: ConfigModel, facts: Facts, vdom: str, rule
     for pid, pnode in pol_table.items():
         if not isinstance(pnode, Node):
             continue
-        if str(pnode.fields.get("status", "")).strip().lower() == "disable":
+        if str(pnode.effective_fields().get("status", "")).strip().lower() == "disable":
             continue
-        if str(pnode.fields.get("action", "")).strip().lower() != "accept":
+        if str(pnode.effective_fields().get("action", "")).strip().lower() != "accept":
             continue
-        src = {v.lower() for v in as_list(pnode.fields.get("srcaddr"))}
-        dst = {v.lower() for v in as_list(pnode.fields.get("dstaddr"))}
-        svc = {v.lower() for v in as_list(pnode.fields.get("service"))}
+        src = {v.lower() for v in as_list(pnode.effective_fields().get("srcaddr"))}
+        dst = {v.lower() for v in as_list(pnode.effective_fields().get("dstaddr"))}
+        svc = {v.lower() for v in as_list(pnode.effective_fields().get("service"))}
         if "all" not in src or "all" not in dst or "all" not in svc:
             continue
 
@@ -687,9 +708,9 @@ def rule_ipsec_weak_dh(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rul
             dedupe_key = str(pname).strip().lower()
             if dedupe_key in seen_keys:
                 continue
-            if str(pnode.fields.get("status", "")).strip().lower() == "disable":
+            if str(pnode.effective_fields().get("status", "")).strip().lower() == "disable":
                 continue
-            groups = {v.strip() for v in as_list(pnode.fields.get("dhgrp"))}
+            groups = {v.strip() for v in as_list(pnode.effective_fields().get("dhgrp"))}
             if not groups.intersection(weak_groups):
                 continue
             ev = []
@@ -743,7 +764,7 @@ def rule_no_remote_logging(*, model: ConfigModel, facts: Facts, vdom: str, rule:
         table = get_table(tables, path)
         node = table.get("__singleton__")
         if isinstance(node, Node):
-            if str(node.fields.get("status", "")).strip().lower() == "enable":
+            if str(node.effective_fields().get("status", "")).strip().lower() == "enable":
                 return out
             if "set:status" in node.evidence:
                 ev.append(node.evidence["set:status"])
@@ -781,7 +802,7 @@ def rule_dns_zone_transfer(*, model: ConfigModel, facts: Facts, vdom: str, rule:
     for name, node in dns_table.items():
         if not isinstance(node, Node):
             continue
-        zt_val = str(node.fields.get("zone-transfer", "")).strip().lower()
+        zt_val = str(node.effective_fields().get("zone-transfer", "")).strip().lower()
         if zt_val != "enable":
             continue
         ev: List[Evidence] = []
@@ -857,9 +878,9 @@ def rule_dns_default_only(
     if not isinstance(node, Node):
         return out
 
-    primary = str(node.fields.get("primary", "")).strip()
-    secondary = str(node.fields.get("secondary", "")).strip()
-    protocol = str(node.fields.get("protocol", "")).strip().lower()
+    primary = str(node.effective_fields().get("primary", "")).strip()
+    secondary = str(node.effective_fields().get("secondary", "")).strip()
+    protocol = str(node.effective_fields().get("protocol", "")).strip().lower()
 
     # Collect all configured DNS servers
     servers: list[str] = []
@@ -869,9 +890,9 @@ def rule_dns_default_only(
         servers.append(secondary)
 
     # Also check for additional DNS entries (alt-*, etc.)
-    for field_name in node.fields:
+    for field_name in node.effective_fields():
         if field_name.startswith("alt"):
-            val = str(node.fields[field_name]).strip()
+            val = str(node.effective_fields()[field_name]).strip()
             if val:
                 servers.append(val)
 
@@ -931,7 +952,7 @@ def rule_dns_default_only(
 
 def rule_ntp_no_ntps(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
     """Detect NTP configuration without NTPS (unencrypted time sync)."""
-    tables = model.vdoms.get(vdom, {})
+    tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     ntp_table = get_table(tables, ("system", "ntp"))
     out: List[Finding] = []
     ntps_supported, ntps_unknown = _schema_supports_field(schema, ("system", "ntp"), "ntps")
@@ -943,7 +964,7 @@ def rule_ntp_no_ntps(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule,
     node = ntp_table.get("__singleton__")
     if not isinstance(node, Node):
         return out
-    ntps_val = str(node.fields.get("ntps", "")).strip().lower()
+    ntps_val = str(node.effective_fields().get("ntps", "")).strip().lower()
     if ntps_val == "enable":
         return out
     ev: List[Evidence] = []
@@ -996,7 +1017,7 @@ def rule_snmp_weak_community(*, model: ConfigModel, facts: Facts, vdom: str, rul
     for entry_name, node in snmp_table.items():
         if not isinstance(node, Node):
             continue
-        community = str(node.fields.get("name", "")).strip().lower()
+        community = str(node.effective_fields().get("name", "")).strip().lower()
         if community not in _WEAK_SNMP_COMMUNITIES:
             continue
         ev: List[Evidence] = []
@@ -1068,7 +1089,7 @@ def rule_admin_weak_password_policy(
 
     # --- Check 1: policy is explicitly disabled ---
     if status_supported:
-        status_val = str(node.fields.get("status", "")).strip().lower()
+        status_val = str(node.effective_fields().get("status", "")).strip().lower()
         if status_val == "disable":
             ev: List[Evidence] = []
             if "set:status" in node.evidence:
@@ -1091,7 +1112,7 @@ def rule_admin_weak_password_policy(
 
     # --- Check 2: minimum-length below threshold ---
     if minlen_supported and not findings:
-        minlen_raw = node.fields.get("minimum-length")
+        minlen_raw = node.effective_fields().get("minimum-length")
         if minlen_raw is not None:
             try:
                 minlen_val = int(minlen_raw)
@@ -1164,7 +1185,7 @@ def rule_admin_no_idle_timeout(
     if not isinstance(node, Node):
         return out
 
-    raw = node.fields.get("admin-idle-timeout")
+    raw = node.effective_fields().get("admin-idle-timeout")
     if raw is None:
         return out
 
@@ -1406,7 +1427,7 @@ def _check_ssh_config_field(
 ) -> list["Finding"]:
     """Check a single SSH config field for weak values."""
     findings: list["Finding"] = []
-    raw = str(node.fields.get(field, "")).strip().lower()
+    raw = str(node.effective_fields().get(field, "")).strip().lower()
     if not raw:
         return findings
 
@@ -1582,11 +1603,11 @@ def rule_snmp_no_acl(
         if not isinstance(node, Node):
             continue
         communities.append({
-            "name": str(node.fields.get("name", f"community-{entry_name}")).strip(),
+            "name": str(node.effective_fields().get("name", f"community-{entry_name}")).strip(),
             "entry": entry_name,
             "node": node,
-            "has_hosts_field": "hosts" in node.fields,
-            "hosts_field": node.fields.get("hosts"),
+            "has_hosts_field": "hosts" in node.effective_fields(),
+            "hosts_field": node.effective_fields().get("hosts"),
         })
 
     if not communities:
@@ -1780,7 +1801,7 @@ def rule_cert_expiring(
         if not isinstance(cert_node, Node):
             continue
 
-        cert_field = cert_node.fields.get("certificate")
+        cert_field = cert_node.effective_fields().get("certificate")
         if cert_field is None:
             continue
 
@@ -1895,12 +1916,12 @@ def rule_fgfm_default_override(
             continue
 
         # Only check if default-override is explicitly set to enable
-        override_val = str(node.fields.get("default-override", "")).lower().strip()
+        override_val = str(node.effective_fields().get("default-override", "")).lower().strip()
         if override_val not in ("enable", "on", "true", "1"):
             continue
 
         # Check if FortiManager is actually connected (status field)
-        fm_status = str(node.fields.get("status", "")).lower().strip()
+        fm_status = str(node.effective_fields().get("status", "")).lower().strip()
 
         ev: List[Evidence] = []
         if "set:default-override" in node.evidence:
@@ -1911,8 +1932,8 @@ def rule_fgfm_default_override(
         if not ev:
             continue
 
-        server = str(node.fields.get("server", "unknown"))
-        serial = str(node.fields.get("serial", ""))
+        server = str(node.effective_fields().get("server", "unknown"))
+        serial = str(node.effective_fields().get("serial", ""))
 
         if fm_status == "enable":
             msg = (
@@ -1969,10 +1990,10 @@ def rule_iface_no_vlan_security(*, model: ConfigModel, facts: Facts, vdom: str, 
         if not isinstance(inode, Node):
             continue
         # Only check interfaces managed by the switch controller
-        sc_feature = as_list(inode.fields.get("switch-controller-feature"))
+        sc_feature = as_list(inode.effective_fields().get("switch-controller-feature"))
         if not sc_feature:
             continue
-        access_vlan = str(inode.fields.get("switch-controller-access-vlan", "")).strip()
+        access_vlan = str(inode.effective_fields().get("switch-controller-access-vlan", "")).strip()
         if access_vlan == "enable":
             continue
         ev = []
@@ -2017,10 +2038,10 @@ def rule_dhcp_snoop(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, 
         if not isinstance(inode, Node):
             continue
         # Only check interfaces managed by the switch controller
-        sc_feature = as_list(inode.fields.get("switch-controller-feature"))
+        sc_feature = as_list(inode.effective_fields().get("switch-controller-feature"))
         if not sc_feature:
             continue
-        dhcp_snoop = str(inode.fields.get("switch-controller-dhcp-snooping", "")).strip()
+        dhcp_snoop = str(inode.effective_fields().get("switch-controller-dhcp-snooping", "")).strip()
         if dhcp_snoop == "enable":
             continue
         ev = []
@@ -2073,12 +2094,12 @@ def rule_sslvpn_no_mfa(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rul
         return out
 
     # Check if SSL VPN is actually enabled
-    status = str(node.fields.get("status", "disable")).strip().lower()
+    status = str(node.effective_fields().get("status", "disable")).strip().lower()
     if status != "enable":
         return out
 
     # Check two-factor setting
-    two_factor = str(node.fields.get("two-factor", "none")).strip().lower()
+    two_factor = str(node.effective_fields().get("two-factor", "none")).strip().lower()
     if two_factor in ("fortitoken", "email", "sms", "fortitoken-cloud", "cert"):
         return out  # MFA is configured
 
@@ -2363,7 +2384,7 @@ def rule_av_no_heuristic(
         for _name, node in proto_table.items():
             if not isinstance(node, Node):
                 continue
-            if node.fields.get("heuristic") == "enable":
+            if node.effective_fields().get("heuristic") == "enable":
                 has_heuristic = True
                 if "set:heuristic" in node.evidence:
                     heuristic_evidence = node.evidence["set:heuristic"]
@@ -2471,7 +2492,7 @@ def rule_dlp_no_sensor(
     for name in sensor_names:
         node = sensor_table[name]
         for field in _DLP_RULE_FIELDS:
-            val = node.fields.get(field)
+            val = node.effective_fields().get(field)
             if val and str(val).strip():
                 has_rules = True
                 break

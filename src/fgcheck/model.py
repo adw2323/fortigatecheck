@@ -18,6 +18,10 @@ class Node:
     unsets: set[str] = field(default_factory=set)
     evidence: Dict[str, Evidence] = field(default_factory=dict)
 
+    def effective_fields(self) -> Dict[str, Any]:
+        """Return fields minus any that were explicitly unset."""
+        return {k: v for k, v in self.fields.items() if k not in self.unsets}
+
 @dataclass
 class ConfigModel:
     meta: Dict[str, Any] = field(default_factory=dict)
