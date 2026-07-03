@@ -1,197 +1,102 @@
-# fgcheck
+# fgcheck — FortiGate Configuration Checker
 
-Deterministic FortiGate configuration checker focused on security and posture findings.
+[![Tests](https://img.shields.io/badge/tests-416%20passing-brightgreen)]()
+[![Rules](https://img.shields.io/badge/rules-35-blue)]()
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
 
-## Core Principles
-- Detector-only: no automatic fix execution.
-- Schema-gated correctness: do not claim unsupported syntax/knobs.
-- Evidence-first findings: include exact config line evidence.
+**Deterministic FortiGate configuration checker focused on security and posture findings.**
+
+- 🔒 **No hallucination** — every finding has schema evidence
+- 📋 **35 security rules** — covering admin access, VPN, firewall, IPS, and more
+- 📊 **Multiple outputs** — human, JSON, HTML, PDF, Markdown
+- 🎯 **Schema-aware** — validates against FortiOS schema
+- 🔍 **Authority lookup** — validates commands, tables, and fields
+- 📁 **Multi-VDOM** — checks each VDOM independently
 
 ## Quick Start
 
-### Single file scan
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\path\to\config.conf --format json
+```bash
+# Install
+pip install -e .
+
+# Scan a config
+fgcheck config.conf
+
+# JSON output
+fgcheck config.conf --format json
+
+# HTML report
+fgcheck configs/ --format html --output report.html
+
+# Scan and fail on critical findings
+fgcheck configs/ --fail-on critical
 ```
 
-### Folder scan
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format json
-```
+## Documentation
 
-### Optional FortiOS target override
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\path\to\config.conf --fortios 7.6 --format md
-```
+- [Getting Started](docs/product/fortigatecheck-getting-started.md)
+- [User Guide](docs/product/fortigatecheck-user-guide.md)
+- [Developer Guide](docs/product/fortigatecheck-developer-guide.md)
+- [Rules Catalog](docs/product/fortigatecheck-rules-catalog.md)
+- [Contributing](docs/product/fortigatecheck-contributing.md)
+- [Architecture](docs/product/fortigatecheck-architecture.md)
+- [Product Vision](docs/product/PRODUCT-VISION.md)
+- [Roadmap](docs/product/ROADMAP.md)
+- [Changelog](CHANGELOG.md)
 
-### Write report to file
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format human --output .\report.txt
-```
+## Core Principles
 
-### Rich embedded HTML report
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format html --output .\report.html --report-title "Client Security Report"
-```
+- **Detector-only** — no automatic fix execution
+- **Schema-gated** — don't claim unsupported syntax
+- **Evidence-first** — include exact config line evidence
+- **Deterministic** — same input → same output
 
-### Optional PDF export (from HTML)
-```powershell
-$env:PYTHONPATH='src'
-pip install weasyprint
-python -m fgcheck.cli .\configs\ --format html --output .\report.html --pdf-output .\report.pdf
-```
+## Built-in Rules (35)
 
-Suppress stdout report output (artifact-only mode):
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format html --output .\report.html --quiet
-```
+### Critical
+- FGT-ADMIN-EDGE-TELNET, FGT-ADMIN-EDGE-HTTP
+- FGT-ADMIN-EDGE-ALLACCESS, FGT-LOCALIN-NO-PROTECTION
 
-Write run summary JSON:
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format json --summary-output .\summary.json
-```
+### High
+- FGT-ADMIN-EDGE-SSH, FGT-ADMIN-EDGE-HTTPS
+- FGT-ADMIN-NO-TRUSTED-HOSTS, FGT-ADMIN-SUPER-NO-2FA
+- FGT-FIRMWARE-OUTDATED, FGT-SSH-WEAK-CIPHERS
+- FGT-CERT-EXPIRING, FGT-SSLVPN-NO-MFA
 
-### Baseline suppression
-Generate a baseline from current findings:
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format json --write-baseline .\baseline.json
-```
-
-Suppress known findings from that baseline:
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format human --baseline .\baseline.json
-```
-
-Merge newly observed finding signatures into the existing baseline:
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format json --baseline .\baseline.json --baseline-update
-```
-
-Write only unsuppressed findings to a JSON artifact for triage/CI:
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format json --baseline .\baseline.json --new-findings-output .\new-findings.json
-```
-
-Write unsuppressed findings to CSV:
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format json --baseline .\baseline.json --findings-csv-output .\findings.csv
-```
-
-Fail non-zero when new findings remain after baseline suppression:
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format json --baseline .\baseline.json --baseline-strict
-```
-
-Fail non-zero when findings meet a severity threshold:
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli .\configs\ --format json --fail-on-severity high
-```
-
-## Version Resolution
-Target FortiOS version is chosen in this order:
-1. `#config-version` header in the config file
-2. CLI `--fortios <version>`
-3. default `7.4` with `version_defaulted` warning
-
-## Confidence Semantics
-- `certain`: deterministic, schema-backed control.
-- `likely`: best-practice guidance (context-dependent).
-- `heuristic`: schema missing/unknown or non-deterministic inference.
-
-When schema coverage is unavailable, findings must not claim certainty and should indicate `schema_unknown`.
-
-## Builtin Rules (Current)
-- `FGT-ADMIN-EDGE-SSH`
-- `FGT-ADMIN-EDGE-HTTPS`
-- `FGT-ADMIN-EDGE-TELNET`
-- `FGT-ADMIN-EDGE-HTTP`
-- `FGT-ADMIN-EDGE-ALLACCESS`
-- `FGT-ADMIN-NO-TRUSTED-HOSTS`
-- `FGT-ADMIN-TRUSTHOST-UNRESTRICTED`
-- `FGT-ADMIN-SUPER-NO-2FA`
-- `FGT-POLICY-LOG-001`
-- `FGT-POLICY-ANY-ANY-ALL`
-- `FGT-LOCAL-IN-PERMISSIVE`
-- `FGT-LOCALIN-NO-PROTECTION`
-- `FGT-SSLVPN-MIN-TLS`
-- `FGT-SSLVPN-SRCINTF-ANY`
-- `FGT-SSLVPN-SRCADDR-ALL`
-- `FGT-IPSEC-WEAK-DH`
-- `FGT-NO-REMOTE-LOGGING`
-- `FGT-DNS-NO-ZT`
-- `FGT-NTP-NO-NTPS`
-- `FGT-SNMP-WEAK-COMMUNITY`
-- `FGT-ADMIN-WEAK-PASSWORD-POLICY`
-- `FGT-ADMIN-NO-IDLE-TIMEOUT`
-- `FGT-DNS-DEFAULT-ONLY`
-- `FGT-FIRMWARE-OUTDATED`
-- `FGT-SSH-WEAK-CIPHERS`
-- `FGT-SNMP-NO-ACL`
-- `FGT-CERT-EXPIRING`
-- `FGT-FGFM-DEFAULT-OVERRIDE`
-- `FGT-IFACE-NO-VLAN-SECURITY`
-- `FGT-DHCP-SNOOP`
-- `FGT-SSLVPN-NO-MFA`
-- `FGT-IPS-DEFAULT-SIGNATURE`
-- `FGT-WEBFILTER-DEFAULT-OVERRIDE`
-- `FGT-AV-NO-HEURISTIC`
-- `FGT-DLP-NO-SENSOR`
-
-### Deterministic Controls Added
-- `FGT-ADMIN-EDGE-ALLACCESS`
-- `FGT-ADMIN-EDGE-TELNET`
-- `FGT-ADMIN-EDGE-HTTP`
-- `FGT-ADMIN-NO-TRUSTED-HOSTS`
-- `FGT-LOCALIN-NO-PROTECTION`
-- `FGT-POLICY-ANY-ANY-ALL`
-- `FGT-IPSEC-WEAK-DH`
-- `FGT-NO-REMOTE-LOGGING`
-
-## Schema / Corpus Layout
-- Source registry: `docs/sources.yaml`
-- Derived schema: `docs/derived/schema/<version>/schema.json`
-- Derived CVE/PSIRT/KEV: `docs/derived/cves/cves.json`
-- Corpus builder: `scripts/build_corpus.py`
+### Medium
+- FGT-POLICY-LOG-001, FGT-DHCP-SNOOP
+- FGT-FGFM-DEFAULT-OVERRIDE, FGT-SNMP-NO-ACL
+- FGT-IPS-DEFAULT-SIGNATURE, FGT-WEBFILTER-DEFAULT-OVERRIDE
+- FGT-AV-NO-HEURISTIC, and more
 
 ## Authority Lookup
-Use authority lookup commands to validate FortiOS tables, commands, and fields against local deterministic schema data:
 
-```powershell
-$env:PYTHONPATH='src'
-python -m fgcheck.cli lookup "system interface" --fortios 7.6 --format json
-python -m fgcheck.cli schema "firewall policy" --fortios 7.6 --strict
-python -m fgcheck.cli docs "vpn ipsec phase1-interface" --fortios 7.6
+Validate FortiOS commands, tables, and fields:
+
+```bash
+fgcheck authority "system interface"
+fgcheck schema "firewall policy" --fortios 7.6 --strict
+fgcheck docs "vpn ipsec phase1-interface"
 ```
-
-Results classify commands as `VALIDATED`, `PARTIALLY_VALIDATED`, or `UNKNOWN`.
-Strict mode exits non-zero unless validation is fully deterministic. Context7 or MCP output should pass through this lookup before being treated as executable FortiOS syntax.
 
 ## Tests
-```powershell
-$env:PYTHONPATH='src'
-python -m pytest -q
+
+```bash
+python -m pytest tests/ -q
 ```
 
-## Local Real Configs
-- Place local real configs under `tests/real/`.
-- `tests/real/` is gitignored and intended for local validation only.
+## License
 
-## Session Continuity Docs
-- `AGENTS.md`
-- `docs/PROJECT_GOALS.md`
-- `docs/SESSION_HANDOFF.md`
-- `docs/STARTUP_PROMPT.md`
+MIT License — see [LICENSE](LICENSE) for details.
+
+## Contributing
+
+See [Contributing Guide](docs/product/fortigatecheck-contributing.md).
+
+We especially need rules for:
+- Wireless security
+- DNS filter profiles
+- Application control
+- HA configuration
+- SD-WAN health checks
