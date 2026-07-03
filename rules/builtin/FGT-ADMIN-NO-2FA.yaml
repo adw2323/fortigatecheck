@@ -1,0 +1,5 @@
+id: FGT-ADMIN-NO-2FA
+title: Administrator without two-factor authentication
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_no_2fa

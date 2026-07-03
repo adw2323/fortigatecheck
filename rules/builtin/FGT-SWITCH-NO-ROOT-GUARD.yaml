@@ -1,0 +1,5 @@
+id: FGT-SWITCH-NO-ROOT-GUARD
+title: FortiSwitch STP without root guard
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_switch_stp_no_root_guard

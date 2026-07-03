@@ -1,0 +1,5 @@
+id: FGT-VPN-WEAK-ENCRYPTION
+title: IPsec VPN with weak encryption algorithm
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_vpn_phase1_unencrypted

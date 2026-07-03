@@ -1,0 +1,5 @@
+id: FGT-WIRELESS-OPEN-SSID
+title: Wireless SSID with open (no security) authentication
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_wireless_open_ssid

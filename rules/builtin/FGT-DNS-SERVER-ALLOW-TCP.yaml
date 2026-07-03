@@ -1,0 +1,5 @@
+id: FGT-DNS-SERVER-ALLOW-TCP
+title: DNS server with TCP allowed may enable zone transfer
+severity: medium
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_dns_server_allow_tcp

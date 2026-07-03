@@ -1,0 +1,5 @@
+id: FGT-ADMIN-NO-RESTRICT-VDOM
+title: Multi-VDOM without admin-restrict-vdom
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_system_global_no_admin_restricted

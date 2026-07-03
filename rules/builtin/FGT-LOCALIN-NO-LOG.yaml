@@ -1,0 +1,5 @@
+id: FGT-LOCALIN-NO-LOG
+title: Local-in policy accepts without logging
+severity: medium
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_log_no_local_traffic

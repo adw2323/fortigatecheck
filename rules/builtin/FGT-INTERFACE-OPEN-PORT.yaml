@@ -1,0 +1,5 @@
+id: FGT-INTERFACE-OPEN-PORT
+title: Edge interface with multiple management protocols
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_interface_open_port

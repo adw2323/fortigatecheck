@@ -2697,3 +2697,277 @@ def rule_ha_no_heartbeat(
         ))
 
     return out
+
+
+def rule_ssl_inspection_disabled(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect SSL deep inspection not enabled on web traffic policies.
+
+    Without SSL inspection, encrypted malware and C2 traffic passes
+    through the firewall undetected.
+    """
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+    policy_table = get_table(tables, ("firewall", "policy"))
+    ssl_profile_table = get_table(tables, ("firewall", "ssl-ssh-profile"))
+
+    for policy_name, policy_node in policy_table.items():
+        if not isinstance(policy_node, Node):
+            continue
+        fields = policy_node.effective_fields()
+        action = str(fields.get("action", "")).lower()
+        if action != "accept":
+            continue
+        services = as_list(fields.get("service"))
+        has_https = any("https" in str(s).lower() or "http" in str(s).lower() for s in services)
+        if not has_https:
+            continue
+        utm_status = str(fields.get("utm-status", "")).lower()
+        if utm_status != "enable":
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f"Policy {policy_name}: accepts HTTPS but UTM/SSL inspection is disabled (utm-status={utm_status}).",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_admin_no_2fa(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect administrator accounts without two-factor authentication."""
+    tables = model.vdoms.get(vdom, {})
+    global_tables = model.global_cfg
+    out: List[Finding] = []
+    admin_table = get_table(_merged_scope_tables(tables, global_tables), ("system", "admin"))
+    for admin_name, admin_node in admin_table.items():
+        if not isinstance(admin_node, Node):
+            continue
+        fields = admin_node.effective_fields()
+        two_factor = str(fields.get("two-factor-auth", "")).lower()
+        if two_factor in ("", "none", "disable"):
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f"Admin \"{admin_name}\" does not have two-factor authentication enabled.",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_firewall_policy_any_any(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect overly permissive firewall policies with any-any source/destination."""
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+    policy_table = get_table(tables, ("firewall", "policy"))
+    for policy_name, policy_node in policy_table.items():
+        if not isinstance(policy_node, Node):
+            continue
+        fields = policy_node.effective_fields()
+        action = str(fields.get("action", "")).lower()
+        if action != "accept":
+            continue
+        srcaddr = as_list(fields.get("srcaddr"))
+        dstaddr = as_list(fields.get("dstaddr"))
+        src_all = "all" in srcaddr or "ALL" in srcaddr
+        dst_all = "all" in dstaddr or "ALL" in dstaddr
+        if src_all and dst_all:
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f"Policy {policy_name}: accepts traffic from any source to any destination (any-any policy).",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_dns_server_allow_tcp(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect DNS server with zone transfer enabled."""
+    tables = model.vdoms.get(vdom, {})
+    global_tables = _merged_scope_tables(tables, model.global_cfg)
+    out: List[Finding] = []
+    dns_table = get_table(global_tables, ("system", "dns"))
+    for name, node in dns_table.items():
+        if not isinstance(node, Node):
+            continue
+        fields = node.effective_fields()
+        if fields.get("allow-tcp") == "enable":
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message="DNS server has TCP allowed, which may enable zone transfer attacks.",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_interface_open_port(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect edge interfaces with management protocols enabled."""
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+    intf_table = get_table(tables, ("system", "interface"))
+    mgmt_protos = {"ssh", "https", "http", "telnet", "ping", "snmp"}
+    for ifname, inode in intf_table.items():
+        if not isinstance(inode, Node):
+            continue
+        fields = inode.effective_fields()
+        if ifname not in facts.edge_interfaces:
+            continue
+        allowaccess = as_list(fields.get("allowaccess"))
+        enabled_mgmt = [p for p in allowaccess if p in mgmt_protos]
+        if len(enabled_mgmt) >= 3:
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f"Edge interface \"{ifname}\" has {len(enabled_mgmt)} management protocols enabled: {', '.join(enabled_mgmt)}.",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_vpn_phase1_unencrypted(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect IPsec VPN phase1 with weak or no encryption."""
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+    phase1_table = get_table(tables, ("vpn", "ipsec", "phase1-interface"))
+    weak_enc = {"des", "3des", "null"}
+    for name, node in phase1_table.items():
+        if not isinstance(node, Node):
+            continue
+        fields = node.effective_fields()
+        proposal = str(fields.get("proposal", "")).lower()
+        for weak in weak_enc:
+            if weak in proposal:
+                out.append(Finding(
+                    rule_id=rule.id, title=rule.title, severity=rule.severity,
+                    confidence=rule.confidence, vdom=vdom,
+                    message=f"IPsec VPN \"{name}\" uses weak encryption: {weak} detected in proposal.",
+                    evidence=[],
+                ))
+                break
+    return out
+
+
+def rule_switch_stp_no_root_guard(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect FortiSwitch with STP enabled but no root guard."""
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+    switch_table = get_table(tables, ("switch-controller", "managed-switch"))
+    for name, node in switch_table.items():
+        if not isinstance(node, Node):
+            continue
+        fields = node.effective_fields()
+        if fields.get("stp") == "enable" and "root-guard" not in fields:
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f"Switch \"{name}\" has STP enabled without root guard configured.",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_log_no_local_traffic(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect local-in policy without logging."""
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+    local_table = get_table(tables, ("firewall", "local-in-policy"))
+    for name, node in local_table.items():
+        if not isinstance(node, Node):
+            continue
+        fields = node.effective_fields()
+        action = str(fields.get("action", "")).lower()
+        if action == "accept" and fields.get("logtraffic") != "enable":
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f"Local-in policy \"{name}\" accepts traffic without logging enabled.",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_system_global_no_admin_restricted(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect admin restrict-vdom not enabled on multi-VDOM systems."""
+    if len(model.vdoms) <= 1:
+        return []
+    global_table = get_table(model.global_cfg, ("system", "global"))
+    out: List[Finding] = []
+    for name, node in global_table.items():
+        if not isinstance(node, Node):
+            continue
+        fields = node.effective_fields()
+        restrict = fields.get("admin-restrict-vdom")
+        if restrict is None or str(restrict).lower() != "enable":
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message="Multi-VDOM system does not have admin-restrict-vdom enabled. Admins may access all VDOMs.",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_wireless_open_ssid(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect wireless SSID with open (no security) authentication."""
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+    ssid_table = get_table(tables, ("wireless-controller", "ssid"))
+    for name, node in ssid_table.items():
+        if not isinstance(node, Node):
+            continue
+        fields = node.effective_fields()
+        security = str(fields.get("security", "")).lower()
+        if security in ("open", "none", ""):
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f"Wireless SSID \"{name}\" has no security (open network).",
+                evidence=[],
+            ))
+    return out
+
+
+def rule_router_static_default_route_insecure(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None
+) -> List[Finding]:
+    """Detect default route via unencrypted/unauthenticated gateway."""
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+    static_table = get_table(tables, ("router", "static"))
+    for name, node in static_table.items():
+        if not isinstance(node, Node):
+            continue
+        fields = node.effective_fields()
+        dst = str(fields.get("dst", "")).strip()
+        if "0.0.0.0" in dst and "0.0.0.0" in dst:
+            device = str(fields.get("device", "")).lower()
+            if device.startswith("vpn") or "ipsec" in device:
+                continue  # VPN tunnel — OK
+            gateway = str(fields.get("gateway", "")).strip()
+            if gateway and gateway != "0.0.0.0":
+                out.append(Finding(
+                    rule_id=rule.id, title=rule.title, severity=rule.severity,
+                    confidence=rule.confidence, vdom=vdom,
+                    message=f"Default route via gateway {gateway} on device {device}. Verify gateway is hardened.",
+                    evidence=[],
+                ))
+    return out

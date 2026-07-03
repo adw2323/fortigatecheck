@@ -1,0 +1,5 @@
+id: FGT-SSL-INSPECTION-DISABLED
+title: SSL deep inspection not enabled on web traffic
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ssl_inspection_disabled
