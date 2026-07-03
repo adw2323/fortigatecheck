@@ -13,10 +13,10 @@ Last updated: 2026-07-02
 ### By the Numbers
 | Metric | Value | Trend |
 |--------|-------|-------|
-| Tests passing | 379 | Up from 365 |
+| Tests passing | 400 | Up from 379 |
 | Source files | 13 modules | Growing |
 | Test files | 34 | Growing |
-| Builtin rules | 33 | Up from 32 |
+| Builtin rules | 34 | Up from 33 |
 | Schema versions | 3 (7.4, 7.6, 8.0) | Up from 2 |
 | Quality signal (Sentrux) | 0.6411 | Target: 0.80+ |
 | Test coverage (Sentrux) | 20% | Target: 80%+ |
@@ -275,7 +275,7 @@ Rules that cross-reference CVE/PSIRT/KEV data with config:
 
 **Goal**: Every source module has comprehensive tests. Sentrux coverage target: 80%+.
 
-#### Current: 365 tests, 33 test files, 32 rules
+#### Current: 400 tests, 35 test files, 34 rules
 #### Target: 80%+ coverage
 
 | Module | Lines | Tests | Coverage Status |
