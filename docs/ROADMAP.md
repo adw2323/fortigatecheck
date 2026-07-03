@@ -85,7 +85,7 @@ Start with critical/likely findings, expand to best-practice and hardening check
 |------|----------|----------|--------|
 | FGT-IPS-DEFAULT-SIGNATURE | IPS | medium | DONE |
 | FGT-WEBFILTER-DEFAULT-OVERRIDE | Web filter | medium | DONE |
-| FGT-AV-NO-HEURISTIC | Antivirus | medium | PLANNED |
+| FGT-AV-NO-HEURISTIC | Antivirus | medium | DONE |
 | FGT-DLP-NO-SENSOR | DLP | low | PLANNED |
 | FGT-WAF-NO-PROFILE | WAF | medium | PLANNED |
 | FGT-EMAILFILTER-NO-DNSBL | Email filter | low | PLANNED |
