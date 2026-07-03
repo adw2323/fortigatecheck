@@ -1,0 +1,5 @@
+id: FGT-FGFM-DEFAULT-OVERRIDE
+title: FortiManager default-override is enabled
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_fgfm_default_override

@@ -142,6 +142,7 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - `FGT-SSH-WEAK-CIPHERS`
 - `FGT-SNMP-NO-ACL`
 - `FGT-CERT-EXPIRING`
+- `FGT-FGFM-DEFAULT-OVERRIDE`
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`

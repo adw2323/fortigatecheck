@@ -1845,3 +1845,108 @@ def rule_cert_expiring(
                 break  # One finding per cert is enough
 
     return out
+
+
+# ---------------------------------------------------------------------------
+# FGT-FGFM-DEFAULT-OVERRIDE
+# Detects when FortiManager default-override is enabled on a FortiGate.
+#
+# When default-override is enabled, FortiManager can push configuration
+# changes that override local security settings on the FortiGate device.
+# This includes admin access rules, firewall policies, VPN settings, and
+# other security-critical configuration. An attacker who compromises the
+# FortiManager can silently weaken the FortiGate's security posture.
+#
+# The config lives in `config system fortimanager` and the field is
+# `default-override` which accepts `enable`/`disable` values.
+#
+# Note: `system fortimanager` exists in the schema for all versions but
+# has no field-level details, so findings are always heuristic.
+# ---------------------------------------------------------------------------
+
+def rule_fgfm_default_override(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect when FortiManager default-override is enabled."""
+    out: List[Finding] = []
+
+    # The system fortimanager table exists in schema but has no field-level
+    # coverage for any version (7.4, 7.6, 8.0). We check if the table exists
+    # in schema; if it doesn't, findings are still heuristic but we note it.
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("system", "fortimanager"), "default-override"
+    )
+    if not supported:
+        return out
+
+    tables = model.vdoms.get(vdom, {})
+    fm_table = get_table(tables, ("system", "fortimanager"))
+
+    if not fm_table:
+        return out
+
+    for entry_name, node in fm_table.items():
+        if not isinstance(node, Node):
+            continue
+
+        # Only check if default-override is explicitly set to enable
+        override_val = str(node.fields.get("default-override", "")).lower().strip()
+        if override_val not in ("enable", "on", "true", "1"):
+            continue
+
+        # Check if FortiManager is actually connected (status field)
+        fm_status = str(node.fields.get("status", "")).lower().strip()
+
+        ev: List[Evidence] = []
+        if "set:default-override" in node.evidence:
+            ev.append(node.evidence["set:default-override"])
+        if "set:status" in node.evidence:
+            ev.append(node.evidence["set:status"])
+
+        if not ev:
+            continue
+
+        server = str(node.fields.get("server", "unknown"))
+        serial = str(node.fields.get("serial", ""))
+
+        if fm_status == "enable":
+            msg = (
+                f"FortiManager default-override is enabled and FortiManager "
+                f"connection is active (server: {server}). This allows the "
+                f"FortiManager to push configuration changes that override "
+                f"local security settings on this FortiGate, including admin "
+                f"access rules, firewall policies, and VPN settings. An "
+                f"attacker who compromises the FortiManager can silently "
+                f"weaken this device's security posture. Disable "
+                f"default-override unless FortiManager-managed overrides "
+                f"are explicitly required."
+            )
+        else:
+            msg = (
+                f"FortiManager default-override is enabled (server: {server}). "
+                f"When a FortiManager connects, it can push configuration "
+                f"changes that override local security settings, including "
+                f"admin access rules, firewall policies, and VPN settings. "
+                f"Disable default-override unless FortiManager-managed "
+                f"overrides are explicitly required."
+            )
+
+        if schema_unknown:
+            msg = f"[schema_unknown] {msg}"
+
+        out.append(Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        ))
+
+    return out
