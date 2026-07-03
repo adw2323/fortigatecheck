@@ -90,6 +90,9 @@ def authority_main(argv: list[str]) -> None:
 def main():
     if len(sys.argv) > 1 and sys.argv[1] in {"lookup", "schema", "docs"}:
         return authority_main(sys.argv[1:])
+    if len(sys.argv) > 1 and sys.argv[1] == "compliance":
+        from .compliance import compliance_main
+        return compliance_main(sys.argv[2:])
 
     ap = argparse.ArgumentParser(prog="fgcheck")
     ap.add_argument("config", help="FortiOS text config .conf or folder containing .conf files")
