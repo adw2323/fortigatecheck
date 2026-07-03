@@ -2110,3 +2110,108 @@ def rule_sslvpn_no_mfa(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rul
         evidence=ev,
     ))
     return out
+
+
+# ---------------------------------------------------------------------------
+# FGT-IPS-DEFAULT-SIGNATURE
+# ---------------------------------------------------------------------------
+
+def rule_ips_default_signature(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect IPS sensors configured with no custom signature entries.
+
+    FortiGate IPS works by defining *sensors* that contain signature
+    entries (actions, matched signatures, logging settings).  When
+    ``config ips sensor`` is present but none of the sensors have a
+    ``config entries`` block, the IPS relies entirely on factory-default
+    signatures and no organisation-specific tuning has been applied.
+
+    This is flagged because:
+    - Default signatures may be too broad (causing false-positive floods)
+      or too narrow (missing relevant threats).
+    - Without custom entries the IPS cannot enforce organisation-specific
+      blocking or pass-through policies.
+    - Best practice is to create dedicated IPS sensors with entries tuned
+      to the network profile.
+    """
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+
+    # Schema check: ``ips sensor`` is a top-level table in the schema.
+    # When the table exists but schema is partial (table_only), fields
+    # are unknown so confidence degrades to heuristic.
+    if schema is None or not schema.loaded:
+        schema_unknown = True
+    elif schema.has_table(("ips", "sensor")):
+        schema_unknown = schema.partial
+    else:
+        return out  # table not in schema at all — skip
+
+    sensor_table = get_table(tables, ("ips", "sensor"))
+    if not sensor_table:
+        return out
+
+    # Collect sensor names (skip __singleton__ if present)
+    sensor_names = [
+        name for name in sensor_table
+        if isinstance(sensor_table[name], Node)
+    ]
+    if not sensor_names:
+        return out
+
+    # The parser flattens nested ``config entries`` blocks into a
+    # separate top-level ``entries`` table.  If that table has any
+    # Node entries, at least one sensor has custom IPS rules.
+    entries_table = get_table(tables, ("entries",))
+    has_entries = any(isinstance(v, Node) for v in entries_table.values())
+
+    if has_entries:
+        return out  # at least one sensor has custom entries — OK
+
+    # Build evidence — use first sensor's set: evidence if available,
+    # otherwise create minimal evidence from the sensor name.
+    ev: List[Evidence] = []
+    for name in sensor_names:
+        node = sensor_table[name]
+        if node.evidence:
+            for _, e in node.evidence.items():
+                ev.append(e)
+                break
+            if ev:
+                break
+    # If no evidence from set: lines, create a synthetic one so the
+    # finding is always anchored to a config line.
+    if not ev and sensor_names:
+        first_node = sensor_table[sensor_names[0]]
+        # Walk sensor_table values to find any evidence
+        for _, e in first_node.evidence.items():
+            ev.append(e)
+            break
+
+    sensor_list = ", ".join(f'"{n}"' for n in sensor_names)
+    msg = (
+        f"IPS is configured with {len(sensor_names)} sensor(s) "
+        f"({sensor_list}) but none contain custom signature entries. "
+        f"The IPS is running with only factory-default signatures. "
+        f"Create dedicated IPS sensors with entries tuned to your "
+        f"network profile."
+    )
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+
+    out.append(Finding(
+        rule_id=rule.id,
+        title=rule.title,
+        severity=rule.severity,
+        confidence=("heuristic" if schema_unknown else rule.confidence),
+        vdom=vdom,
+        message=msg,
+        evidence=ev,
+    ))
+    return out

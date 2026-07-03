@@ -1,0 +1,5 @@
+id: FGT-IPS-DEFAULT-SIGNATURE
+title: IPS sensor configured without custom signature entries
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_ips_default_signature
