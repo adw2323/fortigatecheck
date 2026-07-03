@@ -147,6 +147,7 @@ When schema coverage is unavailable, findings must not claim certainty and shoul
 - `FGT-DHCP-SNOOP`
 - `FGT-SSLVPN-NO-MFA`
 - `FGT-IPS-DEFAULT-SIGNATURE`
+- `FGT-WEBFILTER-DEFAULT-OVERRIDE`
 
 ### Deterministic Controls Added
 - `FGT-ADMIN-EDGE-ALLACCESS`

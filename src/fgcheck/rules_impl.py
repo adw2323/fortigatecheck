@@ -2215,3 +2215,79 @@ def rule_ips_default_signature(
         evidence=ev,
     ))
     return out
+
+
+def rule_webfilter_default_override(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: Optional[SchemaView] = None,
+) -> List[Finding]:
+    """Detect web filter override entries that may weaken default filtering.
+
+    FortiGate ``config webfilter override`` allows administrators to create
+    bypass rules that exempt specific users, groups, or IP addresses from
+    web filtering policies.  When override entries exist, traffic matching
+    those entries can bypass the normal web filter profile entirely.
+
+    This is flagged because:
+    - Overrides weaken the default web filtering posture.
+    - Excessive or broad overrides may create security gaps.
+    - Best practice is to minimise overrides and audit them regularly.
+    """
+    tables = model.vdoms.get(vdom, {})
+    out: List[Finding] = []
+
+    # Schema check: ``webfilter override`` is a table in the schema.
+    if schema is None or not schema.loaded:
+        schema_unknown = True
+    elif schema.has_table(("webfilter", "override")):
+        schema_unknown = schema.partial
+    else:
+        return out  # table not in schema — skip
+
+    override_table = get_table(tables, ("webfilter", "override"))
+    if not override_table:
+        return out
+
+    # Collect override entries (skip __singleton__ if present)
+    override_entries = [
+        name for name in override_table
+        if isinstance(override_table[name], Node)
+    ]
+    if not override_entries:
+        return out
+
+    # Build evidence from first entry
+    ev: List[Evidence] = []
+    for name in override_entries:
+        node = override_table[name]
+        if node.evidence:
+            for _, e in node.evidence.items():
+                ev.append(e)
+                break
+            if ev:
+                break
+
+    entry_list = ", ".join(f'"{n}"' for n in override_entries)
+    msg = (
+        f"Web filter override has {len(override_entries)} bypass entry/entries "
+        f"({entry_list}). Overrides allow traffic to bypass the web filter "
+        f"profile entirely. Review and minimise overrides to maintain the "
+        f"intended web filtering posture."
+    )
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+
+    out.append(Finding(
+        rule_id=rule.id,
+        title=rule.title,
+        severity=rule.severity,
+        confidence=("heuristic" if schema_unknown else rule.confidence),
+        vdom=vdom,
+        message=msg,
+        evidence=ev,
+    ))
+    return out
