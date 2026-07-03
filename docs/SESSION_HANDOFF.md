@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-07-03
+Last updated: 2026-07-03 (overnight supervisor tick)
 ## Current Status Snapshot
 ### Completed Foundations
 - **Parser**: Multiline quoted `set` blob handling, VDOM scope switching/restore, nested `config...end` table path restoration
@@ -18,10 +18,10 @@ Last updated: 2026-07-03
 - **8.0**: 646 tables, 17 with field details
 
 ### Test Coverage
-- 400 tests passing
-- 35 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls, password_policy, idle_timeout, dns_default_only, firmware_outdated, ssh_weak_ciphers, snmp_no_acl, cert_expiring, fgfm_default_override, iface_no_vlan_security, dhcp_snoop, sslvpn_no_mfa, ips_default_signature, webfilter_default_override, av_no_heuristic), versioning, authority, baseline, CLI, report, build_corpus, readme, model, util
+- 416 tests passing
+- 36 test files covering: parser, facts, schema, rules (catalog, set, matrix, schema_gate, multivdom, ordering, new_controls, password_policy, idle_timeout, dns_default_only, firmware_outdated, ssh_weak_ciphers, snmp_no_acl, cert_expiring, fgfm_default_override, iface_no_vlan_security, dhcp_snoop, sslvpn_no_mfa, ips_default_signature, webfilter_default_override, av_no_heuristic, dlp_no_sensor), versioning, authority, baseline, CLI, report, build_corpus, readme, model, util
 
-### Builtin Rules (34 total)
+### Builtin Rules (35 total)
 - Admin access: FGT-ADMIN-EDGE-SSH, FGT-ADMIN-EDGE-HTTPS, FGT-ADMIN-EDGE-TELNET, FGT-ADMIN-EDGE-HTTP, FGT-ADMIN-EDGE-ALLACCESS, FGT-ADMIN-NO-TRUSTED-HOSTS, FGT-ADMIN-TRUSTHOST-UNRESTRICTED, FGT-ADMIN-SUPER-NO-2FA
 - Firewall: FGT-POLICY-ANY-ANY-ALL, FGT-POLICY-LOG-001
 - Local-in: FGT-LOCAL-IN-PERMISSIVE, FGT-LOCALIN-NO-PROTECTION
@@ -42,6 +42,7 @@ Last updated: 2026-07-03
 - IPS: FGT-IPS-DEFAULT-SIGNATURE
 - Web filter: FGT-WEBFILTER-DEFAULT-OVERRIDE
 - Antivirus: FGT-AV-NO-HEURISTIC
+- DLP: FGT-DLP-NO-SENSOR
 
 ## Version Policy Update
 - First-class: 7.4.x (latest 7.4.12), 7.6.x (latest 7.6.7), 8.0.x (8.0.0 just released)
@@ -50,7 +51,7 @@ Last updated: 2026-07-03
 
 ## Known Gaps / Open Work
 1. Schema corpus is table_only for ~600 tables; field extraction needed for security-critical tables beyond the 17 priority ones
-2. Rule set is growing (34 rules); Wave 3 has 11 more PLANNED rules
+2. Rule set is growing (35 rules); Wave 3 has 10 more PLANNED rules
 3. Facts engine needs deeper interface hierarchy: HA cluster topology, virtual-wire pair detection
 4. No CI pipeline yet (GitHub Actions)
 5. No real-config regression suite with sanitized fixtures
@@ -62,7 +63,7 @@ Last updated: 2026-07-03
 
 ## Do-Next Checklist
 1. ~~Add FGT-AV-NO-HEURISTIC rule with tests~~ DONE
-2. Add FGT-DLP-NO-SENSOR rule with tests (next PLANNED in Wave 3)
+2. ~~Add FGT-DLP-NO-SENSOR rule with tests (next PLANNED in Wave 3)~~ DONE
 3. Add FGT-WAF-NO-PROFILE rule with tests
 4. Expand schema field extraction for security-critical tables beyond priority 17
 5. Add CI pipeline (GitHub Actions with pytest + schema validation)

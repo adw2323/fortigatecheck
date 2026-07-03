@@ -1,6 +1,6 @@
 # fgcheck Roadmap — Living Document
 
-Last updated: 2026-07-02
+Last updated: 2026-07-03
 
 > This is a living roadmap. It grows as the project grows. Every completed milestone
 > adds the next frontier. The goal is never "done" — it is always expanding coverage,
@@ -13,10 +13,10 @@ Last updated: 2026-07-02
 ### By the Numbers
 | Metric | Value | Trend |
 |--------|-------|-------|
-| Tests passing | 400 | Up from 379 |
+| Tests passing | 416 | Up from 400 |
 | Source files | 13 modules | Growing |
 | Test files | 34 | Growing |
-| Builtin rules | 34 | Up from 33 |
+| Builtin rules | 35 | Up from 34 |
 | Schema versions | 3 (7.4, 7.6, 8.0) | Up from 2 |
 | Quality signal (Sentrux) | 0.6411 | Target: 0.80+ |
 | Test coverage (Sentrux) | 20% | Target: 80%+ |
@@ -86,7 +86,7 @@ Start with critical/likely findings, expand to best-practice and hardening check
 | FGT-IPS-DEFAULT-SIGNATURE | IPS | medium | DONE |
 | FGT-WEBFILTER-DEFAULT-OVERRIDE | Web filter | medium | DONE |
 | FGT-AV-NO-HEURISTIC | Antivirus | medium | DONE |
-| FGT-DLP-NO-SENSOR | DLP | low | PLANNED |
+|| FGT-DLP-NO-SENSOR | DLP | low | DONE |
 | FGT-WAF-NO-PROFILE | WAF | medium | PLANNED |
 | FGT-EMAILFILTER-NO-DNSBL | Email filter | low | PLANNED |
 | FGT-SSLVPN-NO-MFA | SSL VPN | high | DONE |
@@ -275,7 +275,7 @@ Rules that cross-reference CVE/PSIRT/KEV data with config:
 
 **Goal**: Every source module has comprehensive tests. Sentrux coverage target: 80%+.
 
-#### Current: 400 tests, 35 test files, 34 rules
+#### Current: 416 tests, 36 test files, 35 rules
 #### Target: 80%+ coverage
 
 | Module | Lines | Tests | Coverage Status |
