@@ -1,0 +1,5 @@
+id: FGT-SSLVPN-NO-MFA
+title: SSL VPN does not require two-factor authentication
+severity: high
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_sslvpn_no_mfa

@@ -2046,3 +2046,67 @@ def rule_dhcp_snoop(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, 
             evidence=ev,
         ))
     return out
+
+
+def rule_sslvpn_no_mfa(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: Optional[SchemaView] = None) -> List[Finding]:
+    """Detect SSL VPN configurations that do not require two-factor authentication.
+
+    FortiGate supports two-factor auth for SSL VPN via:
+    - ``two-factor`` set to one of: ``fortitoken``, ``email``, ``sms``,
+      ``fortitoken-cloud``, ``cert``
+
+    When ``two-factor`` is missing or ``none``, users can authenticate with
+    a password alone, which is a high-risk misconfiguration.
+    """
+    tables = model.vdoms.get(vdom, {})
+    ssl_table = get_table(tables, ("vpn", "ssl", "settings"))
+    out: List[Finding] = []
+
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("vpn", "ssl", "settings"), "two-factor"
+    )
+    if not supported:
+        return out
+
+    node = ssl_table.get("__singleton__")
+    if not isinstance(node, Node):
+        return out
+
+    # Check if SSL VPN is actually enabled
+    status = str(node.fields.get("status", "disable")).strip().lower()
+    if status != "enable":
+        return out
+
+    # Check two-factor setting
+    two_factor = str(node.fields.get("two-factor", "none")).strip().lower()
+    if two_factor in ("fortitoken", "email", "sms", "fortitoken-cloud", "cert"):
+        return out  # MFA is configured
+
+    ev: List[Evidence] = []
+    if "set:two-factor" in node.evidence:
+        ev.append(node.evidence["set:two-factor"])
+    elif "set:status" in node.evidence:
+        ev.append(node.evidence["set:status"])
+
+    if two_factor in (None, "", "none"):
+        detail = "two-factor authentication is not configured"
+    else:
+        detail = f"two-factor is set to \"{two_factor}\""
+
+    msg = (
+        f"SSL VPN is enabled but {detail}. "
+        f"Users can authenticate with a password only, increasing the risk "
+        f"of credential theft and unauthorized remote access."
+    )
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+    out.append(Finding(
+        rule_id=rule.id,
+        title=rule.title,
+        severity=rule.severity,
+        confidence=("heuristic" if schema_unknown else rule.confidence),
+        vdom=vdom,
+        message=msg,
+        evidence=ev,
+    ))
+    return out
