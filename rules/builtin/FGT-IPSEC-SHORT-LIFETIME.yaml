@@ -1,0 +1,5 @@
+id: FGT-IPSEC-SHORT-LIFETIME
+title: IPsec SA lifetime is shorter than recommended minimum
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ipsec_short_lifetime

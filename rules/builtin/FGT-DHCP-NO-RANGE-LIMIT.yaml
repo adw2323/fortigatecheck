@@ -1,0 +1,5 @@
+id: FGT-DHCP-NO-RANGE-LIMIT
+title: DHCP server configured without start-ip/end-ip range limits
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_dhcp_no_range_limit

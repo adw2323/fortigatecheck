@@ -1,0 +1,5 @@
+id: FGT-POLICY-NO-WEBFILTER
+title: Accept policy without web filter profile configured
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_policy_no_webfilter

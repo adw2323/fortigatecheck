@@ -273,6 +273,8 @@ def main():
                 title=args.report_title or f"FortiGate Findings: {config_path.name}",
                 suppressed=suppressed,
             )
+        elif args.format == "sarif":
+            rendered = findings_to_sarif(findings)
         else:
             rendered = findings_to_markdown(findings)
         emit(rendered)
@@ -372,6 +374,31 @@ def main():
         rendered = scan_to_human(file_reports, summary, title=args.report_title or "FortiGate Folder Scan")
     elif args.format == "html":
         rendered = scan_to_html(file_reports, summary, title=args.report_title or "FortiGate Folder Scan")
+    elif args.format == "sarif":
+        # For folder scans, flatten all findings from all files into one SARIF run.
+        all_findings = []
+        for report in file_reports:
+            for fd in report.get("findings", []):
+                from .rules import Finding as _Finding
+                from .model import Evidence as _Evidence
+                evts = []
+                for ev_dict in fd.get("evidence", []):
+                    evts.append(_Evidence(
+                        file_id=str(ev_dict.get("file_id", "")),
+                        line_range=tuple(ev_dict.get("line_range", [1, 1])),
+                        path=tuple(ev_dict.get("path", [])),
+                        raw_lines=list(ev_dict.get("raw_lines", [])),
+                    ))
+                all_findings.append(_Finding(
+                    rule_id=str(fd.get("rule_id", "")),
+                    title=str(fd.get("title", "")),
+                    severity=str(fd.get("severity", "")),
+                    confidence=str(fd.get("confidence", "")),
+                    vdom=str(fd.get("vdom", "")),
+                    message=str(fd.get("message", "")),
+                    evidence=evts,
+                ))
+        rendered = findings_to_sarif(all_findings)
     else:
         out = ["# FortiGate Config Check Folder Report\n\n"]
         out.append(

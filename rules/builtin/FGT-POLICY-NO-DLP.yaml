@@ -1,0 +1,5 @@
+id: FGT-POLICY-NO-DLP
+title: Accept policy without DLP sensor configured
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_policy_no_dlp

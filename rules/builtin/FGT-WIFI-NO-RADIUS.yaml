@@ -1,0 +1,5 @@
+id: FGT-WIFI-NO-RADIUS
+title: Enterprise WiFi SSID without RADIUS authentication
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_wifi_no_radius

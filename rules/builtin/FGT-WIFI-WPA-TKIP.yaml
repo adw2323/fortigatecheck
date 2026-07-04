@@ -1,0 +1,5 @@
+id: FGT-WIFI-WPA-TKIP
+title: Wireless SSID using TKIP encryption (weak)
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_wifi_wpa_tkip

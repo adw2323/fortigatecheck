@@ -1,0 +1,5 @@
+id: FGT-POLICY-NO-LOG
+title: Accept policy without traffic logging
+severity: low
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_policy_no_log

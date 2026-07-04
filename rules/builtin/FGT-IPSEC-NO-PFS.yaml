@@ -1,0 +1,5 @@
+id: FGT-IPSEC-NO-PFS
+title: IPsec phase2 without perfect forward secrecy
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ipsec_no_pfs

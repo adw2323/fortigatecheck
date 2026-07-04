@@ -1,0 +1,5 @@
+id: FGT-SSLVPN-WEAK-CIPHER
+title: SSL-VPN configured with weak cipher suites
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sslvpn_weak_cipher

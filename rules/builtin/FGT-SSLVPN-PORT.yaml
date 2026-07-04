@@ -1,0 +1,5 @@
+id: FGT-SSLVPN-PORT
+title: SSL-VPN listening on a non-standard port
+severity: low
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sslvpn_port
