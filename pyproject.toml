@@ -38,6 +38,7 @@ ignore = [
     "E701",   # multiple statements on one line (colon)
     "B007",   # loop control variable not used
     "B905",   # zip() without strict
+    "B011",   # assert False
 ]
 
 [tool.ruff.lint.isort]

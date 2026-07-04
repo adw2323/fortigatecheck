@@ -45,7 +45,7 @@ class TestEvidence:
         """Evidence has raw_lines (list) so it can't be used in sets."""
         e = Evidence(file_id="x", line_range=(1, 2), path=("a",))
         try:
-            {e}
+            set([e])
             raise AssertionError("Should have raised TypeError for unhashable")
         except TypeError:
             pass
