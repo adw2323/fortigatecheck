@@ -1,4 +1,5 @@
 """Tests for FGT-DLP-NO-SENSOR rule."""
+
 import json
 from pathlib import Path
 
@@ -274,11 +275,13 @@ end"""
 
     def test_no_dlp_sensor_in_schema_skips(self, tmp_path: Path):
         """Schema without dlp sensor table should skip the rule entirely."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system interface": {"fields": {"name": {}}}
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {"system interface": {"fields": {"name": {}}}},
             },
-        })
+        )
         conf = """\
 config dlpsensor sensor
     edit "dlp-default"

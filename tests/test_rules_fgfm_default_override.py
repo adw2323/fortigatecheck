@@ -1,4 +1,5 @@
 """Tests for FGT-FGFM-DEFAULT-OVERRIDE rule."""
+
 import json
 from pathlib import Path
 
@@ -31,9 +32,7 @@ _SCHEMA_TABLE_ONLY = {
     },
 }
 
-_SCHEMA_NO_TABLE = {
-    "tables": {}
-}
+_SCHEMA_NO_TABLE = {"tables": {}}
 
 
 # ---------------------------------------------------------------------------
@@ -267,11 +266,13 @@ end"""
 
     def test_schema_field_not_supported_skips(self, tmp_path: Path):
         """When the table exists but default-override field is not in the schema and schema is loaded, skip."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system fortimanager": {"fields": {"status": {}, "server": {}}}
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {"system fortimanager": {"fields": {"status": {}, "server": {}}}},
             },
-        })
+        )
         conf = """\
 config system fortimanager
     set status enable

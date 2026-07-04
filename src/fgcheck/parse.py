@@ -24,6 +24,7 @@ class _PendingSet:
     values: list[str]
     raw_lines: list[str]
 
+
 def _strip_comment(line: str) -> str:
     """Strip full-line comments and inline comments (first unquoted ``#``)."""
     s = line.rstrip("\n")
@@ -43,6 +44,7 @@ def _strip_comment(line: str) -> str:
             return s[:i].rstrip()
         i += 1
     return s
+
 
 def _tokenize(line: str) -> list[str]:
     out: list[str] = []
@@ -100,6 +102,7 @@ def _first_unescaped_quote_index(line: str) -> int:
         i += 1
     return -1
 
+
 def _ensure_table(root: dict[str, Any], path: tuple[str, ...]) -> dict[str, Any]:
     node: Any = root
     for p in path:
@@ -107,6 +110,7 @@ def _ensure_table(root: dict[str, Any], path: tuple[str, ...]) -> dict[str, Any]
     if not isinstance(node, dict):
         return {}
     return node
+
 
 def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[ConfigModel, list[ParseWarning]]:
     lines = conf_text.splitlines(True)
@@ -176,7 +180,14 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
                 pending_set.node.evidence[f"set:{pending_set.key}"] = Evidence(
                     file_id=file_id,
                     line_range=(pending_set.start_line, line_no),
-                    path=("scope", scope, *(pending_set.table_path or ()), pending_set.obj_key or "", "set", pending_set.key),
+                    path=(
+                        "scope",
+                        scope,
+                        *(pending_set.table_path or ()),
+                        pending_set.obj_key or "",
+                        "set",
+                        pending_set.key,
+                    ),
                     raw_lines=pending_set.raw_lines,
                 )
                 pending_set = None

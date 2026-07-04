@@ -1,4 +1,5 @@
 """Tests for FGT-AV-NO-HEURISTIC rule."""
+
 import json
 from pathlib import Path
 
@@ -396,11 +397,13 @@ end"""
 
     def test_no_av_profile_in_schema_skips(self, tmp_path: Path):
         """Schema without antivirus profile table should skip the rule entirely."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system interface": {"fields": {"name": {}}}
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {"system interface": {"fields": {"name": {}}}},
             },
-        })
+        )
         conf = """\
 config antivirus profile
     edit "av-default"

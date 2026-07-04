@@ -76,7 +76,7 @@ def load_baseline_matchers(path: str) -> list[dict[str, Any]]:
     else:
         items = payload
     if not isinstance(items, list):
-        raise ValueError("Baseline file must contain a JSON list or {\"matchers\": [...]}.")
+        raise ValueError('Baseline file must contain a JSON list or {"matchers": [...]}.')
     return [_normalize_matcher(x) for x in items if isinstance(x, dict)]
 
 
@@ -104,12 +104,7 @@ def filter_finding_records(
 
 
 def write_baseline_records(path: str, records: Sequence[dict[str, Any]]) -> None:
-    unique = sorted(
-        {
-            json.dumps(_normalize_matcher(dict(rec)), sort_keys=True)
-            for rec in records
-        }
-    )
+    unique = sorted({json.dumps(_normalize_matcher(dict(rec)), sort_keys=True) for rec in records})
     payload = [json.loads(item) for item in unique]
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)

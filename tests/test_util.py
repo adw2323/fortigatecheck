@@ -1,4 +1,5 @@
 """Tests for fgcheck.util — as_list helper."""
+
 from __future__ import annotations
 
 from fgcheck.util import as_list

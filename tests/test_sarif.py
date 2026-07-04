@@ -1,4 +1,5 @@
 """Tests for SARIF output format."""
+
 from __future__ import annotations
 
 import json
@@ -19,8 +20,13 @@ def _make_finding(
 ) -> Finding:
     ev = [Evidence(file_id="test.conf", line_range=(line_start, line_start), path=(), raw_lines=[])]
     return Finding(
-        rule_id=rule_id, title=title, severity=severity,
-        confidence=confidence, vdom=vdom, message=message, evidence=ev,
+        rule_id=rule_id,
+        title=title,
+        severity=severity,
+        confidence=confidence,
+        vdom=vdom,
+        message=message,
+        evidence=ev,
     )
 
 

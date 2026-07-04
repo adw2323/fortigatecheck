@@ -88,8 +88,12 @@ def test_build_corpus_ingests_schema_and_kev_from_official_sources(tmp_path: Pat
 
     mod.build_corpus(repo_root=tmp_path, fetcher=lambda url: fetch_payloads[url])
 
-    schema_74 = json.loads((tmp_path / "docs" / "derived" / "schema" / "7.4" / "schema.json").read_text(encoding="utf-8"))
-    schema_76 = json.loads((tmp_path / "docs" / "derived" / "schema" / "7.6" / "schema.json").read_text(encoding="utf-8"))
+    schema_74 = json.loads(
+        (tmp_path / "docs" / "derived" / "schema" / "7.4" / "schema.json").read_text(encoding="utf-8")
+    )
+    schema_76 = json.loads(
+        (tmp_path / "docs" / "derived" / "schema" / "7.6" / "schema.json").read_text(encoding="utf-8")
+    )
     cves = json.loads((tmp_path / "docs" / "derived" / "cves" / "cves.json").read_text(encoding="utf-8"))
 
     assert "system interface" in schema_74["tables"]
@@ -165,7 +169,9 @@ def test_build_corpus_extracts_tables_from_cli_reference_html(tmp_path: Path):
     assert "system interface" in schema["tables"]
     assert "firewall policy" in schema["tables"]
     assert schema["coverage"] == "table_only"
-    assert schema["tables"]["system interface"]["source_url"].startswith("https://docs.fortinet.com/document/fortigate/")
+    assert schema["tables"]["system interface"]["source_url"].startswith(
+        "https://docs.fortinet.com/document/fortigate/"
+    )
 
 
 def test_build_corpus_enriches_priority_table_fields_from_table_page_html(tmp_path: Path):
@@ -292,7 +298,12 @@ end</pre></body></html>
 
     assert "accprofile" in schema["tables"]["system admin"]["fields"]
     assert "ssl-min-proto-ver" in schema["tables"]["vpn ssl settings"]["fields"]
-    assert schema["tables"]["vpn ssl settings"]["fields"]["ssl-min-proto-ver"]["allowed_values"] == ["tls1-0", "tls1-1", "tls1-2", "tls1-3"]
+    assert schema["tables"]["vpn ssl settings"]["fields"]["ssl-min-proto-ver"]["allowed_values"] == [
+        "tls1-0",
+        "tls1-1",
+        "tls1-2",
+        "tls1-3",
+    ]
     assert schema["tables"]["firewall local-in-policy"]["fields"]["action"]["allowed_values"] == ["accept", "deny"]
 
 
@@ -355,7 +366,10 @@ end</pre></body></html>
     assert "dhgrp" in schema["tables"]["vpn ipsec phase1-interface"]["fields"]
     assert schema["tables"]["vpn ipsec phase1-interface"]["fields"]["dhgrp"]["allowed_values"] == ["1", "2", "5", "14"]
     assert schema["tables"]["log syslogd setting"]["fields"]["status"]["allowed_values"] == ["enable", "disable"]
-    assert schema["tables"]["log fortianalyzer-cloud setting"]["fields"]["status"]["allowed_values"] == ["enable", "disable"]
+    assert schema["tables"]["log fortianalyzer-cloud setting"]["fields"]["status"]["allowed_values"] == [
+        "enable",
+        "disable",
+    ]
 
 
 def test_build_corpus_ingests_psirt_sources(tmp_path: Path):

@@ -1,4 +1,5 @@
 """Tests for FGT-CERT-EXPIRING rule."""
+
 import json
 from pathlib import Path
 

@@ -6,6 +6,7 @@ Compares two parsed configs and shows what changed, including:
 - Changed field values
 - Security impact assessment
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -17,6 +18,7 @@ from .model import ConfigModel, Node
 @dataclass
 class DiffChange:
     """A single change between two configs."""
+
     change_type: str  # "added", "removed", "changed"
     path: str  # e.g., "firewall policy/edit 1/action"
     old_value: str | None = None
@@ -36,6 +38,7 @@ class DiffChange:
 @dataclass
 class ConfigDiff:
     """Result of comparing two configs."""
+
     changes: list[DiffChange] = field(default_factory=list)
     summary: dict[str, int] = field(default_factory=dict)
 
@@ -49,10 +52,23 @@ class ConfigDiff:
 
 # Security-sensitive fields that need attention
 SECURITY_FIELDS = {
-    "action", "allowaccess", "srcaddr", "dstaddr", "service",
-    "utm-status", "ssl-ssh-profile", "ips-sensor", "av-profile",
-    "webfilter-profile", "dlp-sensor", "admin-password", "cluster-key",
-    "certificate", "private-key", "secret", "auth-passwd",
+    "action",
+    "allowaccess",
+    "srcaddr",
+    "dstaddr",
+    "service",
+    "utm-status",
+    "ssl-ssh-profile",
+    "ips-sensor",
+    "av-profile",
+    "webfilter-profile",
+    "dlp-sensor",
+    "admin-password",
+    "cluster-key",
+    "certificate",
+    "private-key",
+    "secret",
+    "auth-passwd",
 }
 
 
@@ -93,28 +109,38 @@ def _diff_tables(
         new_val = new_tables.get(key)
 
         if old_val is None and new_val is not None:
-            changes.append(DiffChange(
-                change_type="added", path=path,
-                new_value=str(type(new_val).__name__),
-                severity="info",
-            ))
+            changes.append(
+                DiffChange(
+                    change_type="added",
+                    path=path,
+                    new_value=str(type(new_val).__name__),
+                    severity="info",
+                )
+            )
         elif old_val is not None and new_val is None:
-            changes.append(DiffChange(
-                change_type="removed", path=path,
-                old_value=str(type(old_val).__name__),
-                severity="info",
-            ))
+            changes.append(
+                DiffChange(
+                    change_type="removed",
+                    path=path,
+                    old_value=str(type(old_val).__name__),
+                    severity="info",
+                )
+            )
         elif isinstance(old_val, dict) and isinstance(new_val, dict):
             changes.extend(_diff_tables(old_val, new_val, path))
         elif isinstance(old_val, Node) and isinstance(new_val, Node):
             changes.extend(_diff_nodes(old_val, new_val, path))
         elif old_val != new_val:
             severity = _classify_severity(key, str(old_val), str(new_val))
-            changes.append(DiffChange(
-                change_type="changed", path=path,
-                old_value=str(old_val), new_value=str(new_val),
-                severity=severity,
-            ))
+            changes.append(
+                DiffChange(
+                    change_type="changed",
+                    path=path,
+                    old_value=str(old_val),
+                    new_value=str(new_val),
+                    severity=severity,
+                )
+            )
 
     return changes
 
@@ -137,24 +163,34 @@ def _diff_nodes(
         new_val = new_node.fields.get(field_name)
 
         if old_val is None and new_val is not None:
-            changes.append(DiffChange(
-                change_type="added", path=path,
-                new_value=str(new_val),
-                severity=_classify_severity(field_name, "", str(new_val)),
-            ))
+            changes.append(
+                DiffChange(
+                    change_type="added",
+                    path=path,
+                    new_value=str(new_val),
+                    severity=_classify_severity(field_name, "", str(new_val)),
+                )
+            )
         elif old_val is not None and new_val is None:
-            changes.append(DiffChange(
-                change_type="removed", path=path,
-                old_value=str(old_val),
-                severity=_classify_severity(field_name, str(old_val), ""),
-            ))
+            changes.append(
+                DiffChange(
+                    change_type="removed",
+                    path=path,
+                    old_value=str(old_val),
+                    severity=_classify_severity(field_name, str(old_val), ""),
+                )
+            )
         elif str(old_val) != str(new_val):
             severity = _classify_severity(field_name, str(old_val), str(new_val))
-            changes.append(DiffChange(
-                change_type="changed", path=path,
-                old_value=str(old_val), new_value=str(new_val),
-                severity=severity,
-            ))
+            changes.append(
+                DiffChange(
+                    change_type="changed",
+                    path=path,
+                    old_value=str(old_val),
+                    new_value=str(new_val),
+                    severity=severity,
+                )
+            )
 
     return changes
 
@@ -170,9 +206,7 @@ def diff_configs(
     changes: list[DiffChange] = []
 
     # Compare global config
-    changes.extend(_diff_tables(
-        old_config.global_cfg, new_config.global_cfg, "global"
-    ))
+    changes.extend(_diff_tables(old_config.global_cfg, new_config.global_cfg, "global"))
 
     # Compare VDOMs
     all_vdoms = set(list(old_config.vdoms.keys()) + list(new_config.vdoms.keys()))

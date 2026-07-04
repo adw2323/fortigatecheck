@@ -1,4 +1,5 @@
 """Tests for FGT-ADMIN-NO-IDLE-TIMEOUT rule."""
+
 import json
 from pathlib import Path
 
@@ -228,14 +229,9 @@ end"""
 
     def test_schema_unknown_field_missing_with_partial(self, tmp_path: Path):
         """When table exists but field is missing and schema is table_only, should run as heuristic."""
-        _write_schema(tmp_path, "7.4", {
-            "coverage": "table_only",
-            "tables": {
-                "system global": {
-                    "fields": {"hostname": {}}
-                }
-            }
-        })
+        _write_schema(
+            tmp_path, "7.4", {"coverage": "table_only", "tables": {"system global": {"fields": {"hostname": {}}}}}
+        )
         conf = """\
 config global
     config system global
@@ -280,13 +276,7 @@ end"""
 
     def test_full_coverage_field_missing_skips(self, tmp_path: Path):
         """When schema has full field extraction but field is missing, rule should skip."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system global": {
-                    "fields": {"hostname": {}}
-                }
-            }
-        })
+        _write_schema(tmp_path, "7.4", {"tables": {"system global": {"fields": {"hostname": {}}}}})
         conf = """\
 config global
     config system global

@@ -21,6 +21,7 @@ class Finding:
     message: str
     evidence: list[Evidence]
 
+
 @dataclass
 class Rule:
     id: str
@@ -28,6 +29,7 @@ class Rule:
     severity: str
     confidence: str
     entrypoint: str
+
 
 def _import_callable(dotted: str) -> Callable[..., list[Finding]]:
     mod, fn = dotted.rsplit(":", 1)
@@ -37,19 +39,23 @@ def _import_callable(dotted: str) -> Callable[..., list[Finding]]:
     m = __import__(mod, fromlist=[fn])
     return getattr(m, fn)
 
+
 def load_rules(rule_files: list[str]) -> list[Rule]:
     rules: list[Rule] = []
     for p in rule_files:
         with open(p, encoding="utf-8") as f:
             data = yaml.safe_load(f)
-        rules.append(Rule(
-            id=data["id"],
-            title=data["title"],
-            severity=data["severity"],
-            confidence=data["confidence"],
-            entrypoint=data["entrypoint"],
-        ))
+        rules.append(
+            Rule(
+                id=data["id"],
+                title=data["title"],
+                severity=data["severity"],
+                confidence=data["confidence"],
+                entrypoint=data["entrypoint"],
+            )
+        )
     return rules
+
 
 def run(
     model: ConfigModel,

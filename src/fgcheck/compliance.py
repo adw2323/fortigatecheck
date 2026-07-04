@@ -5,6 +5,7 @@ Maps security rules to compliance frameworks:
 - CIS FortiGate Benchmark
 - Fortinet Best Practices
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -13,6 +14,7 @@ from dataclasses import dataclass, field
 @dataclass(frozen=True)
 class ComplianceControl:
     """A single compliance control."""
+
     framework: str
     control_id: str
     title: str
@@ -22,6 +24,7 @@ class ComplianceControl:
 @dataclass
 class ComplianceMapping:
     """Maps a rule ID to one or more compliance controls."""
+
     rule_id: str
     controls: list[ComplianceControl] = field(default_factory=list)
 
@@ -32,13 +35,17 @@ COMPLIANCE_MAP: dict[str, list[ComplianceControl]] = {
     # ── NIST SP 800-53 Rev 5 ──
     "FGT-ADMIN-EDGE-TELNET": [
         ComplianceControl("NIST-800-53", "AC-17", "Remote Access", "Ensure remote access is protected"),
-        ComplianceControl("NIST-800-53", "SC-8", "Transmission Confidentiality", "Protect confidentiality of transmitted information"),
+        ComplianceControl(
+            "NIST-800-53", "SC-8", "Transmission Confidentiality", "Protect confidentiality of transmitted information"
+        ),
         ComplianceControl("CIS-FortiGate", "1.1", "Disable Telnet", "Disable Telnet management access"),
         ComplianceControl("Fortinet-BP", "BP-ADMIN-01", "No Telnet", "Never use Telnet for management"),
     ],
     "FGT-ADMIN-EDGE-HTTP": [
         ComplianceControl("NIST-800-53", "AC-17", "Remote Access", "Ensure remote access is protected"),
-        ComplianceControl("NIST-800-53", "SC-8", "Transmission Confidentiality", "Protect confidentiality of transmitted information"),
+        ComplianceControl(
+            "NIST-800-53", "SC-8", "Transmission Confidentiality", "Protect confidentiality of transmitted information"
+        ),
         ComplianceControl("CIS-FortiGate", "1.2", "Disable HTTP", "Disable HTTP management access"),
         ComplianceControl("Fortinet-BP", "BP-ADMIN-02", "No HTTP", "Never use HTTP for management"),
     ],
@@ -52,15 +59,23 @@ COMPLIANCE_MAP: dict[str, list[ComplianceControl]] = {
     "FGT-ADMIN-NO-TRUSTED-HOSTS": [
         ComplianceControl("NIST-800-53", "AC-3", "Access Enforcement", "Enforce approved authorizations"),
         ComplianceControl("NIST-800-53", "AC-4", "Information Flow Enforcement", "Control information flow"),
-        ComplianceControl("CIS-FortiGate", "1.4", "Configure Trusted Hosts", "Configure trusted hosts for admin access"),
+        ComplianceControl(
+            "CIS-FortiGate", "1.4", "Configure Trusted Hosts", "Configure trusted hosts for admin access"
+        ),
     ],
     "FGT-ADMIN-SUPER-NO-2FA": [
-        ComplianceControl("NIST-800-53", "IA-2", "Identification and Authentication", "Use multi-factor authentication"),
-        ComplianceControl("NIST-800-53", "IA-2(1)", "MFA for Privileged Access", "Multi-factor for privileged accounts"),
+        ComplianceControl(
+            "NIST-800-53", "IA-2", "Identification and Authentication", "Use multi-factor authentication"
+        ),
+        ComplianceControl(
+            "NIST-800-53", "IA-2(1)", "MFA for Privileged Access", "Multi-factor for privileged accounts"
+        ),
         ComplianceControl("CIS-FortiGate", "1.5", "Enable 2FA", "Enable two-factor authentication"),
     ],
     "FGT-ADMIN-NO-2FA": [
-        ComplianceControl("NIST-800-53", "IA-2", "Identification and Authentication", "Use multi-factor authentication"),
+        ComplianceControl(
+            "NIST-800-53", "IA-2", "Identification and Authentication", "Use multi-factor authentication"
+        ),
         ComplianceControl("CIS-FortiGate", "1.5", "Enable 2FA", "Enable two-factor authentication"),
     ],
     "FGT-ADMIN-LOCKOUT-NO-TRIES": [
@@ -77,12 +92,16 @@ COMPLIANCE_MAP: dict[str, list[ComplianceControl]] = {
         ComplianceControl("CIS-FortiGate", "2.1", "Configure Local-In", "Configure local-in policies"),
     ],
     "FGT-SSLVPN-MIN-TLS": [
-        ComplianceControl("NIST-800-53", "SC-8", "Transmission Confidentiality", "Use FIPS validated cryptographic modules"),
+        ComplianceControl(
+            "NIST-800-53", "SC-8", "Transmission Confidentiality", "Use FIPS validated cryptographic modules"
+        ),
         ComplianceControl("NIST-800-53", "SC-13", "Cryptographic Protection", "Use approved cryptographic methods"),
         ComplianceControl("CIS-FortiGate", "4.1", "Set Minimum TLS", "Set minimum TLS version for SSL VPN"),
     ],
     "FGT-SSH-WEAK-CIPHERS": [
-        ComplianceControl("NIST-800-53", "SC-8", "Transmission Confidentiality", "Protect confidentiality of transmitted information"),
+        ComplianceControl(
+            "NIST-800-53", "SC-8", "Transmission Confidentiality", "Protect confidentiality of transmitted information"
+        ),
         ComplianceControl("NIST-800-53", "SC-13", "Cryptographic Protection", "Use approved cryptographic methods"),
         ComplianceControl("CIS-FortiGate", "1.7", "Strong SSH Ciphers", "Use strong SSH algorithms"),
     ],

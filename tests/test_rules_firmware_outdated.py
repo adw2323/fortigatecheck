@@ -1,4 +1,5 @@
 """Tests for FGT-FIRMWARE-OUTDATED rule."""
+
 import json
 from pathlib import Path
 

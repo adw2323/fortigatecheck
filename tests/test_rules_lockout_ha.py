@@ -1,4 +1,5 @@
 """Tests for FGT-ADMIN-LOCKOUT-NO-TRIES and FGT-HA-NO-HEARTBEAT rules."""
+
 from __future__ import annotations
 
 from fgcheck.facts import build_facts
@@ -18,6 +19,7 @@ def _make_rule(rule_id: str, title: str, severity: str = "medium") -> Rule:
 
 
 # ── FGT-ADMIN-LOCKOUT-NO-TRIES ──
+
 
 class TestAdminLockoutNoTries:
     def test_no_lockout_config(self):
@@ -39,7 +41,11 @@ class TestAdminLockoutNoTries:
                 "global": {
                     "__singleton__": Node(
                         fields={"admin-lockout-threshold": "0"},
-                        evidence={"set:admin-lockout-threshold": Evidence("test", (1, 1), ("system", "global"), ["set admin-lockout-threshold 0"])},
+                        evidence={
+                            "set:admin-lockout-threshold": Evidence(
+                                "test", (1, 1), ("system", "global"), ["set admin-lockout-threshold 0"]
+                            )
+                        },
                     )
                 }
             }
@@ -72,13 +78,7 @@ class TestAdminLockoutNoTries:
     def test_lockout_field_missing(self):
         """Config exists but lockout field not set."""
         model = ConfigModel()
-        model.global_cfg = {
-            "system": {
-                "global": {
-                    "__singleton__": Node(fields={"hostname": "fgt01"})
-                }
-            }
-        }
+        model.global_cfg = {"system": {"global": {"__singleton__": Node(fields={"hostname": "fgt01"})}}}
         model.vdoms["root"] = {}
         rule = _make_rule("FGT-ADMIN-LOCKOUT-NO-TRIES", "Admin lockout not configured")
         facts = build_facts(model, vdom="root")
@@ -88,6 +88,7 @@ class TestAdminLockoutNoTries:
 
 
 # ── FGT-HA-NO-HEARTBEAT ──
+
 
 class TestHANoHeartbeat:
     def test_no_ha_config(self):
@@ -103,13 +104,7 @@ class TestHANoHeartbeat:
     def test_ha_no_hbdev(self):
         """HA configured but no heartbeat device."""
         model = ConfigModel()
-        model.global_cfg = {
-            "system": {
-                "ha": {
-                    "__singleton__": Node(fields={"mode": "a-p"})
-                }
-            }
-        }
+        model.global_cfg = {"system": {"ha": {"__singleton__": Node(fields={"mode": "a-p"})}}}
         model.vdoms["root"] = {}
         rule = _make_rule("FGT-HA-NO-HEARTBEAT", "HA heartbeat not configured")
         facts = build_facts(model, vdom="root")
@@ -120,13 +115,7 @@ class TestHANoHeartbeat:
     def test_ha_hbdev_no_cluster_key(self):
         """HA with heartbeat but no encryption."""
         model = ConfigModel()
-        model.global_cfg = {
-            "system": {
-                "ha": {
-                    "__singleton__": Node(fields={"mode": "a-p", "hbdev": "port4"})
-                }
-            }
-        }
+        model.global_cfg = {"system": {"ha": {"__singleton__": Node(fields={"mode": "a-p", "hbdev": "port4"})}}}
         model.vdoms["root"] = {}
         rule = _make_rule("FGT-HA-NO-HEARTBEAT", "HA heartbeat not configured")
         facts = build_facts(model, vdom="root")
@@ -138,13 +127,7 @@ class TestHANoHeartbeat:
         """HA with heartbeat and encryption — good."""
         model = ConfigModel()
         model.global_cfg = {
-            "system": {
-                "ha": {
-                    "__singleton__": Node(
-                        fields={"mode": "a-p", "hbdev": "port4", "cluster-key": "s3cret"}
-                    )
-                }
-            }
+            "system": {"ha": {"__singleton__": Node(fields={"mode": "a-p", "hbdev": "port4", "cluster-key": "s3cret"})}}
         }
         model.vdoms["root"] = {}
         rule = _make_rule("FGT-HA-NO-HEARTBEAT", "HA heartbeat not configured")

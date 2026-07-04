@@ -1,4 +1,5 @@
 """Tests for FGT-SSLVPN-NO-MFA rule."""
+
 import json
 from pathlib import Path
 
@@ -292,11 +293,13 @@ end"""
 
     def test_schema_field_not_supported_skips(self, tmp_path: Path):
         """When two-factor is not in schema and schema is loaded, skip."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "vpn ssl settings": {"fields": {"status": {}}}
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {"vpn ssl settings": {"fields": {"status": {}}}},
             },
-        })
+        )
         conf = """\
 config vpn ssl settings
     set status enable

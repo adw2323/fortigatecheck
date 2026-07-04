@@ -1,4 +1,5 @@
 """Tests for fleet management database."""
+
 from __future__ import annotations
 
 import json
@@ -69,18 +70,24 @@ class TestFleetDB:
         assert len(scans) == 0
 
     def test_severity_trend(self, fleet_db):
-        fleet_db.store_scan("fw01", [
-            {"severity": "critical", "rule_id": "A"},
-            {"severity": "critical", "rule_id": "B"},
-        ])
+        fleet_db.store_scan(
+            "fw01",
+            [
+                {"severity": "critical", "rule_id": "A"},
+                {"severity": "critical", "rule_id": "B"},
+            ],
+        )
         trend = fleet_db.get_severity_trend(device_name="fw01")
         assert len(trend) >= 1
 
     def test_worst_devices(self, fleet_db):
-        fleet_db.store_scan("fw01", [
-            {"severity": "critical", "rule_id": "A"},
-            {"severity": "critical", "rule_id": "B"},
-        ])
+        fleet_db.store_scan(
+            "fw01",
+            [
+                {"severity": "critical", "rule_id": "A"},
+                {"severity": "critical", "rule_id": "B"},
+            ],
+        )
         fleet_db.store_scan("fw02", [{"severity": "low", "rule_id": "C"}])
 
         worst = fleet_db.get_worst_devices()

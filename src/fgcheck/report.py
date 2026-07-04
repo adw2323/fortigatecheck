@@ -21,7 +21,8 @@ def finding_to_dict(f: Finding) -> dict:
                 "line_range": list(e.line_range),
                 "path": list(e.path),
                 "raw_lines": e.raw_lines,
-            } for e in f.evidence
+            }
+            for e in f.evidence
         ],
     }
 
@@ -33,6 +34,7 @@ def findings_to_json(findings: list[Finding]) -> str:
 
 def scan_to_json(files: list[dict[str, object]], summary: dict[str, int]) -> str:
     return json.dumps({"summary": summary, "files": files}, indent=2)
+
 
 def findings_to_markdown(findings: list[Finding]) -> str:
     if not findings:
@@ -166,14 +168,7 @@ def findings_to_human(
     )
     if suppressed:
         out.append(f"- Suppressed by baseline: {suppressed}\n\n")
-    out.extend(
-        _top_risks_lines(
-            [
-                {"rule_id": f.rule_id, "severity": f.severity, "file": ""}
-                for f in findings
-            ]
-        )
-    )
+    out.extend(_top_risks_lines([{"rule_id": f.rule_id, "severity": f.severity, "file": ""} for f in findings]))
 
     out.append("Findings\n")
     sorted_findings = sorted(findings, key=lambda f: (_severity_rank(f.severity), f.vdom, f.rule_id))
@@ -189,7 +184,9 @@ def findings_to_human(
     return "".join(out)
 
 
-def scan_to_human(files: list[dict[str, object]], summary: dict[str, int], *, title: str = "FortiGate Folder Scan") -> str:
+def scan_to_human(
+    files: list[dict[str, object]], summary: dict[str, int], *, title: str = "FortiGate Folder Scan"
+) -> str:
     out: list[str] = [f"{title}\n", "=" * len(title) + "\n\n"]
     out.append(
         "Summary\n"
@@ -293,10 +290,10 @@ def _html_doc(title: str, body: str) -> str:
     safe_title = html.escape(title)
     return (
         "<!doctype html>\n"
-        "<html lang=\"en\">\n"
+        '<html lang="en">\n'
         "<head>\n"
-        "  <meta charset=\"utf-8\" />\n"
-        "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n"
+        '  <meta charset="utf-8" />\n'
+        '  <meta name="viewport" content="width=device-width, initial-scale=1" />\n'
         f"  <title>{safe_title}</title>\n"
         "  <style>\n"
         "    :root { --bg:#f7f8fb; --card:#ffffff; --ink:#1a1f2b; --muted:#556074; --line:#d9dfeb; }\n"
@@ -327,7 +324,7 @@ def _html_doc(title: str, body: str) -> str:
         "  </style>\n"
         "</head>\n"
         "<body>\n"
-        f"  <div class=\"wrap\">{body}</div>\n"
+        f'  <div class="wrap">{body}</div>\n'
         "</body>\n"
         "</html>\n"
     )
@@ -342,40 +339,40 @@ def findings_to_html(findings: list[Finding], *, title: str = "FortiGate Finding
     risk_rows = _top_risks_records([{"rule_id": f.rule_id, "severity": f.severity, "file": ""} for f in findings])
 
     body: list[str] = []
-    body.append(f"<section class=\"hero\"><h1>{html.escape(title)}</h1>")
-    body.append("<div class=\"grid\">")
-    body.append(f"<div class=\"kpi\"><div class=\"k\">Findings</div><div class=\"v\">{len(findings)}</div></div>")
-    body.append(f"<div class=\"kpi\"><div class=\"k\">Suppressed</div><div class=\"v\">{suppressed}</div></div>")
-    body.append(f"<div class=\"kpi\"><div class=\"k\">Critical</div><div class=\"v\">{sev_counts.get('critical', 0)}</div></div>")
-    body.append(f"<div class=\"kpi\"><div class=\"k\">High</div><div class=\"v\">{sev_counts.get('high', 0)}</div></div>")
+    body.append(f'<section class="hero"><h1>{html.escape(title)}</h1>')
+    body.append('<div class="grid">')
+    body.append(f'<div class="kpi"><div class="k">Findings</div><div class="v">{len(findings)}</div></div>')
+    body.append(f'<div class="kpi"><div class="k">Suppressed</div><div class="v">{suppressed}</div></div>')
+    body.append(
+        f'<div class="kpi"><div class="k">Critical</div><div class="v">{sev_counts.get("critical", 0)}</div></div>'
+    )
+    body.append(f'<div class="kpi"><div class="k">High</div><div class="v">{sev_counts.get("high", 0)}</div></div>')
     body.append("</div></section>")
 
-    body.append("<section class=\"card\"><h2>Top Risks First</h2><ul>")
+    body.append('<section class="card"><h2>Top Risks First</h2><ul>')
     if not risk_rows:
         body.append("<li>none</li>")
     else:
         for row in risk_rows:
             body.append(
-                f"<li><span class=\"badge {_severity_class(str(row['severity']))}\">{html.escape(str(row['severity']))}</span> "
+                f'<li><span class="badge {_severity_class(str(row["severity"]))}">{html.escape(str(row["severity"]))}</span> '
                 f"{html.escape(str(row['rule_id']))}: {int(row['count'])} finding(s)</li>"
             )
     body.append("</ul></section>")
 
-    body.append("<section class=\"card\"><h2>Findings</h2>")
+    body.append('<section class="card"><h2>Findings</h2>')
     if not findings:
         body.append("<p>No findings were detected.</p>")
     else:
         sorted_findings = sorted(findings, key=lambda f: (_severity_rank(f.severity), f.vdom, f.rule_id))
         for f in sorted_findings:
             expl = _rule_explanation(f.rule_id, f.message)
-            body.append("<article class=\"finding\">")
+            body.append('<article class="finding">')
             body.append(
-                f"<h3><span class=\"badge {_severity_class(f.severity)}\">{html.escape(f.severity)}</span> "
+                f'<h3><span class="badge {_severity_class(f.severity)}">{html.escape(f.severity)}</span> '
                 f"{html.escape(f.rule_id)}</h3>"
             )
-            body.append(
-                f"<p class=\"meta\">vdom={html.escape(f.vdom)} | confidence={html.escape(f.confidence)}</p>"
-            )
+            body.append(f'<p class="meta">vdom={html.escape(f.vdom)} | confidence={html.escape(f.confidence)}</p>')
             body.append(f"<p><strong>What it means:</strong> {html.escape(expl)}</p>")
             body.append(f"<p><strong>Why flagged:</strong> {html.escape(f.message)}</p>")
             if f.evidence:
@@ -412,19 +409,21 @@ def scan_to_html(
     risk_rows = _top_risks_records(risk_records)
 
     body: list[str] = []
-    body.append(f"<section class=\"hero\"><h1>{html.escape(title)}</h1>")
-    body.append("<div class=\"grid\">")
-    body.append(f"<div class=\"kpi\"><div class=\"k\">Files</div><div class=\"v\">{summary.get('files', 0)}</div></div>")
-    body.append(f"<div class=\"kpi\"><div class=\"k\">Findings</div><div class=\"v\">{summary.get('findings', 0)}</div></div>")
+    body.append(f'<section class="hero"><h1>{html.escape(title)}</h1>')
+    body.append('<div class="grid">')
+    body.append(f'<div class="kpi"><div class="k">Files</div><div class="v">{summary.get("files", 0)}</div></div>')
     body.append(
-        f"<div class=\"kpi\"><div class=\"k\">Suppressed</div><div class=\"v\">{summary.get('suppressed', 0)}</div></div>"
+        f'<div class="kpi"><div class="k">Findings</div><div class="v">{summary.get("findings", 0)}</div></div>'
     )
     body.append(
-        f"<div class=\"kpi\"><div class=\"k\">Highest</div><div class=\"v\">{html.escape(str(summary.get('highest_severity', 'none')))}</div></div>"
+        f'<div class="kpi"><div class="k">Suppressed</div><div class="v">{summary.get("suppressed", 0)}</div></div>'
+    )
+    body.append(
+        f'<div class="kpi"><div class="k">Highest</div><div class="v">{html.escape(str(summary.get("highest_severity", "none")))}</div></div>'
     )
     body.append("</div></section>")
 
-    body.append("<section class=\"card\"><h2>Top Risks First</h2><ul>")
+    body.append('<section class="card"><h2>Top Risks First</h2><ul>')
     if not risk_rows:
         body.append("<li>none</li>")
     else:
@@ -432,19 +431,19 @@ def scan_to_html(
             files_count = row["files"]
             nfiles = len(files_count) if isinstance(files_count, set) else 0
             body.append(
-                f"<li><span class=\"badge {_severity_class(str(row['severity']))}\">{html.escape(str(row['severity']))}</span> "
+                f'<li><span class="badge {_severity_class(str(row["severity"]))}">{html.escape(str(row["severity"]))}</span> '
                 f"{html.escape(str(row['rule_id']))}: {int(row['count'])} finding(s), files={nfiles}</li>"
             )
     body.append("</ul></section>")
 
-    body.append("<section class=\"card\"><h2>Per-file</h2>")
+    body.append('<section class="card"><h2>Per-file</h2>')
     for fr in files:
         file_name = str(fr.get("file", ""))
         findings = fr.get("findings", [])
         parse_warnings = fr.get("parse_warnings", [])
         body.append(
-            f"<article class=\"finding\"><h3>{html.escape(file_name)}</h3>"
-            f"<p class=\"meta\">findings={len(findings)}, parse_warnings={len(parse_warnings)}</p>"
+            f'<article class="finding"><h3>{html.escape(file_name)}</h3>'
+            f'<p class="meta">findings={len(findings)}, parse_warnings={len(parse_warnings)}</p>'
         )
         sorted_findings = sorted(
             [f for f in findings if isinstance(f, dict)],
@@ -457,9 +456,9 @@ def scan_to_html(
             msg = str(f.get("message", ""))
             expl = _rule_explanation(rule_id, msg)
             body.append(
-                f"<p><span class=\"badge {_severity_class(sev)}\">{html.escape(sev)}</span> "
+                f'<p><span class="badge {_severity_class(sev)}">{html.escape(sev)}</span> '
                 f"<strong>{html.escape(rule_id)}</strong> "
-                f"<span class=\"meta\">({html.escape(conf)})</span><br/>"
+                f'<span class="meta">({html.escape(conf)})</span><br/>'
                 f"<strong>What it means:</strong> {html.escape(expl)}<br/>"
                 f"<strong>Why flagged:</strong> {html.escape(msg)}</p>"
             )
@@ -473,8 +472,7 @@ def write_pdf_from_html(html_text: str, output_path: str) -> None:
         from weasyprint import HTML  # type: ignore
     except Exception as exc:
         raise RuntimeError(
-            "PDF export requires the optional 'weasyprint' package. "
-            "Install with: pip install weasyprint"
+            "PDF export requires the optional 'weasyprint' package. Install with: pip install weasyprint"
         ) from exc
     out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)

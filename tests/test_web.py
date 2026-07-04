@@ -1,10 +1,12 @@
 """Tests for the web UI."""
+
 from __future__ import annotations
 
 import pytest
 
 try:
     from fastapi.testclient import TestClient
+
     _HAS_FASTAPI = True
 except ImportError:
     _HAS_FASTAPI = False
@@ -32,6 +34,7 @@ end
 class TestWebUI:
     def setup_method(self):
         from fgcheck.web import create_web_app
+
         self.client = TestClient(create_web_app())
 
     def test_index_loads(self):
@@ -41,10 +44,13 @@ class TestWebUI:
         assert "upload" in resp.text.lower() or "drop" in resp.text.lower()
 
     def test_scan_endpoint(self):
-        resp = self.client.post("/scan", json={
-            "config_text": SAMPLE_CONFIG,
-            "fortios_version": "7.4",
-        })
+        resp = self.client.post(
+            "/scan",
+            json={
+                "config_text": SAMPLE_CONFIG,
+                "fortios_version": "7.4",
+            },
+        )
         assert resp.status_code == 200
         data = resp.json()
         assert "findings" in data
@@ -52,16 +58,22 @@ class TestWebUI:
         assert "total" in data
 
     def test_scan_invalid(self):
-        resp = self.client.post("/scan", json={
-            "config_text": "not a config",
-        })
+        resp = self.client.post(
+            "/scan",
+            json={
+                "config_text": "not a config",
+            },
+        )
         # Should either parse with warnings or return error
         assert resp.status_code in (200, 400)
 
     def test_scan_empty(self):
-        resp = self.client.post("/scan", json={
-            "config_text": "",
-        })
+        resp = self.client.post(
+            "/scan",
+            json={
+                "config_text": "",
+            },
+        )
         assert resp.status_code == 200
         data = resp.json()
         assert data["total"] == 0

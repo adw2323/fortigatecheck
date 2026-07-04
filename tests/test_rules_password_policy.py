@@ -1,4 +1,5 @@
 """Tests for FGT-ADMIN-WEAK-PASSWORD-POLICY rule."""
+
 import json
 from pathlib import Path
 

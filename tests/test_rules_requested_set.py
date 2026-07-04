@@ -15,7 +15,13 @@ def test_admin_edge_allaccess_triggers(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"system interface": {"fields": {"allowaccess": {"allowed_values": ["ping", "http", "https", "ssh", "telnet"]}}}}},
+        {
+            "tables": {
+                "system interface": {
+                    "fields": {"allowaccess": {"allowed_values": ["ping", "http", "https", "ssh", "telnet"]}}
+                }
+            }
+        },
     )
     conf = """
 config system interface
@@ -129,7 +135,11 @@ def test_admin_no_trusted_hosts_not_triggered_when_trusthost2_is_set(tmp_path: P
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"system admin": {"fields": {"trusthost1": {"allowed_values": []}, "trusthost2": {"allowed_values": []}}}}},
+        {
+            "tables": {
+                "system admin": {"fields": {"trusthost1": {"allowed_values": []}, "trusthost2": {"allowed_values": []}}}
+            }
+        },
     )
     conf = """
 config system admin
@@ -153,7 +163,16 @@ def test_localin_no_protection_triggers(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"firewall local-in-policy": {"fields": {"action": {"allowed_values": ["accept", "deny"]}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "firewall local-in-policy": {
+                    "fields": {
+                        "action": {"allowed_values": ["accept", "deny"]},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config firewall local-in-policy
@@ -180,7 +199,16 @@ def test_localin_no_protection_not_triggered_when_deny_exists(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"firewall local-in-policy": {"fields": {"action": {"allowed_values": ["accept", "deny"]}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "firewall local-in-policy": {
+                    "fields": {
+                        "action": {"allowed_values": ["accept", "deny"]},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config firewall local-in-policy
@@ -204,7 +232,19 @@ def test_policy_any_any_all_triggers(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"firewall policy": {"fields": {"action": {"allowed_values": ["accept", "deny"]}, "srcaddr": {"allowed_values": []}, "dstaddr": {"allowed_values": []}, "service": {"allowed_values": []}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "firewall policy": {
+                    "fields": {
+                        "action": {"allowed_values": ["accept", "deny"]},
+                        "srcaddr": {"allowed_values": []},
+                        "dstaddr": {"allowed_values": []},
+                        "service": {"allowed_values": []},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config firewall policy
@@ -234,7 +274,19 @@ def test_policy_any_any_all_not_triggered_when_service_restricted(tmp_path: Path
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"firewall policy": {"fields": {"action": {"allowed_values": ["accept", "deny"]}, "srcaddr": {"allowed_values": []}, "dstaddr": {"allowed_values": []}, "service": {"allowed_values": []}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "firewall policy": {
+                    "fields": {
+                        "action": {"allowed_values": ["accept", "deny"]},
+                        "srcaddr": {"allowed_values": []},
+                        "dstaddr": {"allowed_values": []},
+                        "service": {"allowed_values": []},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config firewall policy
@@ -261,7 +313,16 @@ def test_ipsec_weak_dh_triggers(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"vpn ipsec phase1-interface": {"fields": {"dhgrp": {"allowed_values": ["1", "2", "5", "14"]}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "vpn ipsec phase1-interface": {
+                    "fields": {
+                        "dhgrp": {"allowed_values": ["1", "2", "5", "14"]},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config vpn ipsec phase1-interface
@@ -288,7 +349,16 @@ def test_ipsec_weak_dh_not_triggered_for_strong_group_only(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"vpn ipsec phase1-interface": {"fields": {"dhgrp": {"allowed_values": ["14", "15"]}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "vpn ipsec phase1-interface": {
+                    "fields": {
+                        "dhgrp": {"allowed_values": ["14", "15"]},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config vpn ipsec phase1-interface
@@ -312,7 +382,16 @@ def test_ipsec_weak_dh_ignores_disabled_phase1(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"vpn ipsec phase1-interface": {"fields": {"dhgrp": {"allowed_values": ["2", "14"]}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "vpn ipsec phase1-interface": {
+                    "fields": {
+                        "dhgrp": {"allowed_values": ["2", "14"]},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config vpn ipsec phase1-interface
@@ -337,7 +416,16 @@ def test_ipsec_weak_dh_supports_legacy_phase1_table_path(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"vpn ipsec phase1": {"fields": {"dhgrp": {"allowed_values": ["2", "14"]}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "vpn ipsec phase1": {
+                    "fields": {
+                        "dhgrp": {"allowed_values": ["2", "14"]},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config vpn ipsec phase1

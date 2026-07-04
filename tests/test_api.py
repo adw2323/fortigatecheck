@@ -1,10 +1,12 @@
 """Tests for the REST API."""
+
 from __future__ import annotations
 
 import pytest
 
 try:
     from fastapi.testclient import TestClient
+
     _HAS_FASTAPI = True
 except ImportError:
     _HAS_FASTAPI = False
@@ -32,6 +34,7 @@ end
 class TestAPI:
     def setup_method(self):
         from fgcheck.api import create_app
+
         self.client = TestClient(create_app())
 
     def test_health(self):
@@ -56,10 +59,13 @@ class TestAPI:
         assert "FGT-ADMIN-LOCKOUT-NO-TRIES" in rule_ids
 
     def test_scan_text(self):
-        resp = self.client.post("/scan", json={
-            "config_text": SAMPLE_CONFIG,
-            "fortios_version": "7.4",
-        })
+        resp = self.client.post(
+            "/scan",
+            json={
+                "config_text": SAMPLE_CONFIG,
+                "fortios_version": "7.4",
+            },
+        )
         assert resp.status_code == 200
         data = resp.json()
         assert "findings" in data
@@ -67,17 +73,23 @@ class TestAPI:
         assert data["finding_count"] >= 0
 
     def test_scan_invalid_config(self):
-        resp = self.client.post("/scan", json={
-            "config_text": "this is not a valid config",
-        })
+        resp = self.client.post(
+            "/scan",
+            json={
+                "config_text": "this is not a valid config",
+            },
+        )
         # Should either parse with warnings or return 400
         assert resp.status_code in (200, 400)
 
     def test_authority(self):
-        resp = self.client.post("/authority", json={
-            "query": "system interface",
-            "fortios_version": "7.4",
-        })
+        resp = self.client.post(
+            "/authority",
+            json={
+                "query": "system interface",
+                "fortios_version": "7.4",
+            },
+        )
         assert resp.status_code == 200
         data = resp.json()
         assert "validation_result" in data

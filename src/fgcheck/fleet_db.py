@@ -2,6 +2,7 @@
 
 Stores scan results in SQLite for historical tracking and fleet-wide analysis.
 """
+
 from __future__ import annotations
 
 import json
@@ -18,6 +19,7 @@ DEFAULT_DB_PATH = Path.home() / ".fgcheck" / "fleet.db"
 @dataclass
 class ScanResult:
     """A stored scan result."""
+
     id: str
     device_name: str
     config_file: str
@@ -36,6 +38,7 @@ class ScanResult:
 @dataclass
 class DeviceSummary:
     """Summary for a device across scans."""
+
     device_name: str
     scan_count: int
     latest_scan: str
@@ -164,14 +167,16 @@ class FleetDB:
         summaries = []
         for r in rows:
             trend = self._calc_trend(r["device_name"])
-            summaries.append(DeviceSummary(
-                device_name=r["device_name"],
-                scan_count=r["scan_count"],
-                latest_scan=r["latest_scan"],
-                latest_findings=r["latest_findings"] or 0,
-                latest_critical=r["latest_critical"] or 0,
-                trend=trend,
-            ))
+            summaries.append(
+                DeviceSummary(
+                    device_name=r["device_name"],
+                    scan_count=r["scan_count"],
+                    latest_scan=r["latest_scan"],
+                    latest_findings=r["latest_findings"] or 0,
+                    latest_critical=r["latest_critical"] or 0,
+                    trend=trend,
+                )
+            )
         return summaries
 
     def get_fleet_stats(self) -> dict[str, Any]:
@@ -222,7 +227,8 @@ class FleetDB:
 
     def get_worst_devices(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get devices with most critical findings."""
-        rows = self.conn.execute("""
+        rows = self.conn.execute(
+            """
             SELECT
                 device_name,
                 critical_count,
@@ -235,7 +241,9 @@ class FleetDB:
             )
             ORDER BY critical_count DESC, high_count DESC
             LIMIT ?
-        """, (limit,)).fetchall()
+        """,
+            (limit,),
+        ).fetchall()
         return [dict(r) for r in rows]
 
     def delete_device(self, device_name: str) -> int:

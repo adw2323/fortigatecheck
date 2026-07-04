@@ -1,4 +1,5 @@
 """Tests for compliance mapping."""
+
 from __future__ import annotations
 
 from fgcheck.compliance import (

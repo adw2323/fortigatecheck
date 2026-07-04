@@ -70,7 +70,11 @@ def test_admin_edge_allaccess_respects_explicit_vdom_filter(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"system interface": {"fields": {"allowaccess": {"allowed_values": ["http", "https", "ssh", "telnet"]}}}}},
+        {
+            "tables": {
+                "system interface": {"fields": {"allowaccess": {"allowed_values": ["http", "https", "ssh", "telnet"]}}}
+            }
+        },
     )
     conf = """
 config vdom

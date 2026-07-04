@@ -1,4 +1,5 @@
 """Tests that rules and facts respect Node.unsets via effective_fields()."""
+
 from __future__ import annotations
 
 from fgcheck.facts import build_facts
@@ -164,6 +165,6 @@ class TestEffectiveFieldsInFacts:
         )
         facts = build_facts(model, vdom="root")
         # The aggregate should exist but its members should not be resolved
-        assert "port1" not in facts.zone_to_interfaces.get("__unzoned__", set()) or \
-               "agg0" not in facts.interface_to_zone, \
-            "unset member should not resolve interface members"
+        assert (
+            "port1" not in facts.zone_to_interfaces.get("__unzoned__", set()) or "agg0" not in facts.interface_to_zone
+        ), "unset member should not resolve interface members"

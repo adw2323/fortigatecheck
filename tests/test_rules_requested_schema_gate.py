@@ -125,13 +125,7 @@ def test_no_remote_logging_skips_when_schema_has_neither_remote_target(tmp_path:
     _write_schema(
         tmp_path,
         "7.4",
-        {
-            "tables": {
-                "system interface": {
-                    "fields": {"allowaccess": {"allowed_values": []}}
-                }
-            }
-        },
+        {"tables": {"system interface": {"fields": {"allowaccess": {"allowed_values": []}}}}},
     )
     conf = """
 config log syslogd setting
@@ -208,7 +202,16 @@ def test_localin_no_protection_skips_without_explicit_action_or_status_evidence(
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"firewall local-in-policy": {"fields": {"action": {"allowed_values": ["accept", "deny"]}, "status": {"allowed_values": ["enable", "disable"]}}}}},
+        {
+            "tables": {
+                "firewall local-in-policy": {
+                    "fields": {
+                        "action": {"allowed_values": ["accept", "deny"]},
+                        "status": {"allowed_values": ["enable", "disable"]},
+                    }
+                }
+            }
+        },
     )
     conf = """
 config firewall local-in-policy

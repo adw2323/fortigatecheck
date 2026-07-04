@@ -15,7 +15,13 @@ def test_sslvpn_min_tls_triggers_when_legacy_protocol_configured(tmp_path: Path)
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"vpn ssl settings": {"fields": {"ssl-min-proto-ver": {"allowed_values": ["tls1-0", "tls1-1", "tls1-2", "tls1-3"]}}}}},
+        {
+            "tables": {
+                "vpn ssl settings": {
+                    "fields": {"ssl-min-proto-ver": {"allowed_values": ["tls1-0", "tls1-1", "tls1-2", "tls1-3"]}}
+                }
+            }
+        },
     )
     conf = """
 config vpn ssl settings
@@ -80,7 +86,11 @@ def test_admin_trusthost_unrestricted_triggers_for_super_admin(tmp_path: Path):
     _write_schema(
         tmp_path,
         "7.4",
-        {"tables": {"system admin": {"fields": {"accprofile": {"allowed_values": []}, "trusthost1": {"allowed_values": []}}}}},
+        {
+            "tables": {
+                "system admin": {"fields": {"accprofile": {"allowed_values": []}, "trusthost1": {"allowed_values": []}}}
+            }
+        },
     )
     conf = """
 config system admin

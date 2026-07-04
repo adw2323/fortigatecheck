@@ -1,4 +1,5 @@
 """Tests for FGT-DNS-DEFAULT-ONLY rule."""
+
 import json
 from pathlib import Path
 
@@ -297,13 +298,7 @@ end"""
 
     def test_full_coverage_field_missing_skips(self, tmp_path: Path):
         """When schema has full field extraction but field is missing, rule should skip."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system dns": {
-                    "fields": {"protocol": {}}
-                }
-            }
-        })
+        _write_schema(tmp_path, "7.4", {"tables": {"system dns": {"fields": {"protocol": {}}}}})
         conf = """\
 config system dns
     set primary 8.8.8.8
@@ -322,14 +317,9 @@ end"""
 
     def test_partial_schema_field_missing_runs_heuristic(self, tmp_path: Path):
         """When schema has partial coverage and field is missing, rule runs as heuristic."""
-        _write_schema(tmp_path, "7.4", {
-            "coverage": "table_only",
-            "tables": {
-                "system dns": {
-                    "fields": {"protocol": {}}
-                }
-            }
-        })
+        _write_schema(
+            tmp_path, "7.4", {"coverage": "table_only", "tables": {"system dns": {"fields": {"protocol": {}}}}}
+        )
         conf = """\
 config system dns
     set primary 8.8.8.8

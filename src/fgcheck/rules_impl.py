@@ -11,9 +11,7 @@ from .schema import SchemaView
 from .util import as_list
 
 
-def _merged_scope_tables(
-    vdom_tables: dict[str, Any], global_tables: dict[str, Any]
-) -> dict[str, Any]:
+def _merged_scope_tables(vdom_tables: dict[str, Any], global_tables: dict[str, Any]) -> dict[str, Any]:
     """Return a combined view of vdom and global scope tables.
 
     In multi-VDOM deployments many system-level configs (SNMP, IPS, NTP,
@@ -32,8 +30,10 @@ def _merged_scope_tables(
             merged[k] = v
     return merged
 
+
 try:
     from cryptography import x509 as _x509
+
     _HAS_CRYPTOGRAPHY = True
 except ImportError:
     _HAS_CRYPTOGRAPHY = False
@@ -69,7 +69,9 @@ def _schema_supported_fields(
     return supported_fields, schema_unknown
 
 
-def rule_admin_edge_ssh(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_admin_edge_ssh(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     intf_table = get_table(tables, ("system", "interface"))
     out: list[Finding] = []
@@ -90,18 +92,23 @@ def rule_admin_edge_ssh(*, model: ConfigModel, facts: Facts, vdom: str, rule: Ru
             msg = f'Interface "{ifname}" is edge (via default route) and allows SSH management (allowaccess contains ssh).'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id,
-                title=rule.title,
-                severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom,
-                message=msg,
-                evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
-def rule_admin_edge_https(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+
+def rule_admin_edge_https(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     intf_table = get_table(tables, ("system", "interface"))
     out: list[Finding] = []
@@ -122,18 +129,23 @@ def rule_admin_edge_https(*, model: ConfigModel, facts: Facts, vdom: str, rule: 
             msg = f'Interface "{ifname}" is edge (via default route) and allows HTTPS management (allowaccess contains https).'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id,
-                title=rule.title,
-                severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom,
-                message=msg,
-                evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
-def rule_admin_edge_telnet(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+
+def rule_admin_edge_telnet(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     intf_table = get_table(tables, ("system", "interface"))
     out: list[Finding] = []
@@ -154,18 +166,23 @@ def rule_admin_edge_telnet(*, model: ConfigModel, facts: Facts, vdom: str, rule:
             msg = f'Interface "{ifname}" is edge (via default route) and allows Telnet management (allowaccess contains telnet).'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id,
-                title=rule.title,
-                severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom,
-                message=msg,
-                evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
-def rule_admin_edge_http(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+
+def rule_admin_edge_http(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     intf_table = get_table(tables, ("system", "interface"))
     out: list[Finding] = []
@@ -186,18 +203,23 @@ def rule_admin_edge_http(*, model: ConfigModel, facts: Facts, vdom: str, rule: R
             msg = f'Interface "{ifname}" is edge (via default route) and allows HTTP management (allowaccess contains http).'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id,
-                title=rule.title,
-                severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom,
-                message=msg,
-                evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
-def rule_policy_accept_no_log(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+
+def rule_policy_accept_no_log(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     pol_table = get_table(tables, ("firewall", "policy"))
     out: list[Finding] = []
@@ -224,19 +246,23 @@ def rule_policy_accept_no_log(*, model: ConfigModel, facts: Facts, vdom: str, ru
             msg = f'Policy "{pid}" accepts traffic but logging is disabled or unset.'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id,
-                title=rule.title,
-                severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom,
-                message=msg,
-                evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
-def rule_vpn_ssl_min_proto(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_vpn_ssl_min_proto(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     ssl_table = get_table(tables, ("vpn", "ssl", "settings"))
     out: list[Finding] = []
@@ -273,7 +299,9 @@ def rule_vpn_ssl_min_proto(*, model: ConfigModel, facts: Facts, vdom: str, rule:
     return out
 
 
-def rule_local_in_policy_permissive(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_local_in_policy_permissive(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     lip_table = get_table(tables, ("firewall", "local-in-policy"))
     out: list[Finding] = []
@@ -327,7 +355,9 @@ def rule_local_in_policy_permissive(*, model: ConfigModel, facts: Facts, vdom: s
     return out
 
 
-def rule_admin_trusthost_unrestricted(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_admin_trusthost_unrestricted(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     admin_table = get_table(tables, ("system", "admin"))
     out: list[Finding] = []
@@ -373,7 +403,9 @@ def rule_admin_trusthost_unrestricted(*, model: ConfigModel, facts: Facts, vdom:
     return out
 
 
-def rule_sslvpn_source_interface_any(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_sslvpn_source_interface_any(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     ssl_table = get_table(tables, ("vpn", "ssl", "settings"))
     out: list[Finding] = []
@@ -414,7 +446,9 @@ def rule_sslvpn_source_interface_any(*, model: ConfigModel, facts: Facts, vdom: 
     return out
 
 
-def rule_sslvpn_source_address_all(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_sslvpn_source_address_all(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     ssl_table = get_table(tables, ("vpn", "ssl", "settings"))
     out: list[Finding] = []
@@ -458,7 +492,9 @@ def rule_sslvpn_source_address_all(*, model: ConfigModel, facts: Facts, vdom: st
     return out
 
 
-def rule_admin_super_no_2fa(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_admin_super_no_2fa(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     admin_table = get_table(tables, ("system", "admin"))
     out: list[Finding] = []
@@ -505,7 +541,9 @@ def rule_admin_super_no_2fa(*, model: ConfigModel, facts: Facts, vdom: str, rule
     return out
 
 
-def rule_admin_edge_allaccess(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_admin_edge_allaccess(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     intf_table = get_table(tables, ("system", "interface"))
     out: list[Finding] = []
@@ -542,7 +580,9 @@ def rule_admin_edge_allaccess(*, model: ConfigModel, facts: Facts, vdom: str, ru
     return out
 
 
-def rule_admin_no_trusted_hosts(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_admin_no_trusted_hosts(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     admin_table = get_table(tables, ("system", "admin"))
     out: list[Finding] = []
@@ -586,7 +626,9 @@ def rule_admin_no_trusted_hosts(*, model: ConfigModel, facts: Facts, vdom: str, 
     return out
 
 
-def rule_localin_no_protection(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_localin_no_protection(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     lip_table = get_table(tables, ("firewall", "local-in-policy"))
     out: list[Finding] = []
@@ -633,7 +675,9 @@ def rule_localin_no_protection(*, model: ConfigModel, facts: Facts, vdom: str, r
     return out
 
 
-def rule_policy_any_any_all(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_policy_any_any_all(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     pol_table = get_table(tables, ("firewall", "policy"))
     out: list[Finding] = []
@@ -682,7 +726,9 @@ def rule_policy_any_any_all(*, model: ConfigModel, facts: Facts, vdom: str, rule
     return out
 
 
-def rule_ipsec_weak_dh(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_ipsec_weak_dh(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
     weak_groups = {"1", "2", "5"}
@@ -717,7 +763,9 @@ def rule_ipsec_weak_dh(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rul
             ev = []
             if "set:dhgrp" in pnode.evidence:
                 ev.append(pnode.evidence["set:dhgrp"])
-            msg = f'IPsec phase1 "{pname}" uses weak DH group(s): {", ".join(sorted(groups.intersection(weak_groups)))}.'
+            msg = (
+                f'IPsec phase1 "{pname}" uses weak DH group(s): {", ".join(sorted(groups.intersection(weak_groups)))}.'
+            )
             if any_schema_unknown:
                 msg = f"[schema_unknown] {msg}"
             out.append(
@@ -735,7 +783,9 @@ def rule_ipsec_weak_dh(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rul
     return out
 
 
-def rule_no_remote_logging(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_no_remote_logging(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
@@ -791,7 +841,9 @@ def rule_no_remote_logging(*, model: ConfigModel, facts: Facts, vdom: str, rule:
     return out
 
 
-def rule_dns_zone_transfer(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_dns_zone_transfer(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect DNS server entries with zone-transfer enabled."""
     tables = model.vdoms.get(vdom, {})
     dns_table = get_table(tables, ("dns", "server"))
@@ -835,18 +887,20 @@ def rule_dns_zone_transfer(*, model: ConfigModel, facts: Facts, vdom: str, rule:
 # out-of-box configuration with unencrypted DNS queries.
 # ---------------------------------------------------------------------------
 
-_DEFAULT_DNS_SERVERS: frozenset[str] = frozenset({
-    "8.8.8.8",
-    "8.8.4.4",
-    "1.1.1.1",
-    "1.0.0.1",
-    "208.67.222.222",
-    "208.67.220.220",
-    "9.9.9.9",
-    "149.112.112.112",
-    "64.6.64.6",
-    "64.6.65.6",
-})
+_DEFAULT_DNS_SERVERS: frozenset[str] = frozenset(
+    {
+        "8.8.8.8",
+        "8.8.4.4",
+        "1.1.1.1",
+        "1.0.0.1",
+        "208.67.222.222",
+        "208.67.220.220",
+        "9.9.9.9",
+        "149.112.112.112",
+        "64.6.64.6",
+        "64.6.65.6",
+    }
+)
 
 
 def rule_dns_default_only(
@@ -860,9 +914,7 @@ def rule_dns_default_only(
     """Detect DNS configured with only default public resolvers and cleartext."""
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "dns"), "primary"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "dns"), "primary")
     if not supported:
         return out
 
@@ -951,7 +1003,9 @@ def rule_dns_default_only(
     return out
 
 
-def rule_ntp_no_ntps(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_ntp_no_ntps(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect NTP configuration without NTPS (unencrypted time sync)."""
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     ntp_table = get_table(tables, ("system", "ntp"))
@@ -1006,7 +1060,9 @@ _WEAK_SNMP_COMMUNITIES: set[str] = {
 }
 
 
-def rule_snmp_weak_community(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_snmp_weak_community(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect SNMP communities using default or well-known weak strings."""
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     snmp_table = get_table(tables, ("system", "snmp", "community"))
@@ -1066,12 +1122,8 @@ def rule_admin_weak_password_policy(
     out: list[Finding] = []
 
     # Check schema support for the fields we need.
-    status_supported, status_unknown = _schema_supports_field(
-        schema, ("system", "password-policy"), "status"
-    )
-    minlen_supported, minlen_unknown = _schema_supports_field(
-        schema, ("system", "password-policy"), "minimum-length"
-    )
+    status_supported, status_unknown = _schema_supports_field(schema, ("system", "password-policy"), "status")
+    minlen_supported, minlen_unknown = _schema_supports_field(schema, ("system", "password-policy"), "minimum-length")
     schema_unknown = status_unknown or minlen_unknown
 
     if not status_supported and not minlen_supported:
@@ -1153,8 +1205,8 @@ def rule_admin_weak_password_policy(
 # The FortiGate default is 5 minutes; best practice recommends <= 15 minutes.
 # ---------------------------------------------------------------------------
 
-_IDLE_TIMEOUT_DISABLED = 0   # never timeout — high risk
-_IDLE_TIMEOUT_MAX = 15       # recommended maximum in minutes
+_IDLE_TIMEOUT_DISABLED = 0  # never timeout — high risk
+_IDLE_TIMEOUT_MAX = 15  # recommended maximum in minutes
 
 
 def rule_admin_no_idle_timeout(
@@ -1168,9 +1220,7 @@ def rule_admin_no_idle_timeout(
     """Detect disabled or excessively long administrator idle timeout."""
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "global"), "admin-idle-timeout"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "global"), "admin-idle-timeout")
     if not supported:
         return out
 
@@ -1331,12 +1381,14 @@ def rule_firmware_outdated(
         if isinstance(item, tuple) and len(item) >= 2:
             line_no, raw = item[0], item[1]
             if detected_version in str(raw):
-                ev.append(Evidence(
-                    file_id=model.meta.get("file_id", ""),
-                    line_range=(line_no, line_no),
-                    path=(),
-                    raw_lines=[str(raw)],
-                ))
+                ev.append(
+                    Evidence(
+                        file_id=model.meta.get("file_id", ""),
+                        line_range=(line_no, line_no),
+                        path=(),
+                        raw_lines=[str(raw)],
+                    )
+                )
                 break
 
     detected_str = ".".join(str(p) for p in detected_tuple)
@@ -1366,15 +1418,17 @@ def rule_firmware_outdated(
         f"patched in later releases."
     )
 
-    out.append(Finding(
-        rule_id=rule.id,
-        title=rule.title,
-        severity=severity,
-        confidence=rule.confidence,
-        vdom=vdom,
-        message=msg,
-        evidence=ev,
-    ))
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=severity,
+            confidence=rule.confidence,
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
 
     return out
 
@@ -1482,9 +1536,7 @@ def rule_ssh_weak_ciphers(
     """Detect SSH service configured with weak ciphers, key-exchange, or MAC."""
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "ssh-config"), "ssh-cipher-1"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "ssh-config"), "ssh-cipher-1")
     if not supported:
         return out
 
@@ -1502,16 +1554,26 @@ def rule_ssh_weak_ciphers(
     for field in ("ssh-cipher-1", "ssh-cipher-2", "ssh-cipher-3"):
         out.extend(
             _check_ssh_config_field(
-                node, field, _WEAK_SSH_CIPHERS, "ciphers",
-                rule, vdom, schema_unknown,
+                node,
+                field,
+                _WEAK_SSH_CIPHERS,
+                "ciphers",
+                rule,
+                vdom,
+                schema_unknown,
             )
         )
 
     # Check key-exchange algorithms
     out.extend(
         _check_ssh_config_field(
-            node, "ssh-key-exchange", _WEAK_SSH_KEX,
-            "key-exchange algorithms", rule, vdom, schema_unknown,
+            node,
+            "ssh-key-exchange",
+            _WEAK_SSH_KEX,
+            "key-exchange algorithms",
+            rule,
+            vdom,
+            schema_unknown,
         )
     )
 
@@ -1519,8 +1581,13 @@ def rule_ssh_weak_ciphers(
     for field in ("ssh-local-mac",):
         out.extend(
             _check_ssh_config_field(
-                node, field, _WEAK_SSH_MAC, "MAC algorithms",
-                rule, vdom, schema_unknown,
+                node,
+                field,
+                _WEAK_SSH_MAC,
+                "MAC algorithms",
+                rule,
+                vdom,
+                schema_unknown,
             )
         )
 
@@ -1528,8 +1595,13 @@ def rule_ssh_weak_ciphers(
     for field in ("ssh-local-cipher",):
         out.extend(
             _check_ssh_config_field(
-                node, field, _WEAK_SSH_CIPHERS, "ciphers",
-                rule, vdom, schema_unknown,
+                node,
+                field,
+                _WEAK_SSH_CIPHERS,
+                "ciphers",
+                rule,
+                vdom,
+                schema_unknown,
             )
         )
 
@@ -1537,8 +1609,13 @@ def rule_ssh_weak_ciphers(
     for field in ("ssh-local-kex",):
         out.extend(
             _check_ssh_config_field(
-                node, field, _WEAK_SSH_KEX,
-                "key-exchange algorithms", rule, vdom, schema_unknown,
+                node,
+                field,
+                _WEAK_SSH_KEX,
+                "key-exchange algorithms",
+                rule,
+                vdom,
+                schema_unknown,
             )
         )
 
@@ -1589,9 +1666,7 @@ def rule_snmp_no_acl(
     """Detect SNMP communities without host ACL restrictions."""
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "snmp", "community"), "name"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "snmp", "community"), "name")
     if not supported:
         return out
 
@@ -1603,22 +1678,22 @@ def rule_snmp_no_acl(
     for entry_name, node in snmp_table.items():
         if not isinstance(node, Node):
             continue
-        communities.append({
-            "name": str(node.effective_fields().get("name", f"community-{entry_name}")).strip(),
-            "entry": entry_name,
-            "node": node,
-            "has_hosts_field": "hosts" in node.effective_fields(),
-            "hosts_field": node.effective_fields().get("hosts"),
-        })
+        communities.append(
+            {
+                "name": str(node.effective_fields().get("name", f"community-{entry_name}")).strip(),
+                "entry": entry_name,
+                "node": node,
+                "has_hosts_field": "hosts" in node.effective_fields(),
+                "hosts_field": node.effective_fields().get("hosts"),
+            }
+        )
 
     if not communities:
         return out
 
     # Check if any hosts sub-table entries exist in the model
     hosts_table = get_table(tables, ("hosts",))
-    has_any_host_entry = any(
-        isinstance(v, Node) for k, v in hosts_table.items() if k != "__path__"
-    )
+    has_any_host_entry = any(isinstance(v, Node) for k, v in hosts_table.items() if k != "__path__")
 
     for comm in communities:
         name = comm["name"]
@@ -1641,15 +1716,17 @@ def rule_snmp_no_acl(
                 )
                 if schema_unknown:
                     msg = f"[schema_unknown] {msg}"
-                out.append(Finding(
-                    rule_id=rule.id,
-                    title=rule.title,
-                    severity=rule.severity,
-                    confidence=("heuristic" if schema_unknown else rule.confidence),
-                    vdom=vdom,
-                    message=msg,
-                    evidence=ev,
-                ))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=("heuristic" if schema_unknown else rule.confidence),
+                        vdom=vdom,
+                        message=msg,
+                        evidence=ev,
+                    )
+                )
             # Community has specific hosts — skip
             continue
 
@@ -1680,15 +1757,17 @@ def rule_snmp_no_acl(
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
 
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom,
-            message=msg,
-            evidence=ev2,
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev2,
+            )
+        )
 
     return out
 
@@ -1822,15 +1901,17 @@ def rule_cert_expiring(
                     f"certificate that was manually replaced. Verify the certificate "
                     f"is valid and not expired."
                 )
-                out.append(Finding(
-                    rule_id=rule.id,
-                    title=rule.title,
-                    severity=rule.severity,
-                    confidence="heuristic",
-                    vdom=vdom,
-                    message=msg,
-                    evidence=ev,
-                ))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence="heuristic",
+                        vdom=vdom,
+                        message=msg,
+                        evidence=ev,
+                    )
+                )
             elif not _HAS_CRYPTOGRAPHY:
                 # Cannot parse without cryptography library — skip silently
                 pass
@@ -1855,15 +1936,17 @@ def rule_cert_expiring(
                         f"service disruptions. Renew the certificate before it expires."
                     )
 
-                out.append(Finding(
-                    rule_id=rule.id,
-                    title=rule.title,
-                    severity="high",
-                    confidence=rule.confidence,
-                    vdom=vdom,
-                    message=msg,
-                    evidence=ev,
-                ))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity="high",
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=msg,
+                        evidence=ev,
+                    )
+                )
                 break  # One finding per cert is enough
 
     return out
@@ -1886,6 +1969,7 @@ def rule_cert_expiring(
 # has no field-level details, so findings are always heuristic.
 # ---------------------------------------------------------------------------
 
+
 def rule_fgfm_default_override(
     *,
     model: ConfigModel,
@@ -1900,9 +1984,7 @@ def rule_fgfm_default_override(
     # The system fortimanager table exists in schema but has no field-level
     # coverage for any version (7.4, 7.6, 8.0). We check if the table exists
     # in schema; if it doesn't, findings are still heuristic but we note it.
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "fortimanager"), "default-override"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "fortimanager"), "default-override")
     if not supported:
         return out
 
@@ -1961,15 +2043,17 @@ def rule_fgfm_default_override(
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
 
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom,
-            message=msg,
-            evidence=ev,
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            )
+        )
 
     return out
 
@@ -1978,7 +2062,10 @@ def rule_fgfm_default_override(
 # Wave 2 — FGT-IFACE-NO-VLAN-SECURITY
 # ---------------------------------------------------------------------------
 
-def rule_iface_no_vlan_security(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+
+def rule_iface_no_vlan_security(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect switch controller-managed interfaces without access VLAN security."""
     tables = model.vdoms.get(vdom, {})
     intf_table = get_table(tables, ("system", "interface"))
@@ -2004,21 +2091,23 @@ def rule_iface_no_vlan_security(*, model: ConfigModel, facts: Facts, vdom: str, 
             ev.append(inode.evidence["set:switch-controller-feature"])
         msg = (
             f'Interface "{ifname}" is managed by the switch controller '
-            f'(feature: {", ".join(sc_feature)}) but access VLAN security '
+            f"(feature: {', '.join(sc_feature)}) but access VLAN security "
             f"is not enabled. Without access VLAN filtering, the port may "
             f"allow traffic from unauthorized VLANs."
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom,
-            message=msg,
-            evidence=ev,
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            )
+        )
     return out
 
 
@@ -2026,12 +2115,17 @@ def rule_iface_no_vlan_security(*, model: ConfigModel, facts: Facts, vdom: str, 
 # Wave 2 — FGT-DHCP-SNOOP
 # ---------------------------------------------------------------------------
 
-def rule_dhcp_snoop(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+
+def rule_dhcp_snoop(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect switch controller-managed interfaces without DHCP snooping."""
     tables = model.vdoms.get(vdom, {})
     intf_table = get_table(tables, ("system", "interface"))
     out: list[Finding] = []
-    supported, schema_unknown = _schema_supports_field(schema, ("system", "interface"), "switch-controller-dhcp-snooping")
+    supported, schema_unknown = _schema_supports_field(
+        schema, ("system", "interface"), "switch-controller-dhcp-snooping"
+    )
     if not supported:
         return out
 
@@ -2052,25 +2146,29 @@ def rule_dhcp_snoop(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, 
             ev.append(inode.evidence["set:switch-controller-feature"])
         msg = (
             f'Interface "{ifname}" is managed by the switch controller '
-            f'(feature: {", ".join(sc_feature)}) but DHCP snooping '
+            f"(feature: {', '.join(sc_feature)}) but DHCP snooping "
             f"is not enabled. Without DHCP snooping, rogue DHCP servers "
             f"on this network segment can assign malicious IP configurations."
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom,
-            message=msg,
-            evidence=ev,
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            )
+        )
     return out
 
 
-def rule_sslvpn_no_mfa(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None) -> list[Finding]:
+def rule_sslvpn_no_mfa(
+    *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect SSL VPN configurations that do not require two-factor authentication.
 
     FortiGate supports two-factor auth for SSL VPN via:
@@ -2084,9 +2182,7 @@ def rule_sslvpn_no_mfa(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rul
     ssl_table = get_table(tables, ("vpn", "ssl", "settings"))
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("vpn", "ssl", "settings"), "two-factor"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("vpn", "ssl", "settings"), "two-factor")
     if not supported:
         return out
 
@@ -2113,7 +2209,7 @@ def rule_sslvpn_no_mfa(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rul
     if two_factor in (None, "", "none"):
         detail = "two-factor authentication is not configured"
     else:
-        detail = f"two-factor is set to \"{two_factor}\""
+        detail = f'two-factor is set to "{two_factor}"'
 
     msg = (
         f"SSL VPN is enabled but {detail}. "
@@ -2122,21 +2218,24 @@ def rule_sslvpn_no_mfa(*, model: ConfigModel, facts: Facts, vdom: str, rule: Rul
     )
     if schema_unknown:
         msg = f"[schema_unknown] {msg}"
-    out.append(Finding(
-        rule_id=rule.id,
-        title=rule.title,
-        severity=rule.severity,
-        confidence=("heuristic" if schema_unknown else rule.confidence),
-        vdom=vdom,
-        message=msg,
-        evidence=ev,
-    ))
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-IPS-DEFAULT-SIGNATURE
 # ---------------------------------------------------------------------------
+
 
 def rule_ips_default_signature(
     *,
@@ -2180,10 +2279,7 @@ def rule_ips_default_signature(
         return out
 
     # Collect sensor names (skip __singleton__ if present)
-    sensor_names = [
-        name for name in sensor_table
-        if isinstance(sensor_table[name], Node)
-    ]
+    sensor_names = [name for name in sensor_table if isinstance(sensor_table[name], Node)]
     if not sensor_names:
         return out
 
@@ -2227,15 +2323,17 @@ def rule_ips_default_signature(
     if schema_unknown:
         msg = f"[schema_unknown] {msg}"
 
-    out.append(Finding(
-        rule_id=rule.id,
-        title=rule.title,
-        severity=rule.severity,
-        confidence=("heuristic" if schema_unknown else rule.confidence),
-        vdom=vdom,
-        message=msg,
-        evidence=ev,
-    ))
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
     return out
 
 
@@ -2275,10 +2373,7 @@ def rule_webfilter_default_override(
         return out
 
     # Collect override entries (skip __singleton__ if present)
-    override_entries = [
-        name for name in override_table
-        if isinstance(override_table[name], Node)
-    ]
+    override_entries = [name for name in override_table if isinstance(override_table[name], Node)]
     if not override_entries:
         return out
 
@@ -2303,15 +2398,17 @@ def rule_webfilter_default_override(
     if schema_unknown:
         msg = f"[schema_unknown] {msg}"
 
-    out.append(Finding(
-        rule_id=rule.id,
-        title=rule.title,
-        severity=rule.severity,
-        confidence=("heuristic" if schema_unknown else rule.confidence),
-        vdom=vdom,
-        message=msg,
-        evidence=ev,
-    ))
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
     return out
 
 
@@ -2365,10 +2462,7 @@ def rule_av_no_heuristic(
         return out
 
     # Collect profile names (skip __singleton__ if present)
-    profile_names = [
-        name for name in av_table
-        if isinstance(av_table[name], Node)
-    ]
+    profile_names = [name for name in av_table if isinstance(av_table[name], Node)]
     if not profile_names:
         return out
 
@@ -2417,20 +2511,23 @@ def rule_av_no_heuristic(
     if schema_unknown:
         msg = f"[schema_unknown] {msg}"
 
-    out.append(Finding(
-        rule_id=rule.id,
-        title=rule.title,
-        severity=rule.severity,
-        confidence=("heuristic" if schema_unknown else rule.confidence),
-        vdom=vdom,
-        message=msg,
-        evidence=ev,
-    ))
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
     return out
 
 
 # FGT-DLP-NO-SENSOR
 # ---------------------------------------------------------------------------
+
 
 def rule_dlp_no_sensor(
     *,
@@ -2479,10 +2576,7 @@ def rule_dlp_no_sensor(
         return out
 
     # Collect sensor names (skip __singleton__ if present)
-    sensor_names = [
-        name for name in sensor_table
-        if isinstance(sensor_table[name], Node)
-    ]
+    sensor_names = [name for name in sensor_table if isinstance(sensor_table[name], Node)]
     if not sensor_names:
         return out
 
@@ -2524,15 +2618,17 @@ def rule_dlp_no_sensor(
     if schema_unknown:
         msg = f"[schema_unknown] {msg}"
 
-    out.append(Finding(
-        rule_id=rule.id,
-        title=rule.title,
-        severity=rule.severity,
-        confidence=("heuristic" if schema_unknown else rule.confidence),
-        vdom=vdom,
-        message=msg,
-        evidence=ev,
-    ))
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
     return out
 
 
@@ -2549,9 +2645,7 @@ def rule_admin_lockout_no_tries(
     out: list[Finding] = []
 
     # Check schema support
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "global"), "admin-lockout-threshold"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "global"), "admin-lockout-threshold")
     if not supported:
         return out
 
@@ -2564,38 +2658,42 @@ def rule_admin_lockout_no_tries(
 
     if not isinstance(node, Node):
         # No admin config found — factory default = no lockout
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=rule.confidence,
-            vdom=vdom,
-            message=(
-                "Administrator lockout is not configured (factory default). "
-                "Without a lockout threshold, brute-force password attacks "
-                "against admin accounts will never be blocked. Configure "
-                "\"set admin-lockout-threshold\" in \"config system global\"."
-            ),
-            evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message=(
+                    "Administrator lockout is not configured (factory default). "
+                    "Without a lockout threshold, brute-force password attacks "
+                    "against admin accounts will never be blocked. Configure "
+                    '"set admin-lockout-threshold" in "config system global".'
+                ),
+                evidence=[],
+            )
+        )
         return out
 
     raw = node.effective_fields().get("admin-lockout-threshold")
     if raw is None:
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=rule.confidence,
-            vdom=vdom,
-            message=(
-                "Administrator lockout threshold is not set. Without a "
-                "lockout threshold, brute-force password attacks against "
-                "admin accounts will never be blocked. Configure "
-                "\"set admin-lockout-threshold\" in \"config system global\"."
-            ),
-            evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message=(
+                    "Administrator lockout threshold is not set. Without a "
+                    "lockout threshold, brute-force password attacks against "
+                    "admin accounts will never be blocked. Configure "
+                    '"set admin-lockout-threshold" in "config system global".'
+                ),
+                evidence=[],
+            )
+        )
         return out
 
     try:
@@ -2604,19 +2702,21 @@ def rule_admin_lockout_no_tries(
         return out
 
     if threshold == 0:
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=rule.confidence,
-            vdom=vdom,
-            message=(
-                "Administrator lockout threshold is set to 0 (disabled). "
-                "Brute-force password attacks against admin accounts will "
-                "never be blocked. Set a non-zero threshold (recommended: 3-5)."
-            ),
-            evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message=(
+                    "Administrator lockout threshold is set to 0 (disabled). "
+                    "Brute-force password attacks against admin accounts will "
+                    "never be blocked. Set a non-zero threshold (recommended: 3-5)."
+                ),
+                evidence=[],
+            )
+        )
 
     return out
 
@@ -2635,9 +2735,7 @@ def rule_ha_no_heartbeat(
     out: list[Finding] = []
 
     # Check schema support
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "ha"), "hbdev"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "ha"), "hbdev")
     if not supported:
         return out
 
@@ -2662,15 +2760,17 @@ def rule_ha_no_heartbeat(
         msg = "HA configuration has no heartbeat interface (hbdev). Without a dedicated heartbeat interface, HA heartbeat traffic shares the data plane, risking split-brain scenarios."
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom,
-            message=msg,
-            evidence=ev,
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            )
+        )
 
     # Check for unencrypted heartbeat
     hbdev_val = str(hbdev).strip() if hbdev else ""
@@ -2679,22 +2779,24 @@ def rule_ha_no_heartbeat(
         if "set:hbdev" in node.evidence:
             ev.append(node.evidence["set:hbdev"])
         msg = (
-            f"HA heartbeat interface \"{hbdev_val}\" is configured but "
+            f'HA heartbeat interface "{hbdev_val}" is configured but '
             f"cluster encryption key (cluster-key) is not set. HA heartbeat "
             f"traffic is unencrypted and can be intercepted. Configure "
-            f"\"set cluster-key\" to encrypt heartbeat traffic."
+            f'"set cluster-key" to encrypt heartbeat traffic.'
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id,
-            title=rule.title,
-            severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom,
-            message=msg,
-            evidence=ev,
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=ev,
+            )
+        )
 
     return out
 
@@ -2725,12 +2827,17 @@ def rule_ssl_inspection_disabled(
             continue
         utm_status = str(fields.get("utm-status", "")).lower()
         if utm_status != "enable":
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message=f"Policy {policy_name}: accepts HTTPS but UTM/SSL inspection is disabled (utm-status={utm_status}).",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {policy_name}: accepts HTTPS but UTM/SSL inspection is disabled (utm-status={utm_status}).",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2748,12 +2855,17 @@ def rule_admin_no_2fa(
         fields = admin_node.effective_fields()
         two_factor = str(fields.get("two-factor-auth", "")).lower()
         if two_factor in ("", "none", "disable"):
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message=f"Admin \"{admin_name}\" does not have two-factor authentication enabled.",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Admin "{admin_name}" does not have two-factor authentication enabled.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2776,12 +2888,17 @@ def rule_firewall_policy_any_any(
         src_all = "all" in srcaddr or "ALL" in srcaddr
         dst_all = "all" in dstaddr or "ALL" in dstaddr
         if src_all and dst_all:
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message=f"Policy {policy_name}: accepts traffic from any source to any destination (any-any policy).",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {policy_name}: accepts traffic from any source to any destination (any-any policy).",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2798,12 +2915,17 @@ def rule_dns_server_allow_tcp(
             continue
         fields = node.effective_fields()
         if fields.get("allow-tcp") == "enable":
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message="DNS server has TCP allowed, which may enable zone transfer attacks.",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="DNS server has TCP allowed, which may enable zone transfer attacks.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2824,12 +2946,17 @@ def rule_interface_open_port(
         allowaccess = as_list(fields.get("allowaccess"))
         enabled_mgmt = [p for p in allowaccess if p in mgmt_protos]
         if len(enabled_mgmt) >= 3:
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message=f"Edge interface \"{ifname}\" has {len(enabled_mgmt)} management protocols enabled: {', '.join(enabled_mgmt)}.",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Edge interface "{ifname}" has {len(enabled_mgmt)} management protocols enabled: {", ".join(enabled_mgmt)}.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2848,12 +2975,17 @@ def rule_vpn_phase1_unencrypted(
         proposal = str(fields.get("proposal", "")).lower()
         for weak in weak_enc:
             if weak in proposal:
-                out.append(Finding(
-                    rule_id=rule.id, title=rule.title, severity=rule.severity,
-                    confidence=rule.confidence, vdom=vdom,
-                    message=f"IPsec VPN \"{name}\" uses weak encryption: {weak} detected in proposal.",
-                    evidence=[],
-                ))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=f'IPsec VPN "{name}" uses weak encryption: {weak} detected in proposal.',
+                        evidence=[],
+                    )
+                )
                 break
     return out
 
@@ -2870,12 +3002,17 @@ def rule_switch_stp_no_root_guard(
             continue
         fields = node.effective_fields()
         if fields.get("stp") == "enable" and "root-guard" not in fields:
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message=f"Switch \"{name}\" has STP enabled without root guard configured.",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Switch "{name}" has STP enabled without root guard configured.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2892,12 +3029,17 @@ def rule_log_no_local_traffic(
         fields = node.effective_fields()
         action = str(fields.get("action", "")).lower()
         if action == "accept" and fields.get("logtraffic") != "enable":
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message=f"Local-in policy \"{name}\" accepts traffic without logging enabled.",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Local-in policy "{name}" accepts traffic without logging enabled.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2915,12 +3057,17 @@ def rule_system_global_no_admin_restricted(
         fields = node.effective_fields()
         restrict = fields.get("admin-restrict-vdom")
         if restrict is None or str(restrict).lower() != "enable":
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message="Multi-VDOM system does not have admin-restrict-vdom enabled. Admins may access all VDOMs.",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Multi-VDOM system does not have admin-restrict-vdom enabled. Admins may access all VDOMs.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2937,12 +3084,17 @@ def rule_wireless_open_ssid(
         fields = node.effective_fields()
         security = str(fields.get("security", "")).lower()
         if security in ("open", "none", ""):
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message=f"Wireless SSID \"{name}\" has no security (open network).",
-                evidence=[],
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Wireless SSID "{name}" has no security (open network).',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -2964,18 +3116,24 @@ def rule_router_static_default_route_insecure(
                 continue  # VPN tunnel — OK
             gateway = str(fields.get("gateway", "")).strip()
             if gateway and gateway != "0.0.0.0":
-                out.append(Finding(
-                    rule_id=rule.id, title=rule.title, severity=rule.severity,
-                    confidence=rule.confidence, vdom=vdom,
-                    message=f"Default route via gateway {gateway} on device {device}. Verify gateway is hardened.",
-                    evidence=[],
-                ))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=f"Default route via gateway {gateway} on device {device}. Verify gateway is hardened.",
+                        evidence=[],
+                    )
+                )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-API-TOKEN-NO-EXPIRY
 # ---------------------------------------------------------------------------
+
 
 def rule_api_token_no_expiry(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -2988,9 +3146,7 @@ def rule_api_token_no_expiry(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "api-user"), "token-expiry"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "api-user"), "token-expiry")
     if not supported:
         return out
 
@@ -3013,21 +3169,24 @@ def rule_api_token_no_expiry(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id,
-                title=rule.title,
-                severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom,
-                message=msg,
-                evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-APP-CTRL-NO-POLICY
 # ---------------------------------------------------------------------------
+
 
 def rule_app_ctrl_no_policy(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3041,9 +3200,7 @@ def rule_app_ctrl_no_policy(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("firewall", "policy"), "application-list"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("firewall", "policy"), "application-list")
     if not supported:
         return out
 
@@ -3061,17 +3218,24 @@ def rule_app_ctrl_no_policy(
             msg = f'Policy "{pid}" accepts traffic without application control.'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-AUTOMATION-STITCH-NO-RESTRICT
 # ---------------------------------------------------------------------------
+
 
 def rule_automation_stitch_no_restrict(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3085,9 +3249,7 @@ def rule_automation_stitch_no_restrict(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "automation-trigger"), "restrict-targets"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "automation-trigger"), "restrict-targets")
     if not supported:
         return out
 
@@ -3110,17 +3272,24 @@ def rule_automation_stitch_no_restrict(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-CAPTCHA-NO-ENABLE
 # ---------------------------------------------------------------------------
+
 
 def rule_captcha_no_enable(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3134,9 +3303,7 @@ def rule_captcha_no_enable(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "global"), "captcha"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "global"), "captcha")
     if not supported:
         return out
 
@@ -3157,17 +3324,24 @@ def rule_captcha_no_enable(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-DHCP-NO-RANGE-LIMIT
 # ---------------------------------------------------------------------------
+
 
 def rule_dhcp_no_range_limit(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3180,9 +3354,7 @@ def rule_dhcp_no_range_limit(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "dhcp"), "lease"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "dhcp"), "lease")
     if not supported:
         return out
 
@@ -3202,17 +3374,24 @@ def rule_dhcp_no_range_limit(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-DNS-FILTER-NO-PROFILE
 # ---------------------------------------------------------------------------
+
 
 def rule_dns_filter_no_profile(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3225,9 +3404,7 @@ def rule_dns_filter_no_profile(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("dnsfilter", "profile"), "name"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("dnsfilter", "profile"), "name")
     if not supported:
         return out
 
@@ -3240,17 +3417,24 @@ def rule_dns_filter_no_profile(
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id, title=rule.title, severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom, message=msg, evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=[],
+            )
+        )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-FW-MULTICAST-NO-SECURE
 # ---------------------------------------------------------------------------
+
 
 def rule_fw_multicast_no_secure(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3263,9 +3447,7 @@ def rule_fw_multicast_no_secure(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("firewall", "multicast-address"), "color"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("firewall", "multicast-address"), "color")
     if not supported:
         return out
 
@@ -3284,17 +3466,24 @@ def rule_fw_multicast_no_secure(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-ICAP-NO-PROFILE
 # ---------------------------------------------------------------------------
+
 
 def rule_icap_no_profile(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3308,9 +3497,7 @@ def rule_icap_no_profile(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("icap", "profile"), "name"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("icap", "profile"), "name")
     if not supported:
         return out
 
@@ -3322,17 +3509,24 @@ def rule_icap_no_profile(
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id, title=rule.title, severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom, message=msg, evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=[],
+            )
+        )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-IPSEC-NO-PFS
 # ---------------------------------------------------------------------------
+
 
 def rule_ipsec_no_pfs(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3345,9 +3539,7 @@ def rule_ipsec_no_pfs(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("vpn", "ipsec", "phase2-interface"), "pfs"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("vpn", "ipsec", "phase2-interface"), "pfs")
     if not supported:
         return out
 
@@ -3374,11 +3566,17 @@ def rule_ipsec_no_pfs(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
         seen_keys.add(dedupe)
     return out
 
@@ -3386,6 +3584,7 @@ def rule_ipsec_no_pfs(
 # ---------------------------------------------------------------------------
 # FGT-IPSEC-SHORT-LIFETIME
 # ---------------------------------------------------------------------------
+
 
 def rule_ipsec_short_lifetime(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3398,9 +3597,7 @@ def rule_ipsec_short_lifetime(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("vpn", "ipsec", "phase2-interface"), "lifetime"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("vpn", "ipsec", "phase2-interface"), "lifetime")
     if not supported:
         return out
 
@@ -3420,16 +3617,21 @@ def rule_ipsec_short_lifetime(
                     if "set:lifetime" in pnode.evidence:
                         ev.append(pnode.evidence["set:lifetime"])
                     msg = (
-                        f'IPsec phase2 "{pname}" has short SA lifetime '
-                        f"({val}s). Recommended minimum: >=3600s (1 hour)."
+                        f'IPsec phase2 "{pname}" has short SA lifetime ({val}s). Recommended minimum: >=3600s (1 hour).'
                     )
                     if schema_unknown:
                         msg = f"[schema_unknown] {msg}"
-                    out.append(Finding(
-                        rule_id=rule.id, title=rule.title, severity=rule.severity,
-                        confidence=("heuristic" if schema_unknown else rule.confidence),
-                        vdom=vdom, message=msg, evidence=ev,
-                    ))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=("heuristic" if schema_unknown else rule.confidence),
+                            vdom=vdom,
+                            message=msg,
+                            evidence=ev,
+                        )
+                    )
             except (ValueError, TypeError):
                 pass
     return out
@@ -3438,6 +3640,7 @@ def rule_ipsec_short_lifetime(
 # ---------------------------------------------------------------------------
 # FGT-LOG-REMOTE-UNENCRYPTED
 # ---------------------------------------------------------------------------
+
 
 def rule_log_remote_unencrypted(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3478,17 +3681,24 @@ def rule_log_remote_unencrypted(
                 )
                 if schema_unknown:
                     msg = f"[schema_unknown] {msg}"
-                out.append(Finding(
-                    rule_id=rule.id, title=rule.title, severity=rule.severity,
-                    confidence=("heuristic" if schema_unknown else rule.confidence),
-                    vdom=vdom, message=msg, evidence=ev,
-                ))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=("heuristic" if schema_unknown else rule.confidence),
+                        vdom=vdom,
+                        message=msg,
+                        evidence=ev,
+                    )
+                )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-NAC-NO-POLICY
 # ---------------------------------------------------------------------------
+
 
 def rule_nac_no_policy(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3501,9 +3711,7 @@ def rule_nac_no_policy(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("switch-controller", "nac-policy"), "name"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("switch-controller", "nac-policy"), "name")
     if not supported:
         return out
 
@@ -3516,17 +3724,24 @@ def rule_nac_no_policy(
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id, title=rule.title, severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom, message=msg, evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=[],
+            )
+        )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-POLICY-NO-AV
 # ---------------------------------------------------------------------------
+
 
 def rule_policy_no_av(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3535,9 +3750,7 @@ def rule_policy_no_av(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("firewall", "policy"), "av-profile"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("firewall", "policy"), "av-profile")
     if not supported:
         return out
 
@@ -3555,17 +3768,24 @@ def rule_policy_no_av(
             msg = f'Policy "{pid}": accepts traffic without antivirus profile.'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-POLICY-NO-DLP
 # ---------------------------------------------------------------------------
+
 
 def rule_policy_no_dlp(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3574,9 +3794,7 @@ def rule_policy_no_dlp(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("firewall", "policy"), "dlp-sensor"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("firewall", "policy"), "dlp-sensor")
     if not supported:
         return out
 
@@ -3594,17 +3812,24 @@ def rule_policy_no_dlp(
             msg = f'Policy "{pid}": accepts traffic without DLP sensor.'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-POLICY-NO-IPS
 # ---------------------------------------------------------------------------
+
 
 def rule_policy_no_ips(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3613,9 +3838,7 @@ def rule_policy_no_ips(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("firewall", "policy"), "ips-sensor"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("firewall", "policy"), "ips-sensor")
     if not supported:
         return out
 
@@ -3633,17 +3856,24 @@ def rule_policy_no_ips(
             msg = f'Policy "{pid}": accepts traffic without IPS sensor.'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-POLICY-NO-LOG
 # ---------------------------------------------------------------------------
+
 
 def rule_policy_no_log(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3652,9 +3882,7 @@ def rule_policy_no_log(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("firewall", "policy"), "logtraffic"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("firewall", "policy"), "logtraffic")
     if not supported:
         return out
 
@@ -3672,17 +3900,24 @@ def rule_policy_no_log(
             msg = f'Policy "{pid}": accepts traffic without logging enabled.'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-POLICY-NO-WEBFILTER
 # ---------------------------------------------------------------------------
+
 
 def rule_policy_no_webfilter(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3691,9 +3926,7 @@ def rule_policy_no_webfilter(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("firewall", "policy"), "webfilter-profile"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("firewall", "policy"), "webfilter-profile")
     if not supported:
         return out
 
@@ -3711,17 +3944,24 @@ def rule_policy_no_webfilter(
             msg = f'Policy "{pid}": accepts traffic without web filter profile.'
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-REPORT-NO-SCHEDULE
 # ---------------------------------------------------------------------------
+
 
 def rule_report_no_schedule(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3734,9 +3974,7 @@ def rule_report_no_schedule(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("report", "schedule"), "name"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("report", "schedule"), "name")
     if not supported:
         return out
 
@@ -3748,17 +3986,24 @@ def rule_report_no_schedule(
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id, title=rule.title, severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom, message=msg, evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=[],
+            )
+        )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-ROUTING-NO-FILTER
 # ---------------------------------------------------------------------------
+
 
 def rule_routing_no_filter(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3771,9 +4016,7 @@ def rule_routing_no_filter(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("router", "static"), "dst"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("router", "static"), "dst")
     if not supported:
         return out
 
@@ -3786,17 +4029,24 @@ def rule_routing_no_filter(
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id, title=rule.title, severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom, message=msg, evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=[],
+            )
+        )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-SDWAN-NO-HEALTH-CHECK
 # ---------------------------------------------------------------------------
+
 
 def rule_sdwan_no_health_check(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3809,9 +4059,7 @@ def rule_sdwan_no_health_check(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "sdwan"), "health-check"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "sdwan"), "health-check")
     if not supported:
         return out
 
@@ -3831,17 +4079,24 @@ def rule_sdwan_no_health_check(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-SSLVPN-PORT
 # ---------------------------------------------------------------------------
+
 
 def rule_sslvpn_port(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3854,9 +4109,7 @@ def rule_sslvpn_port(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("vpn", "ssl", "settings"), "port"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("vpn", "ssl", "settings"), "port")
     if not supported:
         return out
 
@@ -3873,17 +4126,20 @@ def rule_sslvpn_port(
                     ev: list[Evidence] = []
                     if "set:port" in node.evidence:
                         ev.append(node.evidence["set:port"])
-                    msg = (
-                        f"SSL VPN is listening on non-standard port {p} "
-                        f"instead of 443 or 10443."
-                    )
+                    msg = f"SSL VPN is listening on non-standard port {p} instead of 443 or 10443."
                     if schema_unknown:
                         msg = f"[schema_unknown] {msg}"
-                    out.append(Finding(
-                        rule_id=rule.id, title=rule.title, severity=rule.severity,
-                        confidence=("heuristic" if schema_unknown else rule.confidence),
-                        vdom=vdom, message=msg, evidence=ev,
-                    ))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=("heuristic" if schema_unknown else rule.confidence),
+                            vdom=vdom,
+                            message=msg,
+                            evidence=ev,
+                        )
+                    )
             except (ValueError, TypeError):
                 pass
     return out
@@ -3903,9 +4159,7 @@ def rule_sslvpn_weak_cipher(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("vpn", "ssl", "settings"), "cipher"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("vpn", "ssl", "settings"), "cipher")
     if not supported:
         return out
 
@@ -3923,11 +4177,17 @@ def rule_sslvpn_weak_cipher(
                 msg = f"SSL VPN uses weak cipher: {w}. Use AES-GCM ciphers only."
                 if schema_unknown:
                     msg = f"[schema_unknown] {msg}"
-                out.append(Finding(
-                    rule_id=rule.id, title=rule.title, severity=rule.severity,
-                    confidence=("heuristic" if schema_unknown else rule.confidence),
-                    vdom=vdom, message=msg, evidence=ev,
-                ))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=("heuristic" if schema_unknown else rule.confidence),
+                        vdom=vdom,
+                        message=msg,
+                        evidence=ev,
+                    )
+                )
                 break
     return out
 
@@ -3935,6 +4195,7 @@ def rule_sslvpn_weak_cipher(
 # ---------------------------------------------------------------------------
 # FGT-SWITCH-NO-PORT-SECURITY
 # ---------------------------------------------------------------------------
+
 
 def rule_switch_no_port_security(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3947,9 +4208,7 @@ def rule_switch_no_port_security(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("switch-controller", "switch-port-security"), "name"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("switch-controller", "switch-port-security"), "name")
     if not supported:
         return out
 
@@ -3962,17 +4221,24 @@ def rule_switch_no_port_security(
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id, title=rule.title, severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom, message=msg, evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=[],
+            )
+        )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-SYSTEM-NO-MGMT-INTERFACE
 # ---------------------------------------------------------------------------
+
 
 def rule_system_no_mgmt_interface(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -3985,9 +4251,7 @@ def rule_system_no_mgmt_interface(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("system", "interface"), "type"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("system", "interface"), "type")
     if not supported:
         return out
 
@@ -4005,17 +4269,24 @@ def rule_system_no_mgmt_interface(
         )
         if schema_unknown:
             msg = f"[schema_unknown] {msg}"
-        out.append(Finding(
-            rule_id=rule.id, title=rule.title, severity=rule.severity,
-            confidence=("heuristic" if schema_unknown else rule.confidence),
-            vdom=vdom, message=msg, evidence=[],
-        ))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=("heuristic" if schema_unknown else rule.confidence),
+                vdom=vdom,
+                message=msg,
+                evidence=[],
+            )
+        )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-USER-NO-EXPIRY
 # ---------------------------------------------------------------------------
+
 
 def rule_user_no_expiry(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -4024,9 +4295,7 @@ def rule_user_no_expiry(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("user", "local"), "expire"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("user", "local"), "expire")
     if not supported:
         return out
 
@@ -4046,17 +4315,24 @@ def rule_user_no_expiry(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-WIFI-NO-RADIUS
 # ---------------------------------------------------------------------------
+
 
 def rule_wifi_no_radius(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -4065,9 +4341,7 @@ def rule_wifi_no_radius(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("wireless-controller", "ssid"), "security"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("wireless-controller", "ssid"), "security")
     if not supported:
         return out
 
@@ -4088,17 +4362,24 @@ def rule_wifi_no_radius(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-WIFI-WPA-TKIP
 # ---------------------------------------------------------------------------
+
 
 def rule_wifi_wpa_tkip(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -4107,9 +4388,7 @@ def rule_wifi_wpa_tkip(
     tables = model.vdoms.get(vdom, {})
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("wireless-controller", "ssid"), "security"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("wireless-controller", "ssid"), "security")
     if not supported:
         return out
 
@@ -4130,17 +4409,24 @@ def rule_wifi_wpa_tkip(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # FGT-ZTNA-NO-TRUST-CERT
 # ---------------------------------------------------------------------------
+
 
 def rule_ztna_no_trust_cert(
     *, model: ConfigModel, facts: Facts, vdom: str, rule: Rule, schema: SchemaView | None = None
@@ -4153,9 +4439,7 @@ def rule_ztna_no_trust_cert(
     tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
     out: list[Finding] = []
 
-    supported, schema_unknown = _schema_supports_field(
-        schema, ("ztna", "server"), "certificate"
-    )
+    supported, schema_unknown = _schema_supports_field(schema, ("ztna", "server"), "certificate")
     if not supported:
         return out
 
@@ -4175,25 +4459,43 @@ def rule_ztna_no_trust_cert(
             )
             if schema_unknown:
                 msg = f"[schema_unknown] {msg}"
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=("heuristic" if schema_unknown else rule.confidence),
-                vdom=vdom, message=msg, evidence=ev,
-            ))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=("heuristic" if schema_unknown else rule.confidence),
+                    vdom=vdom,
+                    message=msg,
+                    evidence=ev,
+                )
+            )
     return out
 
 
 # ── ZTNA Rules ──
+
 
 def rule_ztna_server_no_cert(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("ztna", "server"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("certificate"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" has no trusted certificate configured.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'ZTNA server "{name}" has no trusted certificate configured.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4202,10 +4504,21 @@ def rule_ztna_rule_no_users(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("ztna", "rule"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("users") and not fields.get("user-groups"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" has no user or group restrictions.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'ZTNA rule "{name}" has no user or group restrictions.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4214,10 +4527,21 @@ def rule_ztna_no_posture(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("ztna", "rule"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("device-posture"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" does not require device posture check.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'ZTNA rule "{name}" does not require device posture check.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4226,11 +4550,22 @@ def rule_ztna_default_action(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("ztna", "rule"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         action = str(fields.get("action", "")).lower()
         if action in ("", "allow", "accept"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" has default allow action. Use deny-by-default.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'ZTNA rule "{name}" has default allow action. Use deny-by-default.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4239,10 +4574,21 @@ def rule_ztna_no_forticlient(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("ztna", "rule"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("forticlient-check") and not fields.get("ems-tag"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" does not require FortiClient endpoint compliance.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'ZTNA rule "{name}" does not require FortiClient endpoint compliance.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4251,14 +4597,25 @@ def rule_ztna_port_standard(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("ztna", "server"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         port = fields.get("port")
         if port:
             try:
                 p = int(str(port))
                 if p != 443 and p != 10443:
-                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" on non-standard port {p}.", evidence=[]))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=rule.confidence,
+                            vdom=vdom,
+                            message=f'ZTNA server "{name}" on non-standard port {p}.',
+                            evidence=[],
+                        )
+                    )
             except (ValueError, TypeError):
                 pass
     return out
@@ -4269,10 +4626,21 @@ def rule_ztna_no_reauth(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("ztna", "server"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("reauth-interval"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" has no re-authentication interval configured.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'ZTNA server "{name}" has no re-authentication interval configured.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4281,10 +4649,21 @@ def rule_ztna_no_logging(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("ztna", "rule"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("logtraffic") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" has logging disabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'ZTNA rule "{name}" has logging disabled.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4293,23 +4672,47 @@ def rule_ztna_exposed_apps(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("ztna", "server"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("saml-service-provider") and not fields.get("client-cert"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" has applications exposed without additional access controls.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'ZTNA server "{name}" has applications exposed without additional access controls.',
+                    evidence=[],
+                )
+            )
     return out
 
+
 # ── SIA Rules ──
+
 
 def rule_sia_no_dns_filter(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     policy_table = get_table(tables, ("firewall", "policy"))
     for name, node in policy_table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if str(fields.get("action", "")).lower() == "accept" and not fields.get("dnsfilter-profile"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without DNS filter.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {name}: accepts traffic without DNS filter.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4318,10 +4721,21 @@ def rule_sia_no_web_filter(*, model, facts, vdom, rule, schema=None):
     out = []
     policy_table = get_table(tables, ("firewall", "policy"))
     for name, node in policy_table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if str(fields.get("action", "")).lower() == "accept" and not fields.get("webfilter-profile"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without web filter.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {name}: accepts traffic without web filter.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4330,10 +4744,21 @@ def rule_sia_no_ssl_inspect(*, model, facts, vdom, rule, schema=None):
     out = []
     policy_table = get_table(tables, ("firewall", "policy"))
     for name, node in policy_table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if str(fields.get("action", "")).lower() == "accept" and not fields.get("ssl-ssh-profile"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without SSL inspection.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {name}: accepts traffic without SSL inspection.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4342,10 +4767,21 @@ def rule_sia_no_app_control(*, model, facts, vdom, rule, schema=None):
     out = []
     policy_table = get_table(tables, ("firewall", "policy"))
     for name, node in policy_table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if str(fields.get("action", "")).lower() == "accept" and not fields.get("application-list"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without application control.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {name}: accepts traffic without application control.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4354,10 +4790,21 @@ def rule_sia_no_ips(*, model, facts, vdom, rule, schema=None):
     out = []
     policy_table = get_table(tables, ("firewall", "policy"))
     for name, node in policy_table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if str(fields.get("action", "")).lower() == "accept" and not fields.get("ips-sensor"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without IPS sensor.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {name}: accepts traffic without IPS sensor.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4366,10 +4813,21 @@ def rule_sia_no_captive_portal(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("user", "setting"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("auth-captive-portal") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Captive portal is not enabled for guest access.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Captive portal is not enabled for guest access.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4378,10 +4836,21 @@ def rule_sia_no_log(*, model, facts, vdom, rule, schema=None):
     out = []
     policy_table = get_table(tables, ("firewall", "policy"))
     for name, node in policy_table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if str(fields.get("action", "")).lower() == "accept" and fields.get("logtraffic") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without logging.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {name}: accepts traffic without logging.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4390,25 +4859,48 @@ def rule_sia_no_geo_ip(*, model, facts, vdom, rule, schema=None):
     out = []
     policy_table = get_table(tables, ("firewall", "policy"))
     for name, node in policy_table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         src = as_list(fields.get("srcaddr"))
         if "all" in src and not fields.get("geoip-match"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts all sources without geo-IP filtering.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Policy {name}: accepts all sources without geo-IP filtering.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── VPN Hardening Rules ──
+
 
 def rule_vpn_no_dpd(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("vpn", "ipsec", "phase1-interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("dpd") and not fields.get("auto-negotiate"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase1 \"{name}\" has no dead peer detection.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'IPsec phase1 "{name}" has no dead peer detection.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4417,10 +4909,21 @@ def rule_vpn_no_nat_t(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("vpn", "ipsec", "phase1-interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("nat-traversal") == "disable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase1 \"{name}\" has NAT traversal disabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'IPsec phase1 "{name}" has NAT traversal disabled.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4429,14 +4932,25 @@ def rule_vpn_short_ike(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("vpn", "ipsec", "phase1-interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         lt = fields.get("lifetime")
         if lt:
             try:
                 val = int(str(lt))
                 if val < 28800:
-                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase1 \"{name}\" has short IKE lifetime ({val}s).", evidence=[]))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=rule.confidence,
+                            vdom=vdom,
+                            message=f'IPsec phase1 "{name}" has short IKE lifetime ({val}s).',
+                            evidence=[],
+                        )
+                    )
             except (ValueError, TypeError):
                 pass
     return out
@@ -4448,12 +4962,23 @@ def rule_vpn_no_dh_group14(*, model, facts, vdom, rule, schema=None):
     weak_groups = ["1", "2"]
     table = get_table(tables, ("vpn", "ipsec", "phase1-interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         dhgroup = as_list(fields.get("dhgrp"))
         for g in dhgroup:
             if str(g) in weak_groups:
-                out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase1 \"{name}\" uses weak DH group {g}.", evidence=[]))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=f'IPsec phase1 "{name}" uses weak DH group {g}.',
+                        evidence=[],
+                    )
+                )
                 break
     return out
 
@@ -4463,10 +4988,21 @@ def rule_vpn_no_auth_localid(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("vpn", "ipsec", "phase1-interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("localid"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase1 \"{name}\" has no local ID.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'IPsec phase1 "{name}" has no local ID.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4475,10 +5011,21 @@ def rule_vpn_ssl_no_client_cert(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("vpn", "ssl", "settings"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("reqclientcert"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="SSL VPN does not require client certificate.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="SSL VPN does not require client certificate.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4487,10 +5034,21 @@ def rule_vpn_ssl_dns_split(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("vpn", "ssl", "settings"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("dns-split-tunnel") == "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="SSL VPN has DNS split tunneling enabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="SSL VPN has DNS split tunneling enabled.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4499,10 +5057,21 @@ def rule_vpn_ipsec_no_replay(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("vpn", "ipsec", "phase2-interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("replay") == "disable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase2 \"{name}\" has anti-replay disabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'IPsec phase2 "{name}" has anti-replay disabled.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4511,24 +5080,47 @@ def rule_vpn_ipsec_compression(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("vpn", "ipsec", "phase2-interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("compression") == "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase2 \"{name}\" has compression enabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'IPsec phase2 "{name}" has compression enabled.',
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── Routing Security Rules ──
+
 
 def rule_routing_bgp_no_password(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("router", "bgp"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("password"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="BGP configured without MD5 authentication.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="BGP configured without MD5 authentication.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4537,7 +5129,17 @@ def rule_routing_bgp_no_prefix_filter(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("router", "prefix-list"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No prefix lists for BGP route filtering.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No prefix lists for BGP route filtering.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4546,10 +5148,21 @@ def rule_routing_bgp_no_max_prefix(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("router", "bgp"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("maximum-prefix"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="BGP has no maximum prefix limit.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="BGP has no maximum prefix limit.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4558,10 +5171,21 @@ def rule_routing_ospf_no_auth(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("router", "ospf"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("authentication"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="OSPF configured without authentication.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="OSPF configured without authentication.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4570,10 +5194,21 @@ def rule_routing_ospf_no_passive(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("router", "ospf"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("passive-interface"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="OSPF has no passive interfaces.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="OSPF has no passive interfaces.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4582,10 +5217,21 @@ def rule_routing_static_no_gw_check(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("router", "static"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("distance") and not fields.get("weight"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Static route {name} has no distance/weight.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Static route {name} has no distance/weight.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4594,7 +5240,17 @@ def rule_routing_no_route_map(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("router", "route-map"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No route maps for route filtering.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No route maps for route filtering.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4603,7 +5259,17 @@ def rule_routing_no_prefix_list(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("router", "prefix-list"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No prefix lists for route filtering.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No prefix lists for route filtering.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4612,21 +5278,43 @@ def rule_routing_rip_no_auth(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("router", "rip"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("authentication"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="RIP configured without authentication.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="RIP configured without authentication.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── FortiSwitch Rules ──
+
 
 def rule_switch_no_8021x(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("switch-controller", "switch-port-security"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No 802.1X port security on switches.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No 802.1X port security on switches.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4635,10 +5323,21 @@ def rule_switch_no_vlan_seg(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("switch-controller", "managed-switch"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("vlan"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Switch \"{name}\" has no VLAN config.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Switch "{name}" has no VLAN config.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4647,10 +5346,21 @@ def rule_switch_no_storm_control(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("switch-controller", "managed-switch"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("storm-control"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Switch \"{name}\" has no storm control.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Switch "{name}" has no storm control.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4659,10 +5369,21 @@ def rule_switch_no_mac_limit(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("switch-controller", "switch-port-security"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("mac-limit"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Port security \"{name}\" has no MAC limit.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Port security "{name}" has no MAC limit.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4671,10 +5392,21 @@ def rule_switch_no_bpdu_guard(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("switch-controller", "managed-switch"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("bpdu-guard"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Switch \"{name}\" has no BPDU guard.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Switch "{name}" has no BPDU guard.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4683,10 +5415,21 @@ def rule_switch_no_dhcp_snoop(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("switch-controller", "managed-switch"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("dhcp-snooping"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Switch \"{name}\" has no DHCP snooping.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Switch "{name}" has no DHCP snooping.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4695,25 +5438,48 @@ def rule_switch_no_dynamic_arp(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("switch-controller", "managed-switch"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("arp-inspection"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Switch \"{name}\" has no dynamic ARP inspection.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Switch "{name}" has no dynamic ARP inspection.',
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── FortiAP Rules ──
+
 
 def rule_ap_no_wpa3(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("wireless-controller", "ssid"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         security = str(fields.get("security", "")).lower()
         if "wpa3" not in security and "sae" not in security and "enterprise" not in security:
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"WiFi SSID \"{name}\" does not use WPA3.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'WiFi SSID "{name}" does not use WPA3.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4722,11 +5488,22 @@ def rule_ap_open_network(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("wireless-controller", "ssid"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         security = str(fields.get("security", "")).lower()
         if security in ("", "open", "none"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"WiFi SSID \"{name}\" has no encryption.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'WiFi SSID "{name}" has no encryption.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4735,10 +5512,21 @@ def rule_ap_no_client_isolation(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("wireless-controller", "ssid"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("client-isolation"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"WiFi SSID \"{name}\" has no client isolation.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'WiFi SSID "{name}" has no client isolation.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4747,10 +5535,21 @@ def rule_ap_no_max_clients(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("wireless-controller", "ssid"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("max-clients"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"WiFi SSID \"{name}\" has no client limit.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'WiFi SSID "{name}" has no client limit.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4759,11 +5558,22 @@ def rule_ap_no_radius(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("wireless-controller", "ssid"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         security = str(fields.get("security", "")).lower()
         if "enterprise" in security and not fields.get("radius-server"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Enterprise WiFi \"{name}\" has no RADIUS.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Enterprise WiFi "{name}" has no RADIUS.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4772,21 +5582,43 @@ def rule_ap_no_logging(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("wireless-controller", "ssid"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("log-client-event"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"WiFi SSID \"{name}\" has no client event logging.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'WiFi SSID "{name}" has no client event logging.',
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── Additional Security Rules ──
+
 
 def rule_firewall_no_dose(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("firewall", "DoS-policy"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No DoS protection policy configured.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No DoS protection policy configured.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4795,10 +5627,21 @@ def rule_firewall_no_antispoof(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("firewall", "DoS-policy"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("anomaly"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"DoS policy \"{name}\" has no anomaly detection.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'DoS policy "{name}" has no anomaly detection.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4808,7 +5651,17 @@ def rule_log_no_fortianalyzer(*, model, facts, vdom, rule, schema=None):
     global_tables = _merged_scope_tables(tables, model.global_cfg)
     faz_table = get_table(global_tables, ("log", "fortianalyzer", "setting"))
     if not faz_table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No FortiAnalyzer logging configured.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No FortiAnalyzer logging configured.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4817,7 +5670,17 @@ def rule_auth_no_radius(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("user", "radius"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No RADIUS server configured.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No RADIUS server configured.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4826,7 +5689,17 @@ def rule_auth_no_ldap(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("user", "ldap"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No LDAP server configured.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No LDAP server configured.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4835,11 +5708,22 @@ def rule_system_no_ntps(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ntp"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         ntp_type = str(fields.get("type", "")).lower()
         if ntp_type == "custom" and not fields.get("ntps"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="NTP configured without NTPS (TLS).", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="NTP configured without NTPS (TLS).",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4848,10 +5732,21 @@ def rule_system_no_snmpv3(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "snmp"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("v2c-status") == "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="SNMPv2c enabled. Use SNMPv3.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="SNMPv2c enabled. Use SNMPv3.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4860,21 +5755,43 @@ def rule_system_no_fortiguard(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "fortiguard"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("update-server-location") == "disable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="FortiGuard update service disabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="FortiGuard update service disabled.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── Local-in Policy Rules ──
+
 
 def rule_firewall_no_local_in(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("firewall", "local-in-policy"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No local-in policy configured. Management access is unprotected.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No local-in policy configured. Management access is unprotected.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -4883,25 +5800,48 @@ def rule_firewall_local_in_no_restrict(*, model, facts, vdom, rule, schema=None)
     out = []
     table = get_table(tables, ("firewall", "local-in-policy"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         svc = str(fields.get("service", "")).lower()
         if svc in ("all", "all"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Local-in policy {name} allows ALL services. Restrict to specific management services.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Local-in policy {name} allows ALL services. Restrict to specific management services.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── Security Fabric Rules ──
+
 
 def rule_fabric_no_quarantine(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "security-fabric"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("compromised-host-quat-enable") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Security Fabric quarantine not enabled for compromised hosts.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Security Fabric quarantine not enabled for compromised hosts.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4910,21 +5850,43 @@ def rule_fabric_no_root(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "security-fabric"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Security Fabric is not configured.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="Security Fabric is not configured.",
+                evidence=[],
+            )
+        )
     return out
 
 
 # ── Network Hardening Rules ──
+
 
 def rule_network_no_tcp_seq(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("tcp-seq-picky") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="TCP sequence checking (tcp-seq-picky) is not enabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="TCP sequence checking (tcp-seq-picky) is not enabled.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4933,11 +5895,22 @@ def rule_network_no_urpf(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("system", "interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         role = str(fields.get("role", "")).lower()
         if role in ("lan", "dmz", "wan") and not fields.get("urpf"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Interface \"{name}\" does not have reverse path forwarding.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Interface "{name}" does not have reverse path forwarding.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4946,25 +5919,48 @@ def rule_network_no_unicast_route(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "setting"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("unicast-reverse-path"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Unicast reverse path forwarding not configured.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Unicast reverse path forwarding not configured.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── System Hardening Rules ──
+
 
 def rule_system_default_hostname(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         hostname = str(fields.get("hostname", "")).lower()
         if hostname in ("", "fortigate", "fgt", "fg"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Default hostname \"{hostname}\" not changed. Set a unique hostname.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Default hostname "{hostname}" not changed. Set a unique hostname.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4973,10 +5969,21 @@ def rule_system_no_password_policy(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "password"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("min-length") and not fields.get("min-lower-case") and not fields.get("min-upper-case"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Password policy has no minimum requirements configured.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Password policy has no minimum requirements configured.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4985,10 +5992,21 @@ def rule_system_no_firmware_check(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "fortiguard-service"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("update-check") or fields.get("update-check") == "disable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Firmware auto-check is not enabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Firmware auto-check is not enabled.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -4997,10 +6015,21 @@ def rule_system_ddns_enabled(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("system", "ddns"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("ddns-status") == "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="DDNS is enabled. Disable unless explicitly needed.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="DDNS is enabled. Disable unless explicitly needed.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5009,10 +6038,21 @@ def rule_system_usb_auto_install(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "usb"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("auto-install") == "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="USB auto-install is enabled. Disable to prevent unauthorized config loading.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="USB auto-install is enabled. Disable to prevent unauthorized config loading.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5021,10 +6061,21 @@ def rule_system_no_strong_crypto(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("strong-crypto") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Strong crypto is not enabled. Enable for secure communications.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Strong crypto is not enabled. Enable for secure communications.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5033,11 +6084,22 @@ def rule_system_gui_tls_weak(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         tls_min = fields.get("admin-https-ssl-min-tls")
         if tls_min and str(tls_min) in ("1.0", "1.1"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"GUI allows TLS {tls_min}. Minimum should be TLS 1.2.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"GUI allows TLS {tls_min}. Minimum should be TLS 1.2.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5046,10 +6108,21 @@ def rule_system_no_banner(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("pre-login-banner") and not fields.get("post-login-banner"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No login banner configured. Required for legal compliance.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="No login banner configured. Required for legal compliance.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5058,25 +6131,48 @@ def rule_system_no_timezone(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         tz = fields.get("timezone")
         if not tz or str(tz) in ("", "00"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Timezone not configured. Affects log accuracy.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Timezone not configured. Affects log accuracy.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── HA Hardening Rules ──
+
 
 def rule_ha_no_interface_monitor(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ha"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("monitor"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="HA is configured without interface monitoring.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="HA is configured without interface monitoring.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5085,10 +6181,21 @@ def rule_ha_no_mgmt_interface(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ha"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("management-interface") and fields.get("mode"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="HA is configured without a reserved management interface.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="HA is configured without a reserved management interface.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5097,13 +6204,24 @@ def rule_ha_default_group_id(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ha"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         group_id = fields.get("group-id")
         if group_id is not None:
             try:
                 if int(str(group_id)) == 0:
-                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="HA uses default group ID 0. Change to prevent conflicts.", evidence=[]))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=rule.confidence,
+                            vdom=vdom,
+                            message="HA uses default group ID 0. Change to prevent conflicts.",
+                            evidence=[],
+                        )
+                    )
             except (ValueError, TypeError):
                 pass
     return out
@@ -5111,15 +6229,27 @@ def rule_ha_default_group_id(*, model, facts, vdom, rule, schema=None):
 
 # ── Logging Hardening Rules ──
 
+
 def rule_log_no_encryption(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("log", "fortianalyzer", "setting"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("encryption") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="FortiAnalyzer logging without encryption enabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="FortiAnalyzer logging without encryption enabled.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5128,39 +6258,75 @@ def rule_log_no_extended(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("log", "fortianalyzer", "setting"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("retention"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No extended log retention configured.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="No extended log retention configured.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── Implicit Deny Rules ──
+
 
 def rule_policy_implicit_deny_no_log(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("firewall", "policy"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         action = str(fields.get("action", "")).lower()
         if action in ("deny", "deny") and fields.get("logtraffic") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Deny policy {name} has logging disabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f"Deny policy {name} has logging disabled.",
+                    evidence=[],
+                )
+            )
     return out
 
+
 # ── System/BIOS Hardening Rules ──
+
 
 def rule_sys_maintainer_enabled(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         maintainer = fields.get("maintainer")
         if maintainer is None or str(maintainer).lower() != "disable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Maintainer account is enabled. Disable to prevent password reset without credentials.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Maintainer account is enabled. Disable to prevent password reset without credentials.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5169,24 +6335,47 @@ def rule_sys_secure_boot_disabled(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("secureboot-status") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Secure boot is not enabled. Enable for BIOS-level security.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Secure boot is not enabled. Enable for BIOS-level security.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── Admin Access (additional) ──
+
 
 def rule_admin_https_redirect(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("admin-https-redirect") != "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="HTTPS redirect not enabled. HTTP admin access is possible.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="HTTPS redirect not enabled. HTTP admin access is possible.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5195,14 +6384,25 @@ def rule_admin_ssh_grace_long(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         grace = fields.get("admin-ssh-grace-time")
         if grace:
             try:
                 val = int(str(grace))
                 if val > 60:
-                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"SSH grace time is {val}s. Recommended: 60s or less.", evidence=[]))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=rule.confidence,
+                            vdom=vdom,
+                            message=f"SSH grace time is {val}s. Recommended: 60s or less.",
+                            evidence=[],
+                        )
+                    )
             except (ValueError, TypeError):
                 pass
     return out
@@ -5213,10 +6413,21 @@ def rule_admin_scp_enabled(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("admin-scp") == "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="SCP access is enabled. Disable to restrict config access.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="SCP access is enabled. Disable to restrict config access.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5225,10 +6436,21 @@ def rule_admin_forticloud_enabled(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("admin-forticloud-access") == "enable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="FortiCloud access is enabled. Disable unless actively used.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="FortiCloud access is enabled. Disable unless actively used.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5237,14 +6459,26 @@ def rule_admin_hostkey_default(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("admin-ssh-hostkey"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="SSH host key not configured. Regenerate with strong key.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="SSH host key not configured. Regenerate with strong key.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── Encryption/TLS Rules ──
+
 
 def rule_tls_admin_cipher_weak(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
@@ -5252,12 +6486,23 @@ def rule_tls_admin_cipher_weak(*, model, facts, vdom, rule, schema=None):
     weak_ciphers = ["rc4", "des", "3des", "export", "null"]
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         ciphersuite = str(fields.get("admin-https-ssl-ciphersuite", "")).lower()
         for wc in weak_ciphers:
             if wc in ciphersuite:
-                out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Weak admin cipher '{wc}' in HTTPS ciphersuite.", evidence=[]))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=f"Weak admin cipher '{wc}' in HTTPS ciphersuite.",
+                        evidence=[],
+                    )
+                )
                 break
     return out
 
@@ -5268,12 +6513,23 @@ def rule_ssh_weak_mac(*, model, facts, vdom, rule, schema=None):
     weak_mac = ["hmac-md5", "hmac-sha1-96"]
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ssh"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         allowed_mac = str(fields.get("strong-crypto", "")).lower()
         for wm in weak_mac:
             if wm in allowed_mac:
-                out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Weak SSH MAC '{wm}' is allowed.", evidence=[]))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=f"Weak SSH MAC '{wm}' is allowed.",
+                        evidence=[],
+                    )
+                )
     return out
 
 
@@ -5283,16 +6539,28 @@ def rule_ssh_weak_kex(*, model, facts, vdom, rule, schema=None):
     weak_kex = ["diffie-hellman-group1-sha1", "diffie-hellman-group14-sha1"]
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ssh"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         kex = str(fields.get("kex-algorithms", "")).lower()
         for wk in weak_kex:
             if wk in kex:
-                out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Weak SSH key exchange '{wk}' is allowed.", evidence=[]))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=f"Weak SSH key exchange '{wk}' is allowed.",
+                        evidence=[],
+                    )
+                )
     return out
 
 
 # ── Network Security Rules ──
+
 
 def rule_net_ipv6_unprotected(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
@@ -5301,12 +6569,23 @@ def rule_net_ipv6_unprotected(*, model, facts, vdom, rule, schema=None):
     policy6_table = get_table(tables, ("firewall", "policy6"))
     ipv6_ifaces = []
     for name, node in iface_table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("ipv6") == "enable" or fields.get("allowaccess-ipv6"):
             ipv6_ifaces.append(name)
     if ipv6_ifaces and not policy6_table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPv6 enabled on {len(ipv6_ifaces)} interfaces but no IPv6 firewall policies.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message=f"IPv6 enabled on {len(ipv6_ifaces)} interfaces but no IPv6 firewall policies.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -5315,27 +6594,50 @@ def rule_net_unused_iface_up(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("system", "interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         status = str(fields.get("status", "up")).lower()
         iface_type = str(fields.get("type", "")).lower()
         if status == "up" and iface_type in ("physical", ""):
             if not fields.get("allowaccess") and not fields.get("role"):
-                out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Interface \"{name}\" is up but has no allowaccess or role.", evidence=[]))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=f'Interface "{name}" is up but has no allowaccess or role.',
+                        evidence=[],
+                    )
+                )
     return out
 
 
 # ── DoS/Flood Protection Rules ──
+
 
 def rule_dos_no_synproxy(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("firewall", "DoS-policy"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("synproxy"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"DoS policy \"{name}\" has no SYN proxy configured.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'DoS policy "{name}" has no SYN proxy configured.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5344,26 +6646,49 @@ def rule_flood_no_udp_limit(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("firewall", "DoS-policy"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("udp-flood-limit") and not fields.get("udp-flood-rate"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"DoS policy \"{name}\" has no UDP flood protection.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'DoS policy "{name}" has no UDP flood protection.',
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── Certificate Management Rules ──
+
 
 def rule_cert_self_signed_admin(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "certificate"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         issuer = str(fields.get("issuer", "")).lower()
         subject = str(fields.get("subject", "")).lower()
         if issuer and subject and issuer == subject:
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Certificate \"{name}\" is self-signed.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'Certificate "{name}" is self-signed.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5372,14 +6697,25 @@ def rule_cert_weak_keysize(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "certificate"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         key_type = str(fields.get("key-type", "")).lower()
         key_size = fields.get("key-size")
         if key_type == "rsa" and key_size:
             try:
                 if int(str(key_size)) < 2048:
-                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Certificate \"{name}\" uses RSA {key_size}-bit key. Minimum: 2048.", evidence=[]))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=rule.confidence,
+                            vdom=vdom,
+                            message=f'Certificate "{name}" uses RSA {key_size}-bit key. Minimum: 2048.',
+                            evidence=[],
+                        )
+                    )
             except (ValueError, TypeError):
                 pass
     return out
@@ -5387,12 +6723,23 @@ def rule_cert_weak_keysize(*, model, facts, vdom, rule, schema=None):
 
 # ── Central Management Rules ──
 
+
 def rule_cfg_no_central_mgmt(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "central-management"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No central management configured.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No central management configured.",
+                evidence=[],
+            )
+        )
     return out
 
 
@@ -5401,10 +6748,21 @@ def rule_cfg_encrypted_backup(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "backup"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if not fields.get("backup-password") and not fields.get("encrypt"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Configuration backup is not encrypted.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Configuration backup is not encrypted.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5413,21 +6771,43 @@ def rule_cfg_auto_backup(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "automation-trigger"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No automation triggers configured. Set up automated backups.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No automation triggers configured. Set up automated backups.",
+                evidence=[],
+            )
+        )
     return out
 
 
 # ── Security Fabric Rules ──
+
 
 def rule_csf_no_joined(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "csf"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("status") == "disable" or not fields.get("status"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Security Fabric is disabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="Security Fabric is disabled.",
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5436,28 +6816,51 @@ def rule_fg_update_disabled(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "fortiguard-service"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         if fields.get("auto-update") == "disable":
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="FortiGuard auto-update is disabled.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message="FortiGuard auto-update is disabled.",
+                    evidence=[],
+                )
+            )
     return out
 
 
 # ── SSL VPN Additional Rules ──
+
 
 def rule_vpn_ssl_idletimeout_high(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(_merged_scope_tables(tables, model.global_cfg), ("vpn", "ssl", "settings"))
     for _name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         timeout = fields.get("idle-timeout")
         if timeout:
             try:
                 val = int(str(timeout))
                 if val > 300:
-                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"SSL VPN idle timeout is {val}s. Recommended: 300s or less.", evidence=[]))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=rule.confidence,
+                            vdom=vdom,
+                            message=f"SSL VPN idle timeout is {val}s. Recommended: 300s or less.",
+                            evidence=[],
+                        )
+                    )
             except (ValueError, TypeError):
                 pass
     return out
@@ -5470,12 +6873,23 @@ def rule_vpn_ipsec_weak_cipher(*, model, facts, vdom, rule, schema=None):
     for table_name in [("vpn", "ipsec", "phase1-interface"), ("vpn", "ipsec", "phase2-interface")]:
         table = get_table(tables, table_name)
         for name, node in table.items():
-            if not isinstance(node, Node): continue
+            if not isinstance(node, Node):
+                continue
             fields = node.effective_fields()
             enc = str(fields.get("encryption", "")).lower()
             for we in weak_enc:
                 if we in enc:
-                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec \"{name}\" uses weak encryption '{we}'.", evidence=[]))
+                    out.append(
+                        Finding(
+                            rule_id=rule.id,
+                            title=rule.title,
+                            severity=rule.severity,
+                            confidence=rule.confidence,
+                            vdom=vdom,
+                            message=f"IPsec \"{name}\" uses weak encryption '{we}'.",
+                            evidence=[],
+                        )
+                    )
                     break
     return out
 
@@ -5486,28 +6900,51 @@ def rule_vpn_ipsec_weak_integrity(*, model, facts, vdom, rule, schema=None):
     weak_int = ["md5", "sha1"]
     table = get_table(tables, ("vpn", "ipsec", "phase2-interface"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         integrity = str(fields.get("integrity", "")).lower()
         for wi in weak_int:
             if wi in integrity:
-                out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase2 \"{name}\" uses weak integrity '{wi}'.", evidence=[]))
+                out.append(
+                    Finding(
+                        rule_id=rule.id,
+                        title=rule.title,
+                        severity=rule.severity,
+                        confidence=rule.confidence,
+                        vdom=vdom,
+                        message=f"IPsec phase2 \"{name}\" uses weak integrity '{wi}'.",
+                        evidence=[],
+                    )
+                )
                 break
     return out
 
 
 # ── IPS/DLP Rules ──
 
+
 def rule_ips_mode_monitor(*, model, facts, vdom, rule, schema=None):
     tables = model.vdoms.get(vdom, {})
     out = []
     table = get_table(tables, ("ips", "sensor"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         action = str(fields.get("action", "")).lower()
         if action in ("monitor", "pass", "allow"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPS sensor \"{name}\" is in monitor-only mode. Switch to block.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'IPS sensor "{name}" is in monitor-only mode. Switch to block.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5516,11 +6953,22 @@ def rule_av_mode_monitor(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("antivirus", "profile"))
     for name, node in table.items():
-        if not isinstance(node, Node): continue
+        if not isinstance(node, Node):
+            continue
         fields = node.effective_fields()
         action = str(fields.get("av-action", "")).lower()
         if action in ("monitor", "pass", "allow"):
-            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"AV profile \"{name}\" is in monitor-only mode.", evidence=[]))
+            out.append(
+                Finding(
+                    rule_id=rule.id,
+                    title=rule.title,
+                    severity=rule.severity,
+                    confidence=rule.confidence,
+                    vdom=vdom,
+                    message=f'AV profile "{name}" is in monitor-only mode.',
+                    evidence=[],
+                )
+            )
     return out
 
 
@@ -5529,5 +6977,15 @@ def rule_email_no_filter(*, model, facts, vdom, rule, schema=None):
     out = []
     table = get_table(tables, ("emailfilter", "profile"))
     if not table:
-        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No email filter profile configured.", evidence=[]))
+        out.append(
+            Finding(
+                rule_id=rule.id,
+                title=rule.title,
+                severity=rule.severity,
+                confidence=rule.confidence,
+                vdom=vdom,
+                message="No email filter profile configured.",
+                evidence=[],
+            )
+        )
     return out

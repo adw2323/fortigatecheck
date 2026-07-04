@@ -34,9 +34,7 @@ from .rules import run
 from .sarif import findings_to_sarif
 from .versioning import resolve_target_fortios
 
-DEFAULT_RULE_FILES = sorted(
-    str(p).replace("\\", "/") for p in (Path("rules") / "builtin").glob("*.yaml")
-)
+DEFAULT_RULE_FILES = sorted(str(p).replace("\\", "/") for p in (Path("rules") / "builtin").glob("*.yaml"))
 
 _SEVERITY_ORDER = {
     "critical": 0,
@@ -94,6 +92,7 @@ def main():
         return authority_main(sys.argv[1:])
     if len(sys.argv) > 1 and sys.argv[1] == "compliance":
         from .compliance import compliance_main
+
         return compliance_main(sys.argv[2:])
 
     ap = argparse.ArgumentParser(prog="fgcheck")
@@ -173,10 +172,7 @@ def main():
         except OSError as exc:
             return f"cannot stat file: {exc}"
         if size > args.max_size:
-            return (
-                f"{file_path.name} is {size:,} bytes which exceeds --max-size "
-                f"limit of {args.max_size:,} bytes"
-            )
+            return f"{file_path.name} is {size:,} bytes which exceeds --max-size limit of {args.max_size:,} bytes"
         if size > args.max_size * 0.8:
             _log.warning(
                 "%s is %d bytes (%.0f%% of --max-size limit)",
@@ -258,7 +254,7 @@ def main():
             for w in warnings[:30]:
                 console.print(f"  - {w.code} line {w.line_no}: {w.message}")
             if len(warnings) > 30:
-                console.print(f"  ... {len(warnings)-30} more")
+                console.print(f"  ... {len(warnings) - 30} more")
 
         if args.format == "json":
             rendered = findings_to_json(findings)
@@ -355,7 +351,10 @@ def main():
         "parse_warnings": total_warnings,
         "suppressed": total_suppressed,
         "highest_severity": (
-            next((sev for sev in ["critical", "high", "medium", "low", "info"] if severity_counts.get(sev, 0) > 0), "none")
+            next(
+                (sev for sev in ["critical", "high", "medium", "low", "info"] if severity_counts.get(sev, 0) > 0),
+                "none",
+            )
         ),
         "critical": severity_counts.get("critical", 0),
         "high": severity_counts.get("high", 0),
@@ -382,23 +381,28 @@ def main():
             for fd in report.get("findings", []):
                 from .model import Evidence as _Evidence
                 from .rules import Finding as _Finding
+
                 evts = []
                 for ev_dict in fd.get("evidence", []):
-                    evts.append(_Evidence(
-                        file_id=str(ev_dict.get("file_id", "")),
-                        line_range=tuple(ev_dict.get("line_range", [1, 1])),
-                        path=tuple(ev_dict.get("path", [])),
-                        raw_lines=list(ev_dict.get("raw_lines", [])),
-                    ))
-                all_findings.append(_Finding(
-                    rule_id=str(fd.get("rule_id", "")),
-                    title=str(fd.get("title", "")),
-                    severity=str(fd.get("severity", "")),
-                    confidence=str(fd.get("confidence", "")),
-                    vdom=str(fd.get("vdom", "")),
-                    message=str(fd.get("message", "")),
-                    evidence=evts,
-                ))
+                    evts.append(
+                        _Evidence(
+                            file_id=str(ev_dict.get("file_id", "")),
+                            line_range=tuple(ev_dict.get("line_range", [1, 1])),
+                            path=tuple(ev_dict.get("path", [])),
+                            raw_lines=list(ev_dict.get("raw_lines", [])),
+                        )
+                    )
+                all_findings.append(
+                    _Finding(
+                        rule_id=str(fd.get("rule_id", "")),
+                        title=str(fd.get("title", "")),
+                        severity=str(fd.get("severity", "")),
+                        confidence=str(fd.get("confidence", "")),
+                        vdom=str(fd.get("vdom", "")),
+                        message=str(fd.get("message", "")),
+                        evidence=evts,
+                    )
+                )
         rendered = findings_to_sarif(all_findings)
     else:
         out = ["# FortiGate Config Check Folder Report\n\n"]

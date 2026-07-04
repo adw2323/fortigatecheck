@@ -1,4 +1,5 @@
 """Tests for fgcheck.model — Evidence, Node, ConfigModel, ParseWarning."""
+
 from __future__ import annotations
 
 from fgcheck.model import ConfigModel, Evidence, Node, ParseWarning

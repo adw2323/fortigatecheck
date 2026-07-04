@@ -14,6 +14,7 @@ class Facts:
     interface_to_zone: dict[str, str] = field(default_factory=dict)
     zone_to_interfaces: dict[str, set[str]] = field(default_factory=dict)
 
+
 def get_table(scope_tables: dict[str, Any], path: tuple[str, ...]) -> dict[str, Node]:
     node: Any = scope_tables
     for p in path:
@@ -40,6 +41,7 @@ def _add_zone_membership(facts: Facts, zone_name: str, members: Any) -> None:
     for iface in as_list(members):
         facts.interface_to_zone[iface] = zone_name
         facts.zone_to_interfaces.setdefault(zone_name, set()).add(iface)
+
 
 def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
     facts = Facts()

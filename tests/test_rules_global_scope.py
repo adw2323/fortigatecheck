@@ -4,6 +4,7 @@ In multi-VDOM FortiGate deployments, many system-level configs live under
 ``config global`` rather than inside individual VDOMs.  Rules must inspect
 both the per-VDOM and global scopes.
 """
+
 import json
 from pathlib import Path
 
@@ -24,13 +25,17 @@ class TestNTPGlobalScope:
     """NTP without NTPS in config global should trigger."""
 
     def test_ntp_in_global_scope_triggers(self, tmp_path: Path):
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system ntp": {
-                    "fields": {"ntps": {}, "type": {}},
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "system ntp": {
+                        "fields": {"ntps": {}, "type": {}},
+                    }
                 }
-            }
-        })
+            },
+        )
         conf = """\
 config global
     config system ntp
@@ -50,13 +55,17 @@ end"""
         assert findings[0].rule_id == "FGT-NTP-NO-NTPS"
 
     def test_ntps_enable_in_global_no_finding(self, tmp_path: Path):
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system ntp": {
-                    "fields": {"ntps": {}, "type": {}},
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "system ntp": {
+                        "fields": {"ntps": {}, "type": {}},
+                    }
                 }
-            }
-        })
+            },
+        )
         conf = """\
 config global
     config system ntp
@@ -83,13 +92,17 @@ class TestSNMPWeakCommunityGlobalScope:
     """Weak SNMP community in config global should trigger."""
 
     def test_weak_community_in_global_triggers(self, tmp_path: Path):
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system snmp community": {
-                    "fields": {"name": {}},
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "system snmp community": {
+                        "fields": {"name": {}},
+                    }
                 }
-            }
-        })
+            },
+        )
         conf = """\
 config global
     config system snmp community
@@ -118,13 +131,17 @@ class TestSNMPNoACLGlobalScope:
     """SNMP community without ACL in config global should trigger."""
 
     def test_no_acl_in_global_triggers(self, tmp_path: Path):
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system snmp community": {
-                    "fields": {"name": {}, "hosts": {}},
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "system snmp community": {
+                        "fields": {"name": {}, "hosts": {}},
+                    }
                 }
-            }
-        })
+            },
+        )
         conf = """\
 config global
     config system snmp community
@@ -153,14 +170,18 @@ class TestIPSDefaultSignatureGlobalScope:
     """IPS sensor without entries in config global should trigger."""
 
     def test_ips_sensor_in_global_triggers(self, tmp_path: Path):
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "ips sensor": {
-                    "fields": {},
-                    "source_url": "https://example.com",
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "ips sensor": {
+                        "fields": {},
+                        "source_url": "https://example.com",
+                    }
                 }
-            }
-        })
+            },
+        )
         conf = """\
 config global
     config ips sensor
@@ -188,14 +209,18 @@ class TestAVNoHeuristicGlobalScope:
     """AV profiles without heuristic in config global should trigger."""
 
     def test_av_profile_in_global_no_heuristic(self, tmp_path: Path):
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "antivirus profile": {
-                    "fields": {},
-                    "source_url": "https://example.com",
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "antivirus profile": {
+                        "fields": {},
+                        "source_url": "https://example.com",
+                    }
                 }
-            }
-        })
+            },
+        )
         conf = """\
 config global
     config antivirus profile
@@ -222,14 +247,18 @@ class TestDLPNoSensorGlobalScope:
     """DLP sensor without rules in config global should trigger."""
 
     def test_dlp_sensor_in_global_triggers(self, tmp_path: Path):
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "dlp sensor": {
-                    "fields": {},
-                    "source_url": "https://example.com",
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "dlp sensor": {
+                        "fields": {},
+                        "source_url": "https://example.com",
+                    }
                 }
-            }
-        })
+            },
+        )
         conf = """\
 config global
     config dlpsensor sensor
@@ -257,17 +286,21 @@ class TestFGFMDefaultOverrideGlobalScope:
     """FortiManager default-override in config global should trigger."""
 
     def test_fgfm_override_in_global_triggers(self, tmp_path: Path):
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system fortimanager": {
-                    "fields": {
-                        "default-override": {},
-                        "status": {},
-                        "server": {},
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "system fortimanager": {
+                        "fields": {
+                            "default-override": {},
+                            "status": {},
+                            "server": {},
+                        }
                     }
                 }
-            }
-        })
+            },
+        )
         conf = """\
 config global
     config system fortimanager

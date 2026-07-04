@@ -52,7 +52,12 @@ end
         "rule_file": "rules/builtin/FGT-LOCALIN-NO-PROTECTION.yaml",
         "rule_id": "FGT-LOCALIN-NO-PROTECTION",
         "schema_tables": {
-            "firewall local-in-policy": {"fields": {"action": {"allowed_values": ["accept", "deny"]}, "status": {"allowed_values": ["enable", "disable"]}}},
+            "firewall local-in-policy": {
+                "fields": {
+                    "action": {"allowed_values": ["accept", "deny"]},
+                    "status": {"allowed_values": ["enable", "disable"]},
+                }
+            },
         },
         "conf": """
 config firewall local-in-policy
@@ -156,7 +161,12 @@ end
     {
         "rule_file": "rules/builtin/FGT-LOCALIN-NO-PROTECTION.yaml",
         "schema_tables": {
-            "firewall local-in-policy": {"fields": {"action": {"allowed_values": ["accept", "deny"]}, "status": {"allowed_values": ["enable", "disable"]}}},
+            "firewall local-in-policy": {
+                "fields": {
+                    "action": {"allowed_values": ["accept", "deny"]},
+                    "status": {"allowed_values": ["enable", "disable"]},
+                }
+            },
         },
         "conf": """
 config firewall local-in-policy

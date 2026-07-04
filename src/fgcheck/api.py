@@ -3,6 +3,7 @@
 Provides a FastAPI-based REST interface for programmatic access to
 FortiGate configuration scanning, rule management, and authority lookup.
 """
+
 from __future__ import annotations
 
 import json
@@ -13,6 +14,7 @@ try:
     from fastapi import FastAPI, File, HTTPException, Query, UploadFile
     from fastapi.responses import JSONResponse
     from pydantic import BaseModel
+
     _HAS_FASTAPI = True
 except ImportError:
     _HAS_FASTAPI = False
@@ -51,10 +53,7 @@ if _HAS_FASTAPI:
 def create_app() -> Any:
     """Create and configure the FastAPI application."""
     if not _HAS_FASTAPI:
-        raise ImportError(
-            "FastAPI is required for the REST API. "
-            "Install with: pip install fgcheck[api]"
-        )
+        raise ImportError("FastAPI is required for the REST API. Install with: pip install fgcheck[api]")
 
     @app.get("/", tags=["health"])
     def root():
@@ -84,12 +83,14 @@ def create_app() -> Any:
                 findings = [f for f in findings if f.rule_id in request.rule_ids]
             results.extend(findings)
 
-        return JSONResponse(content={
-            "findings": json.loads(findings_to_json(results)),
-            "vdoms": vdoms,
-            "warnings": [str(w) for w in warnings],
-            "finding_count": len(results),
-        })
+        return JSONResponse(
+            content={
+                "findings": json.loads(findings_to_json(results)),
+                "vdoms": vdoms,
+                "warnings": [str(w) for w in warnings],
+                "finding_count": len(results),
+            }
+        )
 
     @app.post("/scan/file", tags=["scan"])
     async def scan_file(
@@ -111,13 +112,15 @@ def create_app() -> Any:
             findings = run(model, vdoms=[vdom], fortios_version=fortios_version)
             results.extend(findings)
 
-        return JSONResponse(content={
-            "filename": file.filename,
-            "findings": json.loads(findings_to_json(results)),
-            "vdoms": vdoms,
-            "warnings": [str(w) for w in warnings],
-            "finding_count": len(results),
-        })
+        return JSONResponse(
+            content={
+                "filename": file.filename,
+                "findings": json.loads(findings_to_json(results)),
+                "vdoms": vdoms,
+                "warnings": [str(w) for w in warnings],
+                "finding_count": len(results),
+            }
+        )
 
     @app.get("/rules", tags=["rules"])
     def list_rules():
@@ -130,14 +133,17 @@ def create_app() -> Any:
         for yaml_file in sorted(builtin_dir.glob("*.yaml")):
             try:
                 import yaml
+
                 with open(yaml_file) as f:
                     data = yaml.safe_load(f)
-                rules.append({
-                    "id": data.get("id", ""),
-                    "title": data.get("title", ""),
-                    "severity": data.get("severity", ""),
-                    "confidence": data.get("confidence", ""),
-                })
+                rules.append(
+                    {
+                        "id": data.get("id", ""),
+                        "title": data.get("title", ""),
+                        "severity": data.get("severity", ""),
+                        "confidence": data.get("confidence", ""),
+                    }
+                )
             except Exception:
                 continue
 
@@ -155,6 +161,7 @@ def create_app() -> Any:
             raise HTTPException(status_code=404, detail=f"Rule {rule_id} not found")
 
         import yaml
+
         with open(yaml_file) as f:
             data = yaml.safe_load(f)
 
@@ -163,9 +170,7 @@ def create_app() -> Any:
     @app.post("/authority", tags=["authority"])
     def check_authority(request: AuthorityRequest):
         """Validate a FortiOS command, table, or field against schema."""
-        result = lookup_authority(
-            request.query, fortios=request.fortios_version, base_dir=Path(".")
-        )
+        result = lookup_authority(request.query, fortios=request.fortios_version, base_dir=Path("."))
         return JSONResponse(content=json.loads(render_authority_json(result)))
 
     @app.get("/schema/{version}", tags=["schema"])
@@ -187,5 +192,6 @@ def create_app() -> Any:
 # Allow running directly: python -m fgcheck.api
 if __name__ == "__main__":
     import uvicorn
+
     app = create_app()
     uvicorn.run(app, host="0.0.0.0", port=8000)

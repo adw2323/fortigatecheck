@@ -1,13 +1,12 @@
 """Convert fgcheck findings to SARIF 2.1.0 format for GitHub Security tab."""
+
 from __future__ import annotations
 
 import json
 
 from .rules import Finding
 
-SARIF_SCHEMA = (
-    "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"
-)
+SARIF_SCHEMA = "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"
 TOOL_NAME = "fgcheck"
 TOOL_VERSION = "0.1.0"
 TOOL_INFO_URI = "https://github.com/adw2323/fortigatecheck"

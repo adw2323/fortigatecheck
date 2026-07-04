@@ -1,4 +1,5 @@
 """Tests for FGT-SNMP-NO-ACL rule."""
+
 import json
 from pathlib import Path
 
@@ -283,11 +284,13 @@ end"""
 
     def test_schema_field_not_supported_skips(self, tmp_path: Path):
         """When the name field is not in the schema and schema is loaded, skip."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system snmp community": {"fields": {"hosts": {}}}
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {"system snmp community": {"fields": {"hosts": {}}}},
             },
-        })
+        )
         conf = """\
 config system snmp community
     edit 1

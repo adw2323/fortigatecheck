@@ -1,4 +1,5 @@
 """Tests for FGT-DHCP-SNOOP rule."""
+
 import json
 from pathlib import Path
 
@@ -235,11 +236,13 @@ end"""
 
     def test_schema_field_not_supported_skips(self, tmp_path: Path):
         """When switch-controller-dhcp-snooping is not in schema and schema is loaded, skip."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system interface": {"fields": {"switch-controller-feature": {}}}
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {"system interface": {"fields": {"switch-controller-feature": {}}}},
             },
-        })
+        )
         conf = """\
 config system interface
     edit "port1"

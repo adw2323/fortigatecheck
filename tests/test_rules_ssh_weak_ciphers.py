@@ -1,4 +1,5 @@
 """Tests for FGT-SSH-WEAK-CIPHERS rule."""
+
 import json
 from pathlib import Path
 
@@ -442,11 +443,13 @@ end"""
 
     def test_schema_field_not_supported_skips(self, tmp_path: Path):
         """When the ssh-cipher-1 field is not in the schema and schema is loaded, skip."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system ssh-config": {"fields": {"ssh-cipher-1": {}}}
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {"system ssh-config": {"fields": {"ssh-cipher-1": {}}}},
             },
-        })
+        )
         conf = """\
 config system ssh-config
     set ssh-cipher-1 aes256-cbc
@@ -475,11 +478,13 @@ class TestSSHSchemaFieldNotSupported:
 
     def test_missing_required_field_skips(self, tmp_path: Path):
         """Schema has the table but not ssh-cipher-1 -> skip entirely."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system ssh-config": {"fields": {"ssh-key-exchange": {}}}
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {"system ssh-config": {"fields": {"ssh-key-exchange": {}}}},
             },
-        })
+        )
         conf = """\
 config system ssh-config
     set ssh-cipher-1 aes256-cbc

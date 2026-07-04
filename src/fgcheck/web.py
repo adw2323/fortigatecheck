@@ -2,6 +2,7 @@
 
 Provides a simple web interface for uploading and scanning FortiGate configs.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -9,10 +10,10 @@ from typing import Any
 try:
     from fastapi import FastAPI
     from fastapi.responses import HTMLResponse, JSONResponse
+
     _HAS_FASTAPI = True
 except ImportError:
     _HAS_FASTAPI = False
-
 
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -238,6 +239,7 @@ FLEET_DASHBOARD_HTML = """
 </html>
 """
 
+
 def create_web_app() -> Any:
     """Create the web UI FastAPI app."""
     if not _HAS_FASTAPI:
@@ -270,15 +272,17 @@ def create_web_app() -> Any:
         # Convert Finding objects to dicts
         results = []
         for f in findings:
-            results.append({
-                "rule_id": f.rule_id,
-                "title": f.title,
-                "severity": f.severity,
-                "confidence": f.confidence,
-                "vdom": f.vdom,
-                "message": f.message,
-                "evidence_count": len(f.evidence),
-            })
+            results.append(
+                {
+                    "rule_id": f.rule_id,
+                    "title": f.title,
+                    "severity": f.severity,
+                    "confidence": f.confidence,
+                    "vdom": f.vdom,
+                    "message": f.message,
+                    "evidence_count": len(f.evidence),
+                }
+            )
 
         return {"findings": results, "vdoms": vdoms, "total": len(results)}
 
@@ -300,19 +304,42 @@ def create_web_app() -> Any:
         db = FleetDB()
         summaries = db.get_device_summary()
         db.close()
-        return [{"device_name": s.device_name, "scan_count": s.scan_count, "latest_scan": s.latest_scan, "latest_findings": s.latest_findings, "latest_critical": s.latest_critical, "trend": s.trend} for s in summaries]
+        return [
+            {
+                "device_name": s.device_name,
+                "scan_count": s.scan_count,
+                "latest_scan": s.latest_scan,
+                "latest_findings": s.latest_findings,
+                "latest_critical": s.latest_critical,
+                "trend": s.trend,
+            }
+            for s in summaries
+        ]
 
     @app.get("/api/fleet/scans")
     def fleet_scans():
         db = FleetDB()
         scans = db.get_scans(limit=50)
         db.close()
-        return [{"id": s.id, "device_name": s.device_name, "scan_date": s.scan_date, "finding_count": s.finding_count, "critical_count": s.critical_count, "high_count": s.high_count, "medium_count": s.medium_count, "low_count": s.low_count} for s in scans]
+        return [
+            {
+                "id": s.id,
+                "device_name": s.device_name,
+                "scan_date": s.scan_date,
+                "finding_count": s.finding_count,
+                "critical_count": s.critical_count,
+                "high_count": s.high_count,
+                "medium_count": s.medium_count,
+                "low_count": s.low_count,
+            }
+            for s in scans
+        ]
 
     @app.post("/api/fleet/scan")
     async def fleet_scan(request_body: dict):
         from .parse import parse_fortios_text
         from .rules import run
+
         config_text = request_body.get("config_text", "")
         device_name = request_body.get("device_name", "unknown")
         fortios_version = request_body.get("fortios_version")
@@ -329,10 +356,12 @@ def create_web_app() -> Any:
         scan_id = db.store_scan(device_name, finding_dicts, fortios_version=fortios_version)
         db.close()
         return {"scan_id": scan_id, "device_name": device_name, "finding_count": len(findings)}
+
     return app
 
 
 if __name__ == "__main__":
     import uvicorn
+
     app = create_web_app()
     uvicorn.run(app, host="0.0.0.0", port=8080)

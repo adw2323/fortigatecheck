@@ -1,4 +1,5 @@
 """Tests for FGT-WEBFILTER-DEFAULT-OVERRIDE rule."""
+
 import json
 from pathlib import Path
 
@@ -164,11 +165,15 @@ end"""
 
     def test_missing_table_skips(self, tmp_path: Path):
         """When schema has no webfilter override table, rule skips."""
-        _write_schema(tmp_path, "7.4", {
-            "tables": {
-                "system interface": {"fields": {}, "source_url": "https://example.com"},
-            }
-        })
+        _write_schema(
+            tmp_path,
+            "7.4",
+            {
+                "tables": {
+                    "system interface": {"fields": {}, "source_url": "https://example.com"},
+                }
+            },
+        )
         conf = """\
 config webfilter override
     edit "bypass-group"
