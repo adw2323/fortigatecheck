@@ -29,6 +29,9 @@ class Rule:
 
 def _import_callable(dotted: str) -> Callable[..., List[Finding]]:
     mod, fn = dotted.rsplit(":", 1)
+    # Security: only allow fgcheck.* modules to prevent arbitrary code execution
+    if not mod.startswith("fgcheck."):
+        raise ValueError(f"Only fgcheck.* modules allowed, got: {mod}")
     m = __import__(mod, fromlist=[fn])
     return getattr(m, fn)
 

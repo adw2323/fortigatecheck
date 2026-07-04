@@ -3,6 +3,7 @@ import json
 import os
 import sys
 import tempfile
+import pytest
 from pathlib import Path
 
 
@@ -11,27 +12,24 @@ from pathlib import Path
 # ═══════════════════════════════════════════════════════════════════
 
 def test_import_callable_subprocess_run():
-    """CRITICAL: _import_callable resolves subprocess.run - RCE vector."""
+    """FIXED: _import_callable now blocks non-fgcheck modules."""
     from fgcheck.rules import _import_callable
-    fn = _import_callable("subprocess:run")
-    assert callable(fn)
-    assert fn.__name__ == "run"
+    with pytest.raises(ValueError, match="Only fgcheck"):
+        _import_callable("subprocess:run")
 
 
 def test_import_callable_shutil_rmtree():
-    """CRITICAL: _import_callable resolves shutil.rmtree - data destruction."""
+    """FIXED: _import_callable now blocks non-fgcheck modules."""
     from fgcheck.rules import _import_callable
-    fn = _import_callable("shutil:rmtree")
-    assert callable(fn)
-    assert fn.__name__ == "rmtree"
+    with pytest.raises(ValueError, match="Only fgcheck"):
+        _import_callable("shutil:rmtree")
 
 
 def test_import_callable_json_loads():
-    """_import_callable resolves json.loads - demonstrates module:callable works."""
+    """FIXED: _import_callable now blocks non-fgcheck modules."""
     from fgcheck.rules import _import_callable
-    fn = _import_callable("json:loads")
-    assert callable(fn)
-    assert fn == json.loads
+    with pytest.raises(ValueError, match="Only fgcheck"):
+        _import_callable("json:loads")
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -127,7 +125,7 @@ def test_fleet_db_unencrypted_sqlite():
 # ═══════════════════════════════════════════════════════════════════
 
 def test_cli_rule_file_arbitrary_import():
-    """CRITICAL: --rules flag allows YAML files with dangerous entrypoints."""
+    """FIXED: _import_callable blocks non-fgcheck modules."""
     import yaml
     from fgcheck.rules import load_rules, _import_callable
     rule_data = {
@@ -142,8 +140,8 @@ def test_cli_rule_file_arbitrary_import():
         yaml.dump(rule_data, f)
     try:
         rules = load_rules([tmpfile])
-        fn = _import_callable(rules[0].entrypoint)
-        assert fn.__name__ == "run"
+        with pytest.raises(ValueError, match="Only fgcheck"):
+            _import_callable(rules[0].entrypoint)
     finally:
         os.unlink(tmpfile)
 
