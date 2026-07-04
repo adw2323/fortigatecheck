@@ -1,0 +1,5 @@
+id: FGT-SYNTAX-IP-FORMAT
+title: Malformed IP address
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_syntax:rule_ip_address_format

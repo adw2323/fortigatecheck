@@ -1,0 +1,5 @@
+id: FGT-SYNTAX-EMPTY-TABLE
+title: Table configured but empty
+severity: low
+confidence: heuristic
+entrypoint: fgcheck.rules_syntax:rule_empty_table

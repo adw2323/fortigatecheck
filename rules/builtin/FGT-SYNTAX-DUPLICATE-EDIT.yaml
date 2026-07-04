@@ -1,0 +1,5 @@
+id: FGT-SYNTAX-DUPLICATE-EDIT
+title: Duplicate edit blocks in table
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_syntax:rule_duplicate_edit_blocks

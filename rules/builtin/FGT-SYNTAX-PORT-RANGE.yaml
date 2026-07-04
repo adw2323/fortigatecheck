@@ -1,0 +1,5 @@
+id: FGT-SYNTAX-PORT-RANGE
+title: Invalid port number
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_syntax:rule_port_range_format

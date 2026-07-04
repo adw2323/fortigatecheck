@@ -1,0 +1,5 @@
+id: FGT-SYNTAX-MISSING-FIELDS
+title: Entry has no fields set
+severity: low
+confidence: heuristic
+entrypoint: fgcheck.rules_syntax:rule_missing_end
