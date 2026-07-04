@@ -1,0 +1,5 @@
+id: FGT-CAPTCHA-NO-ENABLE
+title: Public-facing service without CAPTCHA enabled
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_captcha_no_enable

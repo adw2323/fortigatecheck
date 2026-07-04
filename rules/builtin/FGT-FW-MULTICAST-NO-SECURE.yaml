@@ -1,0 +1,5 @@
+id: FGT-FW-MULTICAST-NO-SECURE
+title: Multicast configuration without security controls
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_fw_multicast_no_secure

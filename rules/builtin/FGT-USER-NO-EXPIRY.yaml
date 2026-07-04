@@ -1,0 +1,5 @@
+id: FGT-USER-NO-EXPIRY
+title: User account configured without password expiry
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_user_no_expiry

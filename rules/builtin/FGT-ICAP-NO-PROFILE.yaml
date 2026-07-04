@@ -1,0 +1,5 @@
+id: FGT-ICAP-NO-PROFILE
+title: ICAP server profile not configured
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_icap_no_profile

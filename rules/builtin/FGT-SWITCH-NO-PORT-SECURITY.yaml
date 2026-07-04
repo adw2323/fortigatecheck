@@ -1,0 +1,5 @@
+id: FGT-SWITCH-NO-PORT-SECURITY
+title: Switch port without port security enabled
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_switch_no_port_security

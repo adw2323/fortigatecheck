@@ -1,0 +1,5 @@
+id: FGT-REPORT-NO-SCHEDULE
+title: Report configured without a schedule
+severity: low
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_report_no_schedule

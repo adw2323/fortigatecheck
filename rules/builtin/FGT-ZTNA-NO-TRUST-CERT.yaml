@@ -1,0 +1,5 @@
+id: FGT-ZTNA-NO-TRUST-CERT
+title: ZTNA configuration without a trusted certificate
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ztna_no_trust_cert

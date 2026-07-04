@@ -1,0 +1,5 @@
+id: FGT-SDWAN-NO-HEALTH-CHECK
+title: SD-WAN configured without health checks
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sdwan_no_health_check

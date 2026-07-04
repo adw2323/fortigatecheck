@@ -1,0 +1,5 @@
+id: FGT-APP-CTRL-NO-POLICY
+title: Application control not enabled on firewall policies
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_app_ctrl_no_policy

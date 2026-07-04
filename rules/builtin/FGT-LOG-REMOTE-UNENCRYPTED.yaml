@@ -1,0 +1,5 @@
+id: FGT-LOG-REMOTE-UNENCRYPTED
+title: Remote logging target configured without encryption
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_log_remote_unencrypted

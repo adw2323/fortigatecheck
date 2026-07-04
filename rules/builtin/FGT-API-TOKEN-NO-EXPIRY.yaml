@@ -1,0 +1,5 @@
+id: FGT-API-TOKEN-NO-EXPIRY
+title: API user token configured without expiry
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_api_token_no_expiry

@@ -1,0 +1,5 @@
+id: FGT-DNS-FILTER-NO-PROFILE
+title: DNS filtering not configured on firewall policies
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_dns_filter_no_profile

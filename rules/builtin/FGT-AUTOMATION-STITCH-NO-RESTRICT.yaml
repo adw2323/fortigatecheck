@@ -1,0 +1,5 @@
+id: FGT-AUTOMATION-STITCH-NO-RESTRICT
+title: Automation stitch configured without access restrictions
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_automation_stitch_no_restrict
