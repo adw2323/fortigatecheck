@@ -30,6 +30,7 @@ from .report import (
     scan_to_json,
     write_pdf_from_html,
 )
+from .sarif import findings_to_sarif
 from .versioning import resolve_target_fortios
 
 DEFAULT_RULE_FILES = sorted(
@@ -97,7 +98,7 @@ def main():
     ap = argparse.ArgumentParser(prog="fgcheck")
     ap.add_argument("config", help="FortiOS text config .conf or folder containing .conf files")
     ap.add_argument("--rules", nargs="+", default=DEFAULT_RULE_FILES)
-    ap.add_argument("--format", choices=["json", "md", "human", "html"], default="md")
+    ap.add_argument("--format", choices=["json", "md", "human", "html", "sarif"], default="md")
     ap.add_argument("--output", default=None, help="Write report output to a file path.")
     ap.add_argument("--pdf-output", default=None, help="Write rendered HTML report to PDF (requires weasyprint).")
     ap.add_argument("--summary-output", default=None, help="Write run summary JSON to a file path.")
