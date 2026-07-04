@@ -2971,3 +2971,318 @@ def rule_router_static_default_route_insecure(
                     evidence=[],
                 ))
     return out
+
+
+def rule_api_token_no_expiry(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "api-user"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("token-expiry"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"API user \"{name}\" has no token expiry configured.", evidence=[]))
+    return out
+
+def rule_app_ctrl_no_policy(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    policy_table = get_table(tables, ("firewall", "policy"))
+    for name, node in policy_table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if str(fields.get("action", "")).lower() == "accept" and not fields.get("application-list"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without application control.", evidence=[]))
+    return out
+
+def rule_automation_stitch_no_restrict(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "automation-trigger"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("restrict-targets"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Automation trigger \"{name}\" has no target restrictions.", evidence=[]))
+    return out
+
+def rule_captcha_no_enable(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if fields.get("captcha") != "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="CAPTCHA is not enabled on the FortiGate.", evidence=[]))
+    return out
+
+def rule_dhcp_no_range_limit(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("system", "dhcp"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("lease"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"DHCP server \"{name}\" has no lease time configured.", evidence=[]))
+    return out
+
+def rule_dns_filter_no_profile(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    profile_table = get_table(tables, ("dnsfilter", "profile"))
+    if not profile_table:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No DNS filter profile configured. DNS-based threats cannot be blocked.", evidence=[]))
+    return out
+
+def rule_fw_multicast_no_secure(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("firewall", "multicast-address"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("color"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Multicast address \"{name}\" has no security controls applied.", evidence=[]))
+    return out
+
+def rule_icap_no_profile(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("icap", "profile"))
+    if not table:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No ICAP profile configured.", evidence=[]))
+    return out
+
+def rule_ipsec_no_pfs(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("vpn", "ipsec", "phase2-interface"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        pfs = fields.get("pfs")
+        if pfs is None or str(pfs).lower() in ("", "disable"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase2 \"{name}\" does not have Perfect Forward Secrecy (PFS) enabled.", evidence=[]))
+    return out
+
+def rule_ipsec_short_lifetime(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("vpn", "ipsec", "phase2-interface"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        lt = fields.get("lifetime")
+        if lt:
+            try:
+                val = int(str(lt))
+                if val < 3600:
+                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"IPsec phase2 \"{name}\" has short SA lifetime ({val}s). Recommended: >=3600s.", evidence=[]))
+            except (ValueError, TypeError):
+                pass
+    return out
+
+def rule_log_remote_unencrypted(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    global_tables = _merged_scope_tables(tables, model.global_cfg)
+    for prefix in [("log", "syslogd", "setting"), ("log", "syslogd2", "setting"), ("log", "syslogd3", "setting")]:
+        table = get_table(global_tables, prefix)
+        for name, node in table.items():
+            if not isinstance(node, Node): continue
+            fields = node.effective_fields()
+            mode = str(fields.get("mode", "")).lower()
+            if mode == "enable" and not fields.get("enc-algorithm"):
+                out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Remote syslog is enabled without encryption.", evidence=[]))
+    return out
+
+def rule_nac_no_policy(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("switch-controller", "nac-policy"))
+    if not table:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No NAC policies configured.", evidence=[]))
+    return out
+
+def rule_policy_no_av(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    policy_table = get_table(tables, ("firewall", "policy"))
+    for name, node in policy_table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if str(fields.get("action", "")).lower() == "accept" and not fields.get("av-profile"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without antivirus profile.", evidence=[]))
+    return out
+
+def rule_policy_no_dlp(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    policy_table = get_table(tables, ("firewall", "policy"))
+    for name, node in policy_table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if str(fields.get("action", "")).lower() == "accept" and not fields.get("dlp-sensor"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without DLP sensor.", evidence=[]))
+    return out
+
+def rule_policy_no_ips(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    policy_table = get_table(tables, ("firewall", "policy"))
+    for name, node in policy_table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if str(fields.get("action", "")).lower() == "accept" and not fields.get("ips-sensor"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without IPS sensor.", evidence=[]))
+    return out
+
+def rule_policy_no_log(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    policy_table = get_table(tables, ("firewall", "policy"))
+    for name, node in policy_table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        action = str(fields.get("action", "")).lower()
+        if action != "accept":
+            continue
+        if fields.get("logtraffic") != "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without logging enabled.", evidence=[]))
+    return out
+
+def rule_policy_no_webfilter(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    policy_table = get_table(tables, ("firewall", "policy"))
+    for name, node in policy_table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if str(fields.get("action", "")).lower() == "accept" and not fields.get("webfilter-profile"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Policy {name}: accepts traffic without web filter profile.", evidence=[]))
+    return out
+
+def rule_report_no_schedule(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("report", "schedule"))
+    if not table:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No report schedule configured.", evidence=[]))
+    return out
+
+def rule_routing_no_filter(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("router", "static"))
+    count = sum(1 for n, node in table.items() if isinstance(node, Node))
+    if count > 10:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Router has {count} static routes. Consider route filtering.", evidence=[]))
+    return out
+
+def rule_sdwan_no_health_check(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "sdwan"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("health-check"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="SD-WAN is configured without health checks.", evidence=[]))
+    return out
+
+def rule_sslvpn_port(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("vpn", "ssl", "settings"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        port = fields.get("port")
+        if port:
+            try:
+                p = int(str(port))
+                if p != 443 and p != 10443:
+                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"SSL VPN on non-standard port {p}.", evidence=[]))
+            except (ValueError, TypeError):
+                pass
+    return out
+
+def rule_sslvpn_weak_cipher(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    weak = ["rc4", "des", "3des", "null", "md5"]
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("vpn", "ssl", "settings"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        cipher = str(fields.get("cipher", "")).lower()
+        for w in weak:
+            if w in cipher:
+                out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"SSL VPN uses weak cipher: {w}.", evidence=[]))
+                break
+    return out
+
+def rule_switch_no_port_security(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("switch-controller", "switch-port-security"))
+    if not table:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No switch port security policies configured.", evidence=[]))
+    return out
+
+def rule_system_no_mgmt_interface(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("system", "interface"))
+    has_mgmt = any("mgmt" in n.lower() or "management" in n.lower() for n, node in table.items() if isinstance(node, Node))
+    if not has_mgmt:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No dedicated management interface found.", evidence=[]))
+    return out
+
+def rule_user_no_expiry(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("user", "local"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("expire"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"User \"{name}\" has no expiry date.", evidence=[]))
+    return out
+
+def rule_wifi_no_radius(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("wireless-controller", "ssid"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        security = str(fields.get("security", "")).lower()
+        if "enterprise" in security and not fields.get("radius-server"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Enterprise WiFi \"{name}\" has no RADIUS server.", evidence=[]))
+    return out
+
+def rule_wifi_wpa_tkip(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("wireless-controller", "ssid"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        security = str(fields.get("security", "")).lower()
+        if "tkip" in security and "ccmp" not in security:
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"WiFi \"{name}\" uses TKIP (weak).", evidence=[]))
+    return out
+
+def rule_ztna_no_trust_cert(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "server"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("certificate"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" has no trusted certificate.", evidence=[]))
+    return out
