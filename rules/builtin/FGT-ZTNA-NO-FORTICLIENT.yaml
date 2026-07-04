@@ -1,0 +1,5 @@
+id: FGT-ZTNA-NO-FORTICLIENT
+title: ZTNA without FortiClient requirement
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_ztna_no_forticlient

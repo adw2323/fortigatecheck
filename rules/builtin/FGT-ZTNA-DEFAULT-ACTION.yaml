@@ -1,0 +1,5 @@
+id: FGT-ZTNA-DEFAULT-ACTION
+title: ZTNA default action allow
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ztna_default_action

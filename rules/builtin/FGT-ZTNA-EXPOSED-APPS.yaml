@@ -1,0 +1,5 @@
+id: FGT-ZTNA-EXPOSED-APPS
+title: ZTNA applications without access restrictions
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ztna_exposed_apps

@@ -1,0 +1,5 @@
+id: FGT-ZTNA-PORT-STANDARD
+title: ZTNA on non-standard port
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ztna_port_standard

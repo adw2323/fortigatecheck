@@ -4181,3 +4181,120 @@ def rule_ztna_no_trust_cert(
                 vdom=vdom, message=msg, evidence=ev,
             ))
     return out
+
+
+# ── ZTNA Rules ──
+
+def rule_ztna_server_no_cert(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "server"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("certificate"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" has no trusted certificate configured.", evidence=[]))
+    return out
+
+
+def rule_ztna_rule_no_users(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "rule"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("users") and not fields.get("user-groups"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" has no user or group restrictions.", evidence=[]))
+    return out
+
+
+def rule_ztna_no_posture(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "rule"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("device-posture"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" does not require device posture check.", evidence=[]))
+    return out
+
+
+def rule_ztna_default_action(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "rule"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        action = str(fields.get("action", "")).lower()
+        if action in ("", "allow", "accept"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" has default allow action. Use deny-by-default.", evidence=[]))
+    return out
+
+
+def rule_ztna_no_forticlient(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "rule"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("forticlient-check") and not fields.get("ems-tag"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" does not require FortiClient endpoint compliance.", evidence=[]))
+    return out
+
+
+def rule_ztna_port_standard(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "server"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        port = fields.get("port")
+        if port:
+            try:
+                p = int(str(port))
+                if p != 443 and p != 10443:
+                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" on non-standard port {p}.", evidence=[]))
+            except (ValueError, TypeError):
+                pass
+    return out
+
+
+def rule_ztna_no_reauth(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "server"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("reauth-interval"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" has no re-authentication interval configured.", evidence=[]))
+    return out
+
+
+def rule_ztna_no_logging(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "rule"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if fields.get("logtraffic") != "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA rule \"{name}\" has logging disabled.", evidence=[]))
+    return out
+
+
+def rule_ztna_exposed_apps(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("ztna", "server"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("saml-service-provider") and not fields.get("client-cert"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"ZTNA server \"{name}\" has applications exposed without additional access controls.", evidence=[]))
+    return out

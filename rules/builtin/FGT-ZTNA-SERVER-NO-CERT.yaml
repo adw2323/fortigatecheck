@@ -1,0 +1,5 @@
+id: FGT-ZTNA-SERVER-NO-CERT
+title: ZTNA server without certificate
+severity: critical
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ztna_server_no_cert

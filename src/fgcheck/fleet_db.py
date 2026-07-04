@@ -49,6 +49,8 @@ class FleetDB:
     """Fleet management database."""
 
     def __init__(self, db_path: Optional[Path] = None):
+        if db_path is not None and not isinstance(db_path, Path):
+            db_path = Path(db_path)
         self.db_path = db_path or DEFAULT_DB_PATH
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.conn = sqlite3.connect(str(self.db_path))
