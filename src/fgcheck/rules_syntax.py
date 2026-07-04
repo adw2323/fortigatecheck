@@ -7,6 +7,9 @@ They validate:
 - Type mismatches
 - Missing required fields
 - Deprecated syntax
+- Duplicate entries
+- IP address format
+- Port number range
 """
 from __future__ import annotations
 from typing import List, Optional
@@ -17,30 +20,37 @@ from .rules import Finding, Rule
 from .schema import SchemaView
 
 
+def _walk_tables(tables, callback, prefix=()):
+    """Recursively walk the nested dict structure and call callback for each Node."""
+    for key, value in tables.items():
+        if key.startswith("__"):
+            continue
+        if isinstance(value, Node):
+            callback(prefix, key, value)
+        elif isinstance(value, dict):
+            _walk_tables(value, callback, prefix + (key,))
+
+
+def _walk_nodes(model, vdom, callback):
+    """Walk all nodes in a vdom's nested config structure."""
+    tables = model.vdoms.get(vdom, {})
+    _walk_tables(tables, callback)
+
+
 def rule_unknown_table(
     *, model: ConfigModel, facts: Facts, vdom: str,
     rule: Rule, schema: Optional[SchemaView] = None
 ) -> List[Finding]:
-    """Detect config tables that don't exist in the FortiOS schema.
-
-    When a table is present in the config but not in the schema for the
-    target FortiOS version, it may be:
-    - A typo in the config
-    - A deprecated table from an older version
-    - A vendor-specific extension
-    - A table from a newer version not yet in schema
-    """
+    """Detect config tables that don't exist in the FortiOS schema."""
     if schema is None or not schema.loaded:
-        return []  # Can't validate without schema
+        return []
 
     tables = model.vdoms.get(vdom, {})
     out: List[Finding] = []
 
     for table_path, table_data in tables.items():
         if table_path.startswith("__"):
-            continue  # Skip metadata keys
-
-        # Normalize table path for schema lookup
+            continue
         if isinstance(table_path, tuple):
             normalized = " ".join(str(p).strip().lower() for p in table_path if str(p).strip())
         else:
@@ -48,12 +58,9 @@ def rule_unknown_table(
 
         if not schema.has_table(normalized):
             out.append(Finding(
-                rule_id=rule.id,
-                title=rule.title,
-                severity=rule.severity,
-                confidence=rule.confidence,
-                vdom=vdom,
-                message=f'Unknown table "{normalized}" not found in FortiOS schema (version {schema.resolved_version}).',
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f'Unknown table "{normalized}" not found in schema.',
                 evidence=[],
             ))
 
@@ -64,46 +71,27 @@ def rule_unknown_field(
     *, model: ConfigModel, facts: Facts, vdom: str,
     rule: Rule, schema: Optional[SchemaView] = None
 ) -> List[Finding]:
-    """Detect config fields that don't exist in the FortiOS schema.
-
-    When a field is set on a table but not in the schema for the target
-    version, it may be:
-    - A typo in the field name
-    - A deprecated field
-    - A field from a different FortiOS version
-    """
+    """Detect config fields that don't exist in the FortiOS schema."""
     if schema is None or not schema.loaded:
         return []
 
     tables = model.vdoms.get(vdom, {})
     out: List[Finding] = []
 
-    for table_path, table_data in tables.items():
-        if table_path.startswith("__"):
-            continue
-        if not isinstance(table_data, dict):
-            continue
-
-        for entry_name, entry_data in table_data.items():
-            if entry_name.startswith("__"):
+    def _check(prefix, name, node):
+        table_path = " ".join(prefix)
+        for field_name in node.fields:
+            if field_name.startswith("__"):
                 continue
-            if not isinstance(entry_data, Node):
-                continue
+            if not schema.has_field(table_path, field_name):
+                out.append(Finding(
+                    rule_id=rule.id, title=rule.title, severity=rule.severity,
+                    confidence=rule.confidence, vdom=vdom,
+                    message=f'Unknown field "{field_name}" on table "{table_path}".',
+                    evidence=[],
+                ))
 
-            for field_name in entry_data.fields:
-                if field_name.startswith("__"):
-                    continue
-                if not schema.has_field(table_path, field_name):
-                    out.append(Finding(
-                        rule_id=rule.id,
-                        title=rule.title,
-                        severity=rule.severity,
-                        confidence=rule.confidence,
-                        vdom=vdom,
-                        message=f'Unknown field "{field_name}" on table "{table_path}" not found in schema.',
-                        evidence=[],
-                    ))
-
+    _walk_nodes(model, vdom, _check)
     return out
 
 
@@ -111,50 +99,25 @@ def rule_deprecated_syntax(
     *, model: ConfigModel, facts: Facts, vdom: str,
     rule: Rule, schema: Optional[SchemaView] = None
 ) -> List[Finding]:
-    """Detect deprecated FortiOS syntax patterns.
-
-    Checks for common deprecated patterns:
-    - set access ssh (should be set allowaccess ssh)
-    - set trusted-host (should be set trusted-host-ip-mask)
-    - Old-style logging commands
-    """
-    tables = model.vdoms.get(vdom, {})
+    """Detect deprecated FortiOS syntax patterns."""
     out: List[Finding] = []
 
-    # Deprecated patterns: (field_name, old_value, new_value, message)
-    deprecated_patterns = [
-        ("access", "ssh", "allowaccess", 'Use "set allowaccess" instead of "set access"'),
-        ("access", "http", "allowaccess", 'Use "set allowaccess" instead of "set access"'),
-        ("access", "https", "allowaccess", 'Use "set allowaccess" instead of "set access"'),
-        ("access", "telnet", "allowaccess", 'Use "set allowaccess" instead of "set access"'),
-    ]
+    deprecated_fields = {
+        "access": ("allowaccess", 'Use "set allowaccess" instead of "set access"'),
+    }
 
-    for table_path, table_data in tables.items():
-        if table_path.startswith("__"):
-            continue
-        if not isinstance(table_data, dict):
-            continue
+    def _check(prefix, name, node):
+        fields = node.effective_fields()
+        for field_name, (new_field, message) in deprecated_fields.items():
+            if field_name in fields:
+                out.append(Finding(
+                    rule_id=rule.id, title=rule.title, severity=rule.severity,
+                    confidence=rule.confidence, vdom=vdom,
+                    message=f'Deprecated syntax: "set {field_name}" — {message}',
+                    evidence=[],
+                ))
 
-        for entry_name, entry_data in table_data.items():
-            if entry_name.startswith("__"):
-                continue
-            if not isinstance(entry_data, Node):
-                continue
-
-            for field_name, old_val, new_field, message in deprecated_patterns:
-                if field_name in entry_data.fields:
-                    field_val = str(entry_data.fields[field_name]).lower()
-                    if field_val == old_val.lower():
-                        out.append(Finding(
-                            rule_id=rule.id,
-                            title=rule.title,
-                            severity=rule.severity,
-                            confidence=rule.confidence,
-                            vdom=vdom,
-                            message=f'Deprecated syntax: "set {field_name} {old_val}" — {message}',
-                            evidence=[],
-                        ))
-
+    _walk_nodes(model, vdom, _check)
     return out
 
 
@@ -162,37 +125,24 @@ def rule_duplicate_edit_blocks(
     *, model: ConfigModel, facts: Facts, vdom: str,
     rule: Rule, schema: Optional[SchemaView] = None
 ) -> List[Finding]:
-    """Detect duplicate edit blocks in the same table.
-
-    FortiOS allows multiple edit blocks with the same name in some tables
-    but this is almost always a copy-paste error.
-    """
-    tables = model.vdoms.get(vdom, {})
+    """Detect duplicate edit blocks in the same table."""
     out: List[Finding] = []
+    seen = set()
 
-    for table_path, table_data in tables.items():
-        if table_path.startswith("__"):
-            continue
-        if not isinstance(table_data, dict):
-            continue
+    def _check(prefix, name, node):
+        path = " ".join(prefix)
+        key = (vdom, path, name)
+        if key in seen:
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f'Duplicate entry "{name}" in table "{path}".',
+                evidence=[],
+            ))
+        else:
+            seen.add(key)
 
-        seen_names = {}
-        for entry_name, entry_data in table_data.items():
-            if entry_name.startswith("__"):
-                continue
-            if not isinstance(entry_data, Node):
-                continue
-
-            if entry_name in seen_names:
-                out.append(Finding(
-                    rule_id=rule.id, title=rule.title, severity=rule.severity,
-                    confidence=rule.confidence, vdom=vdom,
-                    message=f'Duplicate edit block "{entry_name}" in table "{table_path}".',
-                    evidence=[],
-                ))
-            else:
-                seen_names[entry_name] = True
-
+    _walk_nodes(model, vdom, _check)
     return out
 
 
@@ -200,29 +150,26 @@ def rule_empty_table(
     *, model: ConfigModel, facts: Facts, vdom: str,
     rule: Rule, schema: Optional[SchemaView] = None
 ) -> List[Finding]:
-    """Detect tables with no entries.
-
-    Empty tables are not errors but may indicate incomplete configuration.
-    """
-    tables = model.vdoms.get(vdom, {})
+    """Detect tables that have no entries (only nested dicts)."""
     out: List[Finding] = []
 
-    for table_path, table_data in tables.items():
-        if table_path.startswith("__"):
-            continue
-        if not isinstance(table_data, dict):
-            continue
+    def _check_dict(tables, prefix=()):
+        for key, value in tables.items():
+            if key.startswith("__"):
+                continue
+            if isinstance(value, dict):
+                has_children = any(isinstance(v, (Node, dict)) for k, v in value.items() if not k.startswith("__"))
+                if not has_children and prefix + (key,) != ("system", "global"):
+                    path = " ".join(prefix + (key,))
+                    out.append(Finding(
+                        rule_id=rule.id, title=rule.title, severity=rule.severity,
+                        confidence=rule.confidence, vdom=vdom,
+                        message=f'Table "{path}" is configured but has no entries.',
+                        evidence=[],
+                    ))
+                _check_dict(value, prefix + (key,))
 
-        # Count non-metadata entries
-        entries = [k for k in table_data.keys() if not k.startswith("__")]
-        if len(entries) == 0 and table_path not in ("system global",):
-            out.append(Finding(
-                rule_id=rule.id, title=rule.title, severity=rule.severity,
-                confidence=rule.confidence, vdom=vdom,
-                message=f'Table "{table_path}" is configured but has no entries.',
-                evidence=[],
-            ))
-
+    _check_dict(model.vdoms.get(vdom, {}))
     return out
 
 
@@ -230,35 +177,21 @@ def rule_missing_end(
     *, model: ConfigModel, facts: Facts, vdom: str,
     rule: Rule, schema: Optional[SchemaView] = None
 ) -> List[Finding]:
-    """Detect config sections that may be missing 'end' markers.
-
-    The parser handles this, but we can detect suspicious patterns
-    where tables have entries but no fields set.
-    """
-    tables = model.vdoms.get(vdom, {})
+    """Detect entries with no fields set."""
     out: List[Finding] = []
 
-    for table_path, table_data in tables.items():
-        if table_path.startswith("__"):
-            continue
-        if not isinstance(table_data, dict):
-            continue
+    def _check(prefix, name, node):
+        fields = node.effective_fields()
+        if len(fields) == 0:
+            path = " ".join(prefix)
+            out.append(Finding(
+                rule_id=rule.id, title=rule.title, severity=rule.severity,
+                confidence=rule.confidence, vdom=vdom,
+                message=f'Entry "{name}" in "{path}" has no fields set.',
+                evidence=[],
+            ))
 
-        for entry_name, entry_data in table_data.items():
-            if entry_name.startswith("__"):
-                continue
-            if not isinstance(entry_data, Node):
-                continue
-
-            fields = entry_data.effective_fields()
-            if len(fields) == 0:
-                out.append(Finding(
-                    rule_id=rule.id, title=rule.title, severity=rule.severity,
-                    confidence=rule.confidence, vdom=vdom,
-                    message=f'Entry "{entry_name}" in "{table_path}" has no fields set.',
-                    evidence=[],
-                ))
-
+    _walk_nodes(model, vdom, _check)
     return out
 
 
@@ -266,48 +199,35 @@ def rule_ip_address_format(
     *, model: ConfigModel, facts: Facts, vdom: str,
     rule: Rule, schema: Optional[SchemaView] = None
 ) -> List[Finding]:
-    """Detect malformed IP addresses in config fields.
-
-    Common fields: dst, src, subnet, gateway, ip, server.
-    """
+    """Detect malformed IP addresses in config fields."""
     import re
-    tables = model.vdoms.get(vdom, {})
     out: List[Finding] = []
     ip_fields = {"dst", "src", "subnet", "gateway", "ip", "server", "remote-ip", "netmask"}
     ip_pattern = re.compile(r"^(\d{1,3}\.){3}\d{1,3}$")
 
-    for table_path, table_data in tables.items():
-        if table_path.startswith("__"):
-            continue
-        if not isinstance(table_data, dict):
-            continue
-
-        for entry_name, entry_data in table_data.items():
-            if entry_name.startswith("__"):
-                continue
-            if not isinstance(entry_data, Node):
-                continue
-
-            fields = entry_data.effective_fields()
-            for field_name in ip_fields:
-                if field_name in fields:
-                    val = str(fields[field_name]).strip()
-                    # Check for malformed IPs (like 192.168.1.256)
-                    if ip_pattern.match(val):
-                        parts = val.split(".")
-                        for part in parts:
+    def _check(prefix, name, node):
+        fields = node.effective_fields()
+        for field_name in ip_fields:
+            if field_name in fields:
+                val = fields[field_name]
+                parts = val if isinstance(val, list) else str(val).split()
+                for part in parts:
+                    part = str(part).strip()
+                    if ip_pattern.match(part):
+                        for octet in part.split("."):
                             try:
-                                if int(part) > 255:
+                                if int(octet) > 255:
                                     out.append(Finding(
                                         rule_id=rule.id, title=rule.title, severity=rule.severity,
                                         confidence=rule.confidence, vdom=vdom,
-                                        message=f'Malformed IP address "{val}" in {field_name} (octet > 255).',
+                                        message=f'Malformed IP "{part}" in {field_name} (octet {octet} > 255).',
                                         evidence=[],
                                     ))
                                     break
                             except ValueError:
                                 pass
 
+    _walk_nodes(model, vdom, _check)
     return out
 
 
@@ -316,29 +236,17 @@ def rule_port_range_format(
     rule: Rule, schema: Optional[SchemaView] = None
 ) -> List[Finding]:
     """Detect invalid port numbers in service/port fields."""
-    import re
-    tables = model.vdoms.get(vdom, {})
     out: List[Finding] = []
-    port_fields = {"port", "dstport", "srcport", "start-port", "end-port"}
+    port_fields = {"port", "dstport", "srcport", "start-port", "end-port", "tcp-portrange", "udp-portrange"}
 
-    for table_path, table_data in tables.items():
-        if table_path.startswith("__"):
-            continue
-        if not isinstance(table_data, dict):
-            continue
-
-        for entry_name, entry_data in table_data.items():
-            if entry_name.startswith("__"):
-                continue
-            if not isinstance(entry_data, Node):
-                continue
-
-            fields = entry_data.effective_fields()
-            for field_name in port_fields:
-                if field_name in fields:
-                    val = str(fields[field_name]).strip()
+    def _check(prefix, name, node):
+        fields = node.effective_fields()
+        for field_name in port_fields:
+            if field_name in fields:
+                val = str(fields[field_name]).strip()
+                for part in val.replace(",", " ").replace("-", " ").split():
                     try:
-                        port = int(val)
+                        port = int(part)
                         if port < 0 or port > 65535:
                             out.append(Finding(
                                 rule_id=rule.id, title=rule.title, severity=rule.severity,
@@ -349,4 +257,5 @@ def rule_port_range_format(
                     except ValueError:
                         pass
 
+    _walk_nodes(model, vdom, _check)
     return out
