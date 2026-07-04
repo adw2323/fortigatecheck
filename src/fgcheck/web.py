@@ -188,6 +188,57 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 
+FLEET_DASHBOARD_HTML = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f172a; color: #e2e8f0; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        h1 { font-size: 2rem; margin-bottom: 1rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: #1e293b; border-radius: 12px; padding: 1.5rem; border: 1px solid #334155; }
+        .stat-value { font-size: 2.5rem; font-weight: 700; }
+        .stat-label { color: #94a3b8; font-size: 0.875rem; }
+        .stat-card.critical .stat-value { color: #ef4444; }
+        .stat-card.high .stat-value { color: #f97316; }
+        .table-card { background: #1e293b; border-radius: 12px; padding: 1.5rem; border: 1px solid #334155; margin-bottom: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #334155; }
+        th { color: #94a3b8; font-weight: 600; font-size: 0.875rem; }
+        .trend-improving { color: #22c55e; }
+        .trend-degrading { color: #ef4444; }
+        .trend-stable { color: #94a3b8; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+        .badge.critical { background: #ef4444; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fleet Dashboard</h1>
+        <div class="stats-grid" id="stats"></div>
+        <div class="table-card"><h2 style="margin-bottom:1rem">Devices</h2><table><thead><tr><th>Device</th><th>Scans</th><th>Findings</th><th>Critical</th><th>Trend</th></tr></thead><tbody id="devices"></tbody></table></div>
+        <div class="table-card"><h2 style="margin-bottom:1rem">Recent Scans</h2><table><thead><tr><th>Device</th><th>Date</th><th>Findings</th><th>Critical</th><th>High</th></tr></thead><tbody id="scans"></tbody></table></div>
+    </div>
+    <script>
+    async function load() {
+        const s = await (await fetch("/api/fleet/stats")).json();
+        document.getElementById("stats").innerHTML = [{l:"Devices",v:s.device_count},{l:"Total Scans",v:s.total_scans},{l:"Critical",v:s.total_critical,c:"critical"},{l:"High",v:s.total_high,c:"high"}].map(x=>`<div class="stat-card ${x.c||""}"><div class="stat-value">${x.v}</div><div class="stat-label">${x.l}</div></div>`).join("");
+        const d = await (await fetch("/api/fleet/devices")).json();
+        document.getElementById("devices").innerHTML = d.map(x=>`<tr><td>${x.device_name}</td><td>${x.scan_count}</td><td>${x.latest_findings}</td><td>${x.latest_critical>0?`<span class="badge critical">${x.latest_critical}</span>`:"0"}</td><td class="trend-${x.trend}">${x.trend}</td></tr>`).join("");
+        const sc = await (await fetch("/api/fleet/scans")).json();
+        document.getElementById("scans").innerHTML = sc.map(x=>`<tr><td>${x.device_name}</td><td>${new Date(x.scan_date).toLocaleString()}</td><td>${x.finding_count}</td><td>${x.critical_count}</td><td>${x.high_count}</td></tr>`).join("");
+    }
+    load();
+    </script>
+</body>
+</html>
+"""
+
 def create_web_app() -> Any:
     """Create the web UI FastAPI app."""
     if not _HAS_FASTAPI:
@@ -232,6 +283,53 @@ def create_web_app() -> Any:
 
         return {"findings": results, "vdoms": vdoms, "total": len(results)}
 
+    from .fleet_db import FleetDB
+
+    @app.get("/fleet", response_class=HTMLResponse)
+    def fleet_dashboard():
+        return FLEET_DASHBOARD_HTML
+
+    @app.get("/api/fleet/stats")
+    def fleet_stats():
+        db = FleetDB()
+        stats = db.get_fleet_stats()
+        db.close()
+        return stats
+
+    @app.get("/api/fleet/devices")
+    def fleet_devices():
+        db = FleetDB()
+        summaries = db.get_device_summary()
+        db.close()
+        return [{"device_name": s.device_name, "scan_count": s.scan_count, "latest_scan": s.latest_scan, "latest_findings": s.latest_findings, "latest_critical": s.latest_critical, "trend": s.trend} for s in summaries]
+
+    @app.get("/api/fleet/scans")
+    def fleet_scans():
+        db = FleetDB()
+        scans = db.get_scans(limit=50)
+        db.close()
+        return [{"id": s.id, "device_name": s.device_name, "scan_date": s.scan_date, "finding_count": s.finding_count, "critical_count": s.critical_count, "high_count": s.high_count, "medium_count": s.medium_count, "low_count": s.low_count} for s in scans]
+
+    @app.post("/api/fleet/scan")
+    async def fleet_scan(request_body: dict):
+        from .parse import parse_fortios_text
+        from .rules import run
+        config_text = request_body.get("config_text", "")
+        device_name = request_body.get("device_name", "unknown")
+        fortios_version = request_body.get("fortios_version")
+        try:
+            model, warnings = parse_fortios_text(config_text)
+        except Exception as e:
+            return JSONResponse(status_code=400, content={"error": str(e)})
+        findings = []
+        vdoms = list(model.vdoms.keys()) or ["root"]
+        for vdom in vdoms:
+            findings.extend(run(model, vdoms=[vdom], fortios_version=fortios_version))
+        finding_dicts = [{"rule_id": f.rule_id, "severity": f.severity, "message": f.message} for f in findings]
+        db = FleetDB()
+        scan_id = db.store_scan(device_name, finding_dicts, fortios_version=fortios_version)
+        db.close()
+        return {"scan_id": scan_id, "device_name": device_name, "finding_count": len(findings)}
     return app
 
 

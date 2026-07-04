@@ -1,6 +1,6 @@
 # fgcheck — FortiGate Configuration Checker
 
-[![Tests](https://img.shields.io/badge/tests-483%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-496%20passing-brightgreen)]()
 [![Rules](https://img.shields.io/badge/rules-75-blue)]()
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
