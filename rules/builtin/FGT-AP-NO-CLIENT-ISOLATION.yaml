@@ -1,0 +1,5 @@
+id: FGT-AP-NO-CLIENT-ISOLATION
+title: AP without client isolation
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ap_no_client_isolation

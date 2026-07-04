@@ -1,0 +1,5 @@
+id: FGT-ROUTING-OSPF-NO-AUTH
+title: OSPF without authentication
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_routing_ospf_no_auth

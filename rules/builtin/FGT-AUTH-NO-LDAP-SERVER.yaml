@@ -1,0 +1,5 @@
+id: FGT-AUTH-NO-LDAP-SERVER
+title: No LDAP server
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_auth_no_ldap

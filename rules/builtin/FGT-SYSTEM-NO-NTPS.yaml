@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-NO-NTPS
+title: System without NTPS
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_system_no_ntps

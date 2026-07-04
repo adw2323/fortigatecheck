@@ -1,0 +1,5 @@
+id: FGT-VPN-IPSEC-COMPRESSION
+title: IPsec with compression
+severity: low
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_vpn_ipsec_compression

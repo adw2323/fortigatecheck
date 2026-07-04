@@ -1,0 +1,5 @@
+id: FGT-VPN-SSL-DNS-SPLIT
+title: SSL VPN DNS split tunnel
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_vpn_ssl_dns_split

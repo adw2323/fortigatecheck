@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-NO-SNMPV3
+title: System using SNMPv1/v2c
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_system_no_snmpv3

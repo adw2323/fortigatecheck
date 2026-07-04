@@ -1,0 +1,5 @@
+id: FGT-VPN-NO-DPD
+title: VPN without dead peer detection
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_vpn_no_dpd

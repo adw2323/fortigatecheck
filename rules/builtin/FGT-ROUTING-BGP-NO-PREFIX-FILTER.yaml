@@ -1,0 +1,5 @@
+id: FGT-ROUTING-BGP-NO-PREFIX-FILTER
+title: BGP without prefix filter
+severity: high
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_routing_bgp_no_prefix_filter

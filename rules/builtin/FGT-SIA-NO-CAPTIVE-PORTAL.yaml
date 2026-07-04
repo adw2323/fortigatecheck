@@ -1,0 +1,5 @@
+id: FGT-SIA-NO-CAPTIVE-PORTAL
+title: SIA without captive portal
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_sia_no_captive_portal

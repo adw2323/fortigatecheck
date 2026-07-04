@@ -1,0 +1,5 @@
+id: FGT-ROUTING-BGP-NO-MAX-PREFIX
+title: BGP without max prefix
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_routing_bgp_no_max_prefix

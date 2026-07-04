@@ -1,0 +1,5 @@
+id: FGT-VPN-NO-DH-GROUP14
+title: VPN using DH group 1-2
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_vpn_no_dh_group14

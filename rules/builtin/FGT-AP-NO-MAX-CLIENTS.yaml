@@ -1,0 +1,5 @@
+id: FGT-AP-NO-MAX-CLIENTS
+title: AP without client limit
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ap_no_max_clients

@@ -1,0 +1,5 @@
+id: FGT-SIA-NO-DNS-FILTER
+title: SIA without DNS filtering
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sia_no_dns_filter

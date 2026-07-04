@@ -1,0 +1,5 @@
+id: FGT-ROUTING-RIP-NO-AUTH
+title: RIP without authentication
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_routing_rip_no_auth

@@ -1,0 +1,5 @@
+id: FGT-ROUTING-OSPF-NO-PASSIVE
+title: OSPF without passive interfaces
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_routing_ospf_no_passive

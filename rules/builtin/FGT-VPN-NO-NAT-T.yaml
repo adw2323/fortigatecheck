@@ -1,0 +1,5 @@
+id: FGT-VPN-NO-NAT-T
+title: VPN without NAT traversal
+severity: low
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_vpn_no_nat_t

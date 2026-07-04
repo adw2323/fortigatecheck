@@ -1,0 +1,5 @@
+id: FGT-AUTH-NO-RADIUS-SERVER
+title: No RADIUS server
+severity: high
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_auth_no_radius

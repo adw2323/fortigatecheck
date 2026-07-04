@@ -1,0 +1,5 @@
+id: FGT-SWITCH-NO-DHCP-SNOOP
+title: No DHCP snooping
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_switch_no_dhcp_snoop

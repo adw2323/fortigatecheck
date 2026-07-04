@@ -1,0 +1,5 @@
+id: FGT-ROUTING-NO-PREFIX-LIST
+title: No prefix lists configured
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_routing_no_prefix_list

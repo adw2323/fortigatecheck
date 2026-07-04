@@ -1,0 +1,5 @@
+id: FGT-AP-NO-LOGGING
+title: AP without logging
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ap_no_logging

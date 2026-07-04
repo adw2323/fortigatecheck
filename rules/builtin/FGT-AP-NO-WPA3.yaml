@@ -1,0 +1,5 @@
+id: FGT-AP-NO-WPA3
+title: AP without WPA3
+severity: high
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_ap_no_wpa3

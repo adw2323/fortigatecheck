@@ -1,0 +1,5 @@
+id: FGT-VPN-SHORT-IKE
+title: IKE SA lifetime too short
+severity: medium
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_vpn_short_ike

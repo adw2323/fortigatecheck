@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-NO-FORTIGUARD
+title: No FortiGuard updates
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_system_no_fortiguard

@@ -1,0 +1,5 @@
+id: FGT-SIA-NO-IPS
+title: SIA without IPS
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sia_no_ips

@@ -1,0 +1,5 @@
+id: FGT-SIA-NO-APP-CONTROL
+title: SIA without application control
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sia_no_app_control

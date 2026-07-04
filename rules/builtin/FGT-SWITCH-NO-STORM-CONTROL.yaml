@@ -1,0 +1,5 @@
+id: FGT-SWITCH-NO-STORM-CONTROL
+title: No storm control
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_switch_no_storm_control

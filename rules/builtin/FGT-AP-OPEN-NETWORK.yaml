@@ -1,0 +1,5 @@
+id: FGT-AP-OPEN-NETWORK
+title: AP with open network
+severity: critical
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_ap_open_network

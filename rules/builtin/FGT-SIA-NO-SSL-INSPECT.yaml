@@ -1,0 +1,5 @@
+id: FGT-SIA-NO-SSL-INSPECT
+title: SIA without SSL inspection
+severity: critical
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sia_no_ssl_inspect

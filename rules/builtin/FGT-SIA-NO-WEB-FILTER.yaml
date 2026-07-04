@@ -1,0 +1,5 @@
+id: FGT-SIA-NO-WEB-FILTER
+title: SIA without web filtering
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sia_no_web_filter

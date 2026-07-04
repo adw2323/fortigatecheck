@@ -1,0 +1,5 @@
+id: FGT-SWITCH-NO-MAC-LIMIT
+title: No MAC address limit
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_switch_no_mac_limit

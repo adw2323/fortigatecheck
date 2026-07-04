@@ -1,0 +1,5 @@
+id: FGT-LOG-NO-FORTIANALYZER
+title: No FortiAnalyzer logging
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_log_no_fortianalyzer

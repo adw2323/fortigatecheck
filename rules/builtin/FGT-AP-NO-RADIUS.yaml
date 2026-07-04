@@ -1,0 +1,5 @@
+id: FGT-AP-NO-RADIUS
+title: Enterprise AP without RADIUS
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ap_no_radius

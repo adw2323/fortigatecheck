@@ -1,0 +1,5 @@
+id: FGT-VPN-SSL-NO-CLIENT-CERT
+title: SSL VPN without client cert
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_vpn_ssl_no_client_cert

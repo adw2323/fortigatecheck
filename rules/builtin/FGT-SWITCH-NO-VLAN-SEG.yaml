@@ -1,0 +1,5 @@
+id: FGT-SWITCH-NO-VLAN-SEG
+title: No VLAN segmentation
+severity: high
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_switch_no_vlan_seg

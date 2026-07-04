@@ -1,0 +1,5 @@
+id: FGT-SWITCH-NO-8021X
+title: Switch without 802.1X
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_switch_no_8021x

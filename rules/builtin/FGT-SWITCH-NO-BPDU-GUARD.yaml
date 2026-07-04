@@ -1,0 +1,5 @@
+id: FGT-SWITCH-NO-BPDU-GUARD
+title: No BPDU guard
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_switch_no_bpdu_guard
