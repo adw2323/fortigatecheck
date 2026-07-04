@@ -1,0 +1,5 @@
+id: FGT-CERT-SELF-SIGNED-ADMIN
+title: Admin uses self-signed cert
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_cert_self_signed_admin

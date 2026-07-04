@@ -1,0 +1,5 @@
+id: FGT-ADMIN-HOSTKEY-DEFAULT
+title: Default SSH host key
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_hostkey_default

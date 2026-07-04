@@ -1,0 +1,5 @@
+id: FGT-FLOOD-NO-UDP-LIMIT
+title: UDP flood protection missing
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_flood_no_udp_limit

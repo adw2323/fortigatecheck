@@ -1,0 +1,5 @@
+id: FGT-VPN-IPSEC-WEAK-INTEGRITY
+title: IPsec weak integrity hash
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_vpn_ipsec_weak_integrity

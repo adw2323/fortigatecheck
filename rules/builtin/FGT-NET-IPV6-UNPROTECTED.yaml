@@ -1,0 +1,5 @@
+id: FGT-NET-IPV6-UNPROTECTED
+title: IPv6 without firewall rules
+severity: high
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_net_ipv6_unprotected

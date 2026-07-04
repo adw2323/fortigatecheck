@@ -1,0 +1,5 @@
+id: FGT-VPN-SSL-IDLETIMEOUT-HIGH
+title: SSL VPN idle timeout too high
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_vpn_ssl_idletimeout_high

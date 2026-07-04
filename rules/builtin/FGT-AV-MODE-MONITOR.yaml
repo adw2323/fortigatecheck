@@ -1,0 +1,5 @@
+id: FGT-AV-MODE-MONITOR
+title: AV in monitor-only mode
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_av_mode_monitor

@@ -1,0 +1,5 @@
+id: FGT-SSH-WEAK-KEX
+title: Weak SSH key exchange
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ssh_weak_kex

@@ -1,0 +1,5 @@
+id: FGT-CERT-WEAK-KEYSIZE
+title: Certificate key too small
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_cert_weak_keysize

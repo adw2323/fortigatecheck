@@ -1,0 +1,5 @@
+id: FGT-EMAIL-NO-FILTER
+title: No email filter configured
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_email_no_filter

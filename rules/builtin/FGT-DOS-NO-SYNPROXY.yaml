@@ -1,0 +1,5 @@
+id: FGT-DOS-NO-SYNPROXY
+title: SYN proxy not enabled
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_dos_no_synproxy

@@ -1,0 +1,5 @@
+id: FGT-SSH-WEAK-MAC
+title: Weak SSH MAC algorithm
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ssh_weak_mac

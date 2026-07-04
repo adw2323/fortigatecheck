@@ -1,0 +1,5 @@
+id: FGT-SYS-SECURE-BOOT-DISABLED
+title: Secure boot not enabled
+severity: critical
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sys_secure_boot_disabled

@@ -1,0 +1,5 @@
+id: FGT-ADMIN-SSH-GRACE-LONG
+title: SSH grace time too long
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_ssh_grace_long

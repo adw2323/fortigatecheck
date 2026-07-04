@@ -1,0 +1,5 @@
+id: FGT-ADMIN-FORTICLOUD-ENABLED
+title: FortiCloud access enabled
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_forticloud_enabled

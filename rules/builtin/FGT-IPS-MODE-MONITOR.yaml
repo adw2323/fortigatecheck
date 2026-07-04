@@ -1,0 +1,5 @@
+id: FGT-IPS-MODE-MONITOR
+title: IPS in monitor-only mode
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ips_mode_monitor

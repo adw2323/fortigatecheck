@@ -1,0 +1,5 @@
+id: FGT-CFG-ENCRYPTED-BACKUP
+title: Backup not encrypted
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_cfg_encrypted_backup

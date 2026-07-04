@@ -1,0 +1,5 @@
+id: FGT-SYS-MAINTAINER-ENABLED
+title: Maintainer account enabled
+severity: critical
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_sys_maintainer_enabled

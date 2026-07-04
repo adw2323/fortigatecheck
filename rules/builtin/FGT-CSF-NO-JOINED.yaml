@@ -1,0 +1,5 @@
+id: FGT-CSF-NO-JOINED
+title: Not joined to Security Fabric
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_csf_no_joined

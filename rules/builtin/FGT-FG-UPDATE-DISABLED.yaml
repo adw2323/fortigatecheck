@@ -1,0 +1,5 @@
+id: FGT-FG-UPDATE-DISABLED
+title: FortiGuard auto-update disabled
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_fg_update_disabled

@@ -1,0 +1,5 @@
+id: FGT-ADMIN-HTTPS-REDIRECT
+title: HTTPS redirect not enabled
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_https_redirect

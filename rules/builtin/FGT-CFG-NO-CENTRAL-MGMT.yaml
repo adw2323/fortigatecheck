@@ -1,0 +1,5 @@
+id: FGT-CFG-NO-CENTRAL-MGMT
+title: No central management
+severity: high
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_cfg_no_central_mgmt

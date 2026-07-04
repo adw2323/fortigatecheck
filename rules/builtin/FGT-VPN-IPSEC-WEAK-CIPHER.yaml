@@ -1,0 +1,5 @@
+id: FGT-VPN-IPSEC-WEAK-CIPHER
+title: IPsec weak encryption cipher
+severity: high
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_vpn_ipsec_weak_cipher

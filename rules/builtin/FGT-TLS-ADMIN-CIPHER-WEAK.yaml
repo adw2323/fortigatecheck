@@ -1,0 +1,5 @@
+id: FGT-TLS-ADMIN-CIPHER-WEAK
+title: Weak admin HTTPS cipher
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_tls_admin_cipher_weak

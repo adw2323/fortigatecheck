@@ -1,0 +1,5 @@
+id: FGT-NET-UNUSED-IFACE-UP
+title: Unused interface enabled
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_net_unused_iface_up

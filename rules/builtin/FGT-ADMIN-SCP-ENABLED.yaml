@@ -1,0 +1,5 @@
+id: FGT-ADMIN-SCP-ENABLED
+title: SCP access enabled
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_admin_scp_enabled
