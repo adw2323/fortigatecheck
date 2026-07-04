@@ -1,10 +1,9 @@
 """Tests for compliance mapping."""
 from __future__ import annotations
 
-import pytest
 from fgcheck.compliance import (
-    get_compliance_for_rule,
     get_compliance_for_framework,
+    get_compliance_for_rule,
     get_frameworks,
     render_compliance_report,
 )

@@ -1,8 +1,7 @@
 """Tests for config diff utility."""
 from __future__ import annotations
 
-import pytest
-from fgcheck.diff import diff_configs, diff_configs_from_text, DiffChange, ConfigDiff
+from fgcheck.diff import diff_configs, diff_configs_from_text
 from fgcheck.model import ConfigModel, Node
 
 

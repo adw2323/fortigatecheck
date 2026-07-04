@@ -8,9 +8,8 @@ Compares two parsed configs and shows what changed, including:
 """
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from .model import ConfigModel, Node
 
@@ -20,11 +19,11 @@ class DiffChange:
     """A single change between two configs."""
     change_type: str  # "added", "removed", "changed"
     path: str  # e.g., "firewall policy/edit 1/action"
-    old_value: Optional[str] = None
-    new_value: Optional[str] = None
+    old_value: str | None = None
+    new_value: str | None = None
     severity: str = "info"  # "critical", "high", "medium", "low", "info"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "change_type": self.change_type,
             "path": self.path,
@@ -37,10 +36,10 @@ class DiffChange:
 @dataclass
 class ConfigDiff:
     """Result of comparing two configs."""
-    changes: List[DiffChange] = field(default_factory=list)
-    summary: Dict[str, int] = field(default_factory=dict)
+    changes: list[DiffChange] = field(default_factory=list)
+    summary: dict[str, int] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "changes": [c.to_dict() for c in self.changes],
             "summary": self.summary,
@@ -77,12 +76,12 @@ def _classify_severity(field_name: str, old_val: str, new_val: str) -> str:
 
 
 def _diff_tables(
-    old_tables: Dict[str, Any],
-    new_tables: Dict[str, Any],
+    old_tables: dict[str, Any],
+    new_tables: dict[str, Any],
     prefix: str,
-) -> List[DiffChange]:
+) -> list[DiffChange]:
     """Compare two sets of tables and return changes."""
-    changes: List[DiffChange] = []
+    changes: list[DiffChange] = []
 
     all_keys = set(list(old_tables.keys()) + list(new_tables.keys()))
     for key in all_keys:
@@ -124,9 +123,9 @@ def _diff_nodes(
     old_node: Node,
     new_node: Node,
     prefix: str,
-) -> List[DiffChange]:
+) -> list[DiffChange]:
     """Compare two nodes and return field-level changes."""
-    changes: List[DiffChange] = []
+    changes: list[DiffChange] = []
 
     all_fields = set(list(old_node.fields.keys()) + list(new_node.fields.keys()))
     for field_name in all_fields:
@@ -168,7 +167,7 @@ def diff_configs(
 
     Returns a ConfigDiff with all changes and a summary by severity.
     """
-    changes: List[DiffChange] = []
+    changes: list[DiffChange] = []
 
     # Compare global config
     changes.extend(_diff_tables(
@@ -183,7 +182,7 @@ def diff_configs(
         changes.extend(_diff_tables(old_vdom, new_vdom, f"vdom/{vdom}"))
 
     # Build summary
-    summary: Dict[str, int] = {}
+    summary: dict[str, int] = {}
     for change in changes:
         summary[change.severity] = summary.get(change.severity, 0) + 1
 

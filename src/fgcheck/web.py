@@ -4,16 +4,15 @@ Provides a simple web interface for uploading and scanning FortiGate configs.
 """
 from __future__ import annotations
 
+from typing import Any
+
 try:
-    from fastapi import FastAPI, File, Form, UploadFile
+    from fastapi import FastAPI
     from fastapi.responses import HTMLResponse, JSONResponse
-    from fastapi.staticfiles import StaticFiles
     _HAS_FASTAPI = True
 except ImportError:
     _HAS_FASTAPI = False
 
-import json
-from pathlib import Path
 
 
 HTML_TEMPLATE = """<!DOCTYPE html>

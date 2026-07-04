@@ -1,18 +1,20 @@
 from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import Any, Dict, Set, Tuple
+from typing import Any
 
 from .model import ConfigModel, Node
 from .util import as_list
 
+
 @dataclass
 class Facts:
-    edge_interfaces: Set[str] = field(default_factory=set)
-    edge_zones: Set[str] = field(default_factory=set)
-    interface_to_zone: Dict[str, str] = field(default_factory=dict)
-    zone_to_interfaces: Dict[str, Set[str]] = field(default_factory=dict)
+    edge_interfaces: set[str] = field(default_factory=set)
+    edge_zones: set[str] = field(default_factory=set)
+    interface_to_zone: dict[str, str] = field(default_factory=dict)
+    zone_to_interfaces: dict[str, set[str]] = field(default_factory=dict)
 
-def get_table(scope_tables: Dict[str, Any], path: Tuple[str, ...]) -> Dict[str, Node]:
+def get_table(scope_tables: dict[str, Any], path: tuple[str, ...]) -> dict[str, Node]:
     node: Any = scope_tables
     for p in path:
         if not isinstance(node, dict) or p not in node:
@@ -44,9 +46,9 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
     tables = model.vdoms.get(vdom, {})
     interface_table = get_table(tables, ("system", "interface"))
 
-    interface_members: Dict[str, Set[str]] = {}
-    interface_parent: Dict[str, str] = {}
-    interface_children: Dict[str, Set[str]] = {}
+    interface_members: dict[str, set[str]] = {}
+    interface_parent: dict[str, str] = {}
+    interface_children: dict[str, set[str]] = {}
     for ifname, inode in interface_table.items():
         if not isinstance(inode, Node):
             continue
@@ -74,9 +76,9 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
         else:
             interface_members[name] = members
 
-    resolved_interface_cache: Dict[str, Set[str]] = {}
+    resolved_interface_cache: dict[str, set[str]] = {}
 
-    def resolve_interface_targets(ifname: str, trail: Set[str] | None = None) -> Set[str]:
+    def resolve_interface_targets(ifname: str, trail: set[str] | None = None) -> set[str]:
         cached = resolved_interface_cache.get(ifname)
         if cached is not None:
             return set(cached)
@@ -87,7 +89,7 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
         walk = set(walk)
         walk.add(ifname)
 
-        out: Set[str] = {ifname}
+        out: set[str] = {ifname}
         for member in interface_members.get(ifname, set()):
             out.update(resolve_interface_targets(member, walk))
 
@@ -113,7 +115,7 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
             continue
         _add_zone_membership(facts, str(zone_name), znode.effective_fields().get("interface", []))
 
-    sdwan_members: Set[str] = set()
+    sdwan_members: set[str] = set()
     for path in (("system", "sdwan", "members"), ("members",)):
         sdwan_member_table = get_table(tables, path)
         for _, mnode in sdwan_member_table.items():
@@ -124,15 +126,15 @@ def build_facts(model: ConfigModel, *, vdom: str = "root") -> Facts:
     # Expand zone membership through interface hierarchy so callers can
     # resolve both logical and concrete interfaces to their zone.
     for zone, members in list(facts.zone_to_interfaces.items()):
-        expanded: Set[str] = set(members)
+        expanded: set[str] = set(members)
         for member in list(members):
             expanded.update(resolve_interface_targets(member))
         facts.zone_to_interfaces[zone] = expanded
         for iface in expanded:
             facts.interface_to_zone.setdefault(iface, zone)
 
-    def resolve_device_targets(device_value: Any) -> Set[str]:
-        out: Set[str] = set()
+    def resolve_device_targets(device_value: Any) -> set[str]:
+        out: set[str] = set()
         for dev in as_list(device_value):
             if dev in _SDWAN_LOGICAL_DEVICES:
                 for member in sdwan_members:

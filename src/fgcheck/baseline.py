@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, Dict, List, Sequence, Tuple
+from typing import Any
 
 from .rules import Finding
 
@@ -18,8 +19,8 @@ _MATCHABLE_KEYS = (
 )
 
 
-def finding_to_record(finding: Finding) -> Dict[str, Any]:
-    record: Dict[str, Any] = {
+def finding_to_record(finding: Finding) -> dict[str, Any]:
+    record: dict[str, Any] = {
         "rule_id": finding.rule_id,
         "severity": finding.severity,
         "confidence": finding.confidence,
@@ -37,8 +38,8 @@ def finding_to_record(finding: Finding) -> Dict[str, Any]:
     return record
 
 
-def finding_dict_to_record(finding: Dict[str, Any]) -> Dict[str, Any]:
-    record: Dict[str, Any] = {
+def finding_dict_to_record(finding: dict[str, Any]) -> dict[str, Any]:
+    record: dict[str, Any] = {
         "rule_id": str(finding.get("rule_id", "")),
         "severity": str(finding.get("severity", "")),
         "confidence": str(finding.get("confidence", "")),
@@ -59,16 +60,16 @@ def finding_dict_to_record(finding: Dict[str, Any]) -> Dict[str, Any]:
     return record
 
 
-def _normalize_matcher(raw: Dict[str, Any]) -> Dict[str, Any]:
-    out: Dict[str, Any] = {}
+def _normalize_matcher(raw: dict[str, Any]) -> dict[str, Any]:
+    out: dict[str, Any] = {}
     for key in _MATCHABLE_KEYS:
         if key in raw:
             out[key] = raw[key]
     return out
 
 
-def load_baseline_matchers(path: str) -> List[Dict[str, Any]]:
-    with open(path, "r", encoding="utf-8") as f:
+def load_baseline_matchers(path: str) -> list[dict[str, Any]]:
+    with open(path, encoding="utf-8") as f:
         payload = json.load(f)
     if isinstance(payload, dict):
         items = payload.get("matchers", [])
@@ -79,7 +80,7 @@ def load_baseline_matchers(path: str) -> List[Dict[str, Any]]:
     return [_normalize_matcher(x) for x in items if isinstance(x, dict)]
 
 
-def matches_record(record: Dict[str, Any], matcher: Dict[str, Any]) -> bool:
+def matches_record(record: dict[str, Any], matcher: dict[str, Any]) -> bool:
     for key, value in matcher.items():
         if key not in _MATCHABLE_KEYS:
             continue
@@ -89,10 +90,10 @@ def matches_record(record: Dict[str, Any], matcher: Dict[str, Any]) -> bool:
 
 
 def filter_finding_records(
-    records: Sequence[Dict[str, Any]],
-    matchers: Sequence[Dict[str, Any]],
-) -> Tuple[List[Dict[str, Any]], int]:
-    kept: List[Dict[str, Any]] = []
+    records: Sequence[dict[str, Any]],
+    matchers: Sequence[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], int]:
+    kept: list[dict[str, Any]] = []
     suppressed = 0
     for rec in records:
         if any(matches_record(rec, m) for m in matchers):
@@ -102,7 +103,7 @@ def filter_finding_records(
     return kept, suppressed
 
 
-def write_baseline_records(path: str, records: Sequence[Dict[str, Any]]) -> None:
+def write_baseline_records(path: str, records: Sequence[dict[str, Any]]) -> None:
     unique = sorted(
         {
             json.dumps(_normalize_matcher(dict(rec)), sort_keys=True)
@@ -114,12 +115,12 @@ def write_baseline_records(path: str, records: Sequence[Dict[str, Any]]) -> None
         json.dump(payload, f, indent=2)
 
 
-def merge_baseline_records(path: str, new_records: Sequence[Dict[str, Any]]) -> None:
-    existing: List[Dict[str, Any]] = []
+def merge_baseline_records(path: str, new_records: Sequence[dict[str, Any]]) -> None:
+    existing: list[dict[str, Any]] = []
     p = Path(path)
     if p.exists():
         existing = load_baseline_matchers(path)
-    combined: List[Dict[str, Any]] = []
+    combined: list[dict[str, Any]] = []
     combined.extend(existing)
     combined.extend(dict(r) for r in new_records)
     write_baseline_records(path, combined)

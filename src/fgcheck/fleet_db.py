@@ -7,11 +7,10 @@ from __future__ import annotations
 import json
 import sqlite3
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-
+from typing import Any
 
 DEFAULT_DB_PATH = Path.home() / ".fgcheck" / "fleet.db"
 
@@ -23,7 +22,7 @@ class ScanResult:
     device_name: str
     config_file: str
     scan_date: str
-    fortios_version: Optional[str]
+    fortios_version: str | None
     finding_count: int
     critical_count: int
     high_count: int
@@ -48,7 +47,7 @@ class DeviceSummary:
 class FleetDB:
     """Fleet management database."""
 
-    def __init__(self, db_path: Optional[Path] = None):
+    def __init__(self, db_path: Path | None = None):
         if db_path is not None and not isinstance(db_path, Path):
             db_path = Path(db_path)
         self.db_path = db_path or DEFAULT_DB_PATH
@@ -84,11 +83,11 @@ class FleetDB:
     def store_scan(
         self,
         device_name: str,
-        findings: List[Dict[str, Any]],
+        findings: list[dict[str, Any]],
         config_file: str = "",
-        fortios_version: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-        compliance: Optional[Dict[str, Any]] = None,
+        fortios_version: str | None = None,
+        metadata: dict[str, Any] | None = None,
+        compliance: dict[str, Any] | None = None,
     ) -> str:
         """Store a scan result and return the scan ID."""
         scan_id = str(uuid.uuid4())[:12]
@@ -127,10 +126,10 @@ class FleetDB:
 
     def get_scans(
         self,
-        device_name: Optional[str] = None,
+        device_name: str | None = None,
         limit: int = 50,
         offset: int = 0,
-    ) -> List[ScanResult]:
+    ) -> list[ScanResult]:
         """Get scan results with optional device filter."""
         if device_name:
             rows = self.conn.execute(
@@ -144,7 +143,7 @@ class FleetDB:
             ).fetchall()
         return [self._row_to_result(r) for r in rows]
 
-    def get_device_summary(self) -> List[DeviceSummary]:
+    def get_device_summary(self) -> list[DeviceSummary]:
         """Get summary for all devices."""
         rows = self.conn.execute("""
             SELECT
@@ -175,7 +174,7 @@ class FleetDB:
             ))
         return summaries
 
-    def get_fleet_stats(self) -> Dict[str, Any]:
+    def get_fleet_stats(self) -> dict[str, Any]:
         """Get fleet-wide statistics."""
         row = self.conn.execute("""
             SELECT
@@ -199,7 +198,7 @@ class FleetDB:
             "latest_scan": row["latest_scan"],
         }
 
-    def get_severity_trend(self, device_name: Optional[str] = None, days: int = 30) -> List[Dict[str, Any]]:
+    def get_severity_trend(self, device_name: str | None = None, days: int = 30) -> list[dict[str, Any]]:
         """Get severity trend over time."""
         query = """
             SELECT
@@ -221,7 +220,7 @@ class FleetDB:
         rows = self.conn.execute(query, params).fetchall()
         return [dict(r) for r in rows]
 
-    def get_worst_devices(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_worst_devices(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get devices with most critical findings."""
         rows = self.conn.execute("""
             SELECT

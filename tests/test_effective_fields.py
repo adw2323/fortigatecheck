@@ -1,15 +1,15 @@
 """Tests that rules and facts respect Node.unsets via effective_fields()."""
 from __future__ import annotations
 
+from fgcheck.facts import build_facts
 from fgcheck.model import ConfigModel, Evidence, Node
-from fgcheck.facts import build_facts, get_table
+from fgcheck.rules import Rule
 from fgcheck.rules_impl import (
-    rule_admin_edge_ssh,
     rule_admin_edge_https,
+    rule_admin_edge_ssh,
     rule_policy_accept_no_log,
     rule_policy_any_any_all,
 )
-from fgcheck.rules import Rule
 
 
 def _make_rule(rule_id: str = "TEST-001") -> Rule:

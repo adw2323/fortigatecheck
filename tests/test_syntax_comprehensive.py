@@ -1,11 +1,9 @@
 """Comprehensive tests for syntax validation rules."""
 from __future__ import annotations
 
-import pytest
-from fgcheck.model import ConfigModel, Node, Evidence
 from fgcheck.facts import build_facts
-from fgcheck.rules import Finding, Rule
 from fgcheck.parse import parse_fortios_text
+from fgcheck.rules import Rule
 
 
 def _make_rule(rule_id, title="Test", severity="medium", confidence="certain"):
@@ -141,8 +139,11 @@ class TestSyntaxRulesIntegration:
     def test_real_config_syntax_check(self):
         """Test syntax rules against a real-ish config."""
         from fgcheck.rules_syntax import (
-            rule_duplicate_edit_blocks, rule_empty_table,
-            rule_missing_end, rule_ip_address_format, rule_port_range_format
+            rule_duplicate_edit_blocks,
+            rule_empty_table,
+            rule_ip_address_format,
+            rule_missing_end,
+            rule_port_range_format,
         )
 
         text = """config system global

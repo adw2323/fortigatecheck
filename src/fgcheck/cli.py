@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import argparse
 import csv
 import json
@@ -13,23 +14,23 @@ from .authority import lookup_authority, render_authority_human, render_authorit
 from .baseline import (
     finding_to_record,
     load_baseline_matchers,
-    merge_baseline_records,
     matches_record,
+    merge_baseline_records,
     write_baseline_records,
 )
 from .parse import parse_fortios_text
-from .rules import run
 from .report import (
     finding_to_dict,
-    findings_to_human,
     findings_to_html,
+    findings_to_human,
     findings_to_json,
     findings_to_markdown,
-    scan_to_human,
     scan_to_html,
+    scan_to_human,
     scan_to_json,
     write_pdf_from_html,
 )
+from .rules import run
 from .sarif import findings_to_sarif
 from .versioning import resolve_target_fortios
 
@@ -203,7 +204,7 @@ def main():
             merge_baseline_records(args.baseline, finding_records)
         if baseline_matchers:
             filtered_findings = []
-            for f, rec in zip(findings, finding_records):
+            for f, rec in zip(findings, finding_records, strict=False):
                 if any(matches_record(rec, m) for m in baseline_matchers):
                     suppressed += 1
                     continue
@@ -315,7 +316,7 @@ def main():
         if baseline_matchers:
             filtered_findings = []
             suppressed_for_file = 0
-            for f, rec in zip(findings, finding_records):
+            for f, rec in zip(findings, finding_records, strict=False):
                 if any(matches_record(rec, m) for m in baseline_matchers):
                     suppressed_for_file += 1
                     continue
@@ -379,8 +380,8 @@ def main():
         all_findings = []
         for report in file_reports:
             for fd in report.get("findings", []):
-                from .rules import Finding as _Finding
                 from .model import Evidence as _Evidence
+                from .rules import Finding as _Finding
                 evts = []
                 for ev_dict in fd.get("evidence", []):
                     evts.append(_Evidence(

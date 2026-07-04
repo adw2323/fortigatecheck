@@ -18,7 +18,7 @@ class TestEvidence:
         e = Evidence(file_id="test.conf", line_range=(1, 5), path=("a", "b"))
         try:
             e.file_id = "other.conf"  # type: ignore[misc]
-            assert False, "Should be frozen"
+            raise AssertionError("Should be frozen")
         except AttributeError:
             pass
 
@@ -45,8 +45,8 @@ class TestEvidence:
         """Evidence has raw_lines (list) so it can't be used in sets."""
         e = Evidence(file_id="x", line_range=(1, 2), path=("a",))
         try:
-            s = {e}
-            assert False, "Should be unhashable due to list field"
+            {e}
+            raise AssertionError("Should have raised TypeError for unhashable")
         except TypeError:
             pass
 
@@ -154,7 +154,7 @@ class TestParseWarning:
         w = ParseWarning(code="X", message="Y", line_no=1)
         try:
             w.code = "Z"  # type: ignore[misc]
-            assert False, "Should be frozen"
+            raise AssertionError("Should be frozen")
         except AttributeError:
             pass
 

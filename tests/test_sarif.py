@@ -2,9 +2,9 @@
 from __future__ import annotations
 
 import json
-import pytest
-from fgcheck.model import ConfigModel, Node, Evidence
-from fgcheck.rules import Finding, Rule
+
+from fgcheck.model import Evidence
+from fgcheck.rules import Finding
 from fgcheck.sarif import findings_to_sarif
 
 

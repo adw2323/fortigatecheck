@@ -35,6 +35,9 @@ select = [
 ignore = [
     "E501",   # line too long (handled by formatter)
     "B008",   # function call in default argument
+    "E701",   # multiple statements on one line (colon)
+    "B007",   # loop control variable not used
+    "B905",   # zip() without strict
 ]
 
 [tool.ruff.lint.isort]

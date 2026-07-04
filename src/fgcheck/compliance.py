@@ -8,7 +8,6 @@ Maps security rules to compliance frameworks:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 
 
 @dataclass(frozen=True)
@@ -24,12 +23,12 @@ class ComplianceControl:
 class ComplianceMapping:
     """Maps a rule ID to one or more compliance controls."""
     rule_id: str
-    controls: List[ComplianceControl] = field(default_factory=list)
+    controls: list[ComplianceControl] = field(default_factory=list)
 
 
 # ─── Compliance Mappings ───
 
-COMPLIANCE_MAP: Dict[str, List[ComplianceControl]] = {
+COMPLIANCE_MAP: dict[str, list[ComplianceControl]] = {
     # ── NIST SP 800-53 Rev 5 ──
     "FGT-ADMIN-EDGE-TELNET": [
         ComplianceControl("NIST-800-53", "AC-17", "Remote Access", "Ensure remote access is protected"),
@@ -129,12 +128,12 @@ COMPLIANCE_MAP: Dict[str, List[ComplianceControl]] = {
 }
 
 
-def get_compliance_for_rule(rule_id: str) -> List[ComplianceControl]:
+def get_compliance_for_rule(rule_id: str) -> list[ComplianceControl]:
     """Get compliance controls for a specific rule."""
     return COMPLIANCE_MAP.get(rule_id, [])
 
 
-def get_compliance_for_framework(framework: str) -> Dict[str, List[ComplianceControl]]:
+def get_compliance_for_framework(framework: str) -> dict[str, list[ComplianceControl]]:
     """Get all rules mapped to a specific framework."""
     result = {}
     for rule_id, controls in COMPLIANCE_MAP.items():
@@ -144,7 +143,7 @@ def get_compliance_for_framework(framework: str) -> Dict[str, List[ComplianceCon
     return result
 
 
-def get_frameworks() -> List[str]:
+def get_frameworks() -> list[str]:
     """Get all available compliance frameworks."""
     frameworks = set()
     for controls in COMPLIANCE_MAP.values():

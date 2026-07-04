@@ -1,26 +1,28 @@
 from __future__ import annotations
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
 
-from .model import ConfigModel, Node, Evidence, ParseWarning
+from dataclasses import dataclass
+from typing import Any
+
+from .model import ConfigModel, Evidence, Node, ParseWarning
+
 
 @dataclass
 class _Ctx:
     kind: str  # "config" or "edit"
-    path: Tuple[str, ...]
+    path: tuple[str, ...]
     start_line: int
-    prev_scope: Optional[str] = None
+    prev_scope: str | None = None
 
 
 @dataclass
 class _PendingSet:
     key: str
     start_line: int
-    table_path: Optional[Tuple[str, ...]]
-    obj_key: Optional[str]
+    table_path: tuple[str, ...] | None
+    obj_key: str | None
     node: Node
-    values: List[str]
-    raw_lines: List[str]
+    values: list[str]
+    raw_lines: list[str]
 
 def _strip_comment(line: str) -> str:
     """Strip full-line comments and inline comments (first unquoted ``#``)."""
@@ -42,9 +44,9 @@ def _strip_comment(line: str) -> str:
         i += 1
     return s
 
-def _tokenize(line: str) -> List[str]:
-    out: List[str] = []
-    buf: List[str] = []
+def _tokenize(line: str) -> list[str]:
+    out: list[str] = []
+    buf: list[str] = []
     in_q = False
     i = 0
     while i < len(line):
@@ -98,7 +100,7 @@ def _first_unescaped_quote_index(line: str) -> int:
         i += 1
     return -1
 
-def _ensure_table(root: Dict[str, Any], path: Tuple[str, ...]) -> Dict[str, Any]:
+def _ensure_table(root: dict[str, Any], path: tuple[str, ...]) -> dict[str, Any]:
     node: Any = root
     for p in path:
         node = node.setdefault(p, {})
@@ -108,22 +110,22 @@ def _ensure_table(root: Dict[str, Any], path: Tuple[str, ...]) -> Dict[str, Any]
 
 def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[ConfigModel, list[ParseWarning]]:
     lines = conf_text.splitlines(True)
-    warnings: List[ParseWarning] = []
+    warnings: list[ParseWarning] = []
 
     model = ConfigModel(meta={"file_id": file_id})
     model.vdoms.setdefault("root", {})
 
     scope = "root"  # "root" or vdom name or "global"
-    stack: List[_Ctx] = []
+    stack: list[_Ctx] = []
 
-    current_table_path: Optional[Tuple[str, ...]] = None
-    current_table: Optional[Dict[str, Any]] = None
-    current_obj_key: Optional[str] = None
-    current_obj: Optional[Node] = None
+    current_table_path: tuple[str, ...] | None = None
+    current_table: dict[str, Any] | None = None
+    current_obj_key: str | None = None
+    current_obj: Node | None = None
 
     # support singleton tables like "config system global" that use set without edit
-    singleton_node: Optional[Node] = None
-    pending_set: Optional[_PendingSet] = None
+    singleton_node: Node | None = None
+    pending_set: _PendingSet | None = None
 
     for ln, raw in enumerate(lines, start=1):
         stripped = raw.strip()
@@ -137,10 +139,10 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
                 if "WORKSPACE" in stripped.upper():
                     model.meta["fmg_workspace_mode"] = True
 
-    def scope_root() -> Dict[str, Any]:
+    def scope_root() -> dict[str, Any]:
         return model.global_cfg if scope == "global" else model.vdoms.setdefault(scope, {})
 
-    def top_config_table_path() -> Optional[Tuple[str, ...]]:
+    def top_config_table_path() -> tuple[str, ...] | None:
         for ctx in reversed(stack):
             if ctx.kind != "config":
                 continue
@@ -208,7 +210,7 @@ def parse_fortios_text(conf_text: str, *, file_id: str = "config") -> tuple[Conf
                 continue
 
             rel_path = tuple(tokens[1:])
-            parent_path: Optional[Tuple[str, ...]] = None
+            parent_path: tuple[str, ...] | None = None
             if stack and stack[-1].kind == "config" and stack[-1].path not in (("global",), ("vdom",)):
                 parent_path = stack[-1].path
 

@@ -1,6 +1,8 @@
 from pathlib import Path
+
 from fgcheck.parse import parse_fortios_text
 from fgcheck.rules import run
+
 
 def test_edge_admin_ssh_triggers():
     conf = Path("tests/fixtures/bad_edge_admin_on.conf").read_text()

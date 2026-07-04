@@ -1,17 +1,15 @@
 """Tests for syntax validation rules."""
 from __future__ import annotations
 
-import pytest
-from fgcheck.model import ConfigModel, Node, Evidence
 from fgcheck.facts import build_facts
-from fgcheck.rules import Finding, Rule, load_rules
+from fgcheck.model import ConfigModel, Node
+from fgcheck.rules import Rule
 from fgcheck.rules_syntax import (
-    rule_unknown_table,
-    rule_unknown_field,
     rule_deprecated_syntax,
+    rule_unknown_field,
+    rule_unknown_table,
 )
-from fgcheck.schema import load_schema, SchemaView
-from pathlib import Path
+from fgcheck.schema import SchemaView
 
 
 def _make_rule(rule_id: str, title: str, severity: str = "medium") -> Rule:

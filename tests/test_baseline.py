@@ -1,6 +1,6 @@
 from fgcheck.baseline import (
-    finding_to_record,
     filter_finding_records,
+    finding_to_record,
     load_baseline_matchers,
     merge_baseline_records,
     write_baseline_records,

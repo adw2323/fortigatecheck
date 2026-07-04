@@ -1,10 +1,9 @@
 """Tests for FGT-ADMIN-LOCKOUT-NO-TRIES and FGT-HA-NO-HEARTBEAT rules."""
 from __future__ import annotations
 
-import pytest
-from fgcheck.model import ConfigModel, Node, Evidence
 from fgcheck.facts import build_facts
-from fgcheck.rules import Finding, Rule
+from fgcheck.model import ConfigModel, Evidence, Node
+from fgcheck.rules import Rule
 from fgcheck.rules_impl import rule_admin_lockout_no_tries, rule_ha_no_heartbeat
 
 

@@ -12,9 +12,8 @@ They validate:
 - Port number range
 """
 from __future__ import annotations
-from typing import List, Optional
 
-from .facts import Facts, get_table
+from .facts import Facts
 from .model import ConfigModel, Node
 from .rules import Finding, Rule
 from .schema import SchemaView
@@ -39,16 +38,16 @@ def _walk_nodes(model, vdom, callback):
 
 def rule_unknown_table(
     *, model: ConfigModel, facts: Facts, vdom: str,
-    rule: Rule, schema: Optional[SchemaView] = None
-) -> List[Finding]:
+    rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect config tables that don't exist in the FortiOS schema."""
     if schema is None or not schema.loaded:
         return []
 
     tables = model.vdoms.get(vdom, {})
-    out: List[Finding] = []
+    out: list[Finding] = []
 
-    for table_path, table_data in tables.items():
+    for table_path, _table_data in tables.items():
         if table_path.startswith("__"):
             continue
         if isinstance(table_path, tuple):
@@ -69,14 +68,14 @@ def rule_unknown_table(
 
 def rule_unknown_field(
     *, model: ConfigModel, facts: Facts, vdom: str,
-    rule: Rule, schema: Optional[SchemaView] = None
-) -> List[Finding]:
+    rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect config fields that don't exist in the FortiOS schema."""
     if schema is None or not schema.loaded:
         return []
 
-    tables = model.vdoms.get(vdom, {})
-    out: List[Finding] = []
+    model.vdoms.get(vdom, {})
+    out: list[Finding] = []
 
     def _check(prefix, name, node):
         table_path = " ".join(prefix)
@@ -97,10 +96,10 @@ def rule_unknown_field(
 
 def rule_deprecated_syntax(
     *, model: ConfigModel, facts: Facts, vdom: str,
-    rule: Rule, schema: Optional[SchemaView] = None
-) -> List[Finding]:
+    rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect deprecated FortiOS syntax patterns."""
-    out: List[Finding] = []
+    out: list[Finding] = []
 
     deprecated_fields = {
         "access": ("allowaccess", 'Use "set allowaccess" instead of "set access"'),
@@ -108,7 +107,7 @@ def rule_deprecated_syntax(
 
     def _check(prefix, name, node):
         fields = node.effective_fields()
-        for field_name, (new_field, message) in deprecated_fields.items():
+        for field_name, (_new_field, message) in deprecated_fields.items():
             if field_name in fields:
                 out.append(Finding(
                     rule_id=rule.id, title=rule.title, severity=rule.severity,
@@ -123,10 +122,10 @@ def rule_deprecated_syntax(
 
 def rule_duplicate_edit_blocks(
     *, model: ConfigModel, facts: Facts, vdom: str,
-    rule: Rule, schema: Optional[SchemaView] = None
-) -> List[Finding]:
+    rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect duplicate edit blocks in the same table."""
-    out: List[Finding] = []
+    out: list[Finding] = []
     seen = set()
 
     def _check(prefix, name, node):
@@ -148,10 +147,10 @@ def rule_duplicate_edit_blocks(
 
 def rule_empty_table(
     *, model: ConfigModel, facts: Facts, vdom: str,
-    rule: Rule, schema: Optional[SchemaView] = None
-) -> List[Finding]:
+    rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect tables that have no entries (only nested dicts)."""
-    out: List[Finding] = []
+    out: list[Finding] = []
 
     def _check_dict(tables, prefix=()):
         for key, value in tables.items():
@@ -175,10 +174,10 @@ def rule_empty_table(
 
 def rule_missing_end(
     *, model: ConfigModel, facts: Facts, vdom: str,
-    rule: Rule, schema: Optional[SchemaView] = None
-) -> List[Finding]:
+    rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect entries with no fields set."""
-    out: List[Finding] = []
+    out: list[Finding] = []
 
     def _check(prefix, name, node):
         fields = node.effective_fields()
@@ -197,11 +196,11 @@ def rule_missing_end(
 
 def rule_ip_address_format(
     *, model: ConfigModel, facts: Facts, vdom: str,
-    rule: Rule, schema: Optional[SchemaView] = None
-) -> List[Finding]:
+    rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect malformed IP addresses in config fields."""
     import re
-    out: List[Finding] = []
+    out: list[Finding] = []
     ip_fields = {"dst", "src", "subnet", "gateway", "ip", "server", "remote-ip", "netmask"}
     ip_pattern = re.compile(r"^(\d{1,3}\.){3}\d{1,3}$")
 
@@ -233,10 +232,10 @@ def rule_ip_address_format(
 
 def rule_port_range_format(
     *, model: ConfigModel, facts: Facts, vdom: str,
-    rule: Rule, schema: Optional[SchemaView] = None
-) -> List[Finding]:
+    rule: Rule, schema: SchemaView | None = None
+) -> list[Finding]:
     """Detect invalid port numbers in service/port fields."""
-    out: List[Finding] = []
+    out: list[Finding] = []
     port_fields = {"port", "dstport", "srcport", "start-port", "end-port", "tcp-portrange", "udp-portrange"}
 
     def _check(prefix, name, node):

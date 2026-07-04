@@ -1,11 +1,10 @@
 """Final adversarial test suite - verified confirmed findings."""
-import json
 import os
 import sys
 import tempfile
-import pytest
 from pathlib import Path
 
+import pytest
 
 # ═══════════════════════════════════════════════════════════════════
 # VULNERABILITY 1: Arbitrary Module Import via _import_callable
@@ -127,7 +126,8 @@ def test_fleet_db_unencrypted_sqlite():
 def test_cli_rule_file_arbitrary_import():
     """FIXED: _import_callable blocks non-fgcheck modules."""
     import yaml
-    from fgcheck.rules import load_rules, _import_callable
+
+    from fgcheck.rules import _import_callable, load_rules
     rule_data = {
         "id": "MALICIOUS",
         "title": "Malicious Rule",
@@ -152,9 +152,9 @@ def test_cli_rule_file_arbitrary_import():
 
 def test_markdown_code_block_injection():
     """MEDIUM: Evidence raw_lines inject content into markdown code blocks."""
+    from fgcheck.model import Evidence
     from fgcheck.report import findings_to_markdown
     from fgcheck.rules import Finding
-    from fgcheck.model import Evidence
     f = Finding(
         rule_id="test", title="test", severity="low",
         confidence="heuristic", vdom="root", message="test",
@@ -246,7 +246,7 @@ def test_parser_unicode_values():
 
 def test_parser_long_line():
     from fgcheck.parse import parse_fortios_text
-    model, warnings = parse_fortios_text(f'config system global\nset desc "x" * 100000\nend\n')
+    model, warnings = parse_fortios_text('config system global\nset desc "x" * 100000\nend\n')
     assert model is not None
 
 
@@ -257,8 +257,8 @@ def test_parser_mixed_case():
 
 
 def test_circular_interface_references():
-    from fgcheck.parse import parse_fortios_text
     from fgcheck.facts import build_facts
+    from fgcheck.parse import parse_fortios_text
     text = 'config system interface\nedit "p1"\nset interface "p2"\nnext\nedit "p2"\nset interface "p1"\nnext\nend\n'
     model, _ = parse_fortios_text(text)
     facts = build_facts(model, vdom="root")

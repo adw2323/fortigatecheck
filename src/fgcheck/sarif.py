@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-from typing import List
 
 from .rules import Finding
 
@@ -26,7 +25,7 @@ def _severity_to_level(severity: str) -> str:
     return _SEVERITY_TO_LEVEL.get(severity.lower(), "warning")
 
 
-def findings_to_sarif(findings: List[Finding]) -> str:
+def findings_to_sarif(findings: list[Finding]) -> str:
     """Return a SARIF 2.1.0 JSON string for the given findings."""
     # Build de-duplicated rules list (keyed by rule_id).
     rules_map: dict[str, dict] = {}

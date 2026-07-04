@@ -6,9 +6,8 @@ FortiGate configuration scanning, rule management, and authority lookup.
 from __future__ import annotations
 
 import json
-from io import StringIO
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 try:
     from fastapi import FastAPI, File, HTTPException, Query, UploadFile
@@ -18,13 +17,11 @@ try:
 except ImportError:
     _HAS_FASTAPI = False
 
-from .facts import build_facts
-from .parse import parse_fortios_text
-from .rules import Finding, Rule, load_rules, run
-from .schema import load_schema
-from .report import findings_to_json
 from .authority import lookup_authority, render_authority_json
-
+from .parse import parse_fortios_text
+from .report import findings_to_json
+from .rules import run
+from .schema import load_schema
 
 # ─── Pydantic models (if available) ───
 
@@ -37,8 +34,8 @@ if _HAS_FASTAPI:
 
     class ScanRequest(BaseModel):
         config_text: str
-        fortios_version: Optional[str] = None
-        rule_ids: Optional[list[str]] = None
+        fortios_version: str | None = None
+        rule_ids: list[str] | None = None
 
     class AuthorityRequest(BaseModel):
         query: str
@@ -73,7 +70,7 @@ def create_app() -> Any:
         try:
             model, warnings = parse_fortios_text(request.config_text)
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Parse error: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Parse error: {str(e)}") from e
 
         results = []
         vdoms = list(model.vdoms.keys()) or ["root"]
@@ -97,7 +94,7 @@ def create_app() -> Any:
     @app.post("/scan/file", tags=["scan"])
     async def scan_file(
         file: UploadFile = File(...),
-        fortios_version: Optional[str] = Query(None),
+        fortios_version: str | None = Query(None),
     ):
         """Upload and scan a FortiGate configuration file."""
         content = await file.read()
@@ -106,7 +103,7 @@ def create_app() -> Any:
         try:
             model, warnings = parse_fortios_text(text)
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Parse error: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Parse error: {str(e)}") from e
 
         results = []
         vdoms = list(model.vdoms.keys()) or ["root"]
@@ -133,7 +130,7 @@ def create_app() -> Any:
         for yaml_file in sorted(builtin_dir.glob("*.yaml")):
             try:
                 import yaml
-                with open(yaml_file, "r") as f:
+                with open(yaml_file) as f:
                     data = yaml.safe_load(f)
                 rules.append({
                     "id": data.get("id", ""),
@@ -158,7 +155,7 @@ def create_app() -> Any:
             raise HTTPException(status_code=404, detail=f"Rule {rule_id} not found")
 
         import yaml
-        with open(yaml_file, "r") as f:
+        with open(yaml_file) as f:
             data = yaml.safe_load(f)
 
         return data

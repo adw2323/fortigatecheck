@@ -1,9 +1,11 @@
 from __future__ import annotations
+
 import html
 import json
 from pathlib import Path
-from typing import Dict, List
+
 from .rules import Finding
+
 
 def finding_to_dict(f: Finding) -> dict:
     return {
@@ -24,15 +26,15 @@ def finding_to_dict(f: Finding) -> dict:
     }
 
 
-def findings_to_json(findings: List[Finding]) -> str:
+def findings_to_json(findings: list[Finding]) -> str:
     payload = [finding_to_dict(f) for f in findings]
     return json.dumps(payload, indent=2)
 
 
-def scan_to_json(files: List[Dict[str, object]], summary: Dict[str, int]) -> str:
+def scan_to_json(files: list[dict[str, object]], summary: dict[str, int]) -> str:
     return json.dumps({"summary": summary, "files": files}, indent=2)
 
-def findings_to_markdown(findings: List[Finding]) -> str:
+def findings_to_markdown(findings: list[Finding]) -> str:
     if not findings:
         return "# FortiGate Config Check Report\n\nNo findings.\n"
     sev_order = ["critical", "high", "medium", "low", "info"]
@@ -85,8 +87,8 @@ def _rule_explanation(rule_id: str, fallback: str) -> str:
     return _RULE_EXPLANATIONS.get(rule_id, fallback)
 
 
-def _top_risks_lines(records: List[Dict[str, object]]) -> List[str]:
-    by_rule: Dict[str, Dict[str, object]] = {}
+def _top_risks_lines(records: list[dict[str, object]]) -> list[str]:
+    by_rule: dict[str, dict[str, object]] = {}
     for rec in records:
         rule_id = str(rec.get("rule_id", ""))
         severity = str(rec.get("severity", "info"))
@@ -111,7 +113,7 @@ def _top_risks_lines(records: List[Dict[str, object]]) -> List[str]:
             x[0],
         ),
     )
-    lines: List[str] = ["Top Risks First\n"]
+    lines: list[str] = ["Top Risks First\n"]
     if not ranked:
         lines.append("- none\n")
     else:
@@ -129,12 +131,12 @@ def _top_risks_lines(records: List[Dict[str, object]]) -> List[str]:
 
 
 def findings_to_human(
-    findings: List[Finding],
+    findings: list[Finding],
     *,
     title: str = "FortiGate Findings",
     suppressed: int = 0,
 ) -> str:
-    out: List[str] = [f"{title}\n", "=" * len(title) + "\n\n"]
+    out: list[str] = [f"{title}\n", "=" * len(title) + "\n\n"]
     if not findings:
         if suppressed:
             out.append("Summary\n")
@@ -187,8 +189,8 @@ def findings_to_human(
     return "".join(out)
 
 
-def scan_to_human(files: List[Dict[str, object]], summary: Dict[str, int], *, title: str = "FortiGate Folder Scan") -> str:
-    out: List[str] = [f"{title}\n", "=" * len(title) + "\n\n"]
+def scan_to_human(files: list[dict[str, object]], summary: dict[str, int], *, title: str = "FortiGate Folder Scan") -> str:
+    out: list[str] = [f"{title}\n", "=" * len(title) + "\n\n"]
     out.append(
         "Summary\n"
         f"- Files scanned: {summary['files']}\n"
@@ -204,7 +206,7 @@ def scan_to_human(files: List[Dict[str, object]], summary: Dict[str, int], *, ti
     if "suppressed" in summary:
         out.append(f"- Suppressed by baseline: {summary['suppressed']}\n")
     out.append("\n")
-    risk_records: List[Dict[str, object]] = []
+    risk_records: list[dict[str, object]] = []
     for fr in files:
         file_name = str(fr.get("file", ""))
         for finding in fr.get("findings", []):
@@ -251,8 +253,8 @@ def scan_to_human(files: List[Dict[str, object]], summary: Dict[str, int], *, ti
     return "".join(out)
 
 
-def _top_risks_records(records: List[Dict[str, object]]) -> List[Dict[str, object]]:
-    by_rule: Dict[str, Dict[str, object]] = {}
+def _top_risks_records(records: list[dict[str, object]]) -> list[dict[str, object]]:
+    by_rule: dict[str, dict[str, object]] = {}
     for rec in records:
         rule_id = str(rec.get("rule_id", ""))
         severity = str(rec.get("severity", "info"))
@@ -331,7 +333,7 @@ def _html_doc(title: str, body: str) -> str:
     )
 
 
-def findings_to_html(findings: List[Finding], *, title: str = "FortiGate Findings", suppressed: int = 0) -> str:
+def findings_to_html(findings: list[Finding], *, title: str = "FortiGate Findings", suppressed: int = 0) -> str:
     sev_counts = {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0}
     conf_counts = {"certain": 0, "likely": 0, "heuristic": 0}
     for f in findings:
@@ -339,7 +341,7 @@ def findings_to_html(findings: List[Finding], *, title: str = "FortiGate Finding
         conf_counts[f.confidence] = conf_counts.get(f.confidence, 0) + 1
     risk_rows = _top_risks_records([{"rule_id": f.rule_id, "severity": f.severity, "file": ""} for f in findings])
 
-    body: List[str] = []
+    body: list[str] = []
     body.append(f"<section class=\"hero\"><h1>{html.escape(title)}</h1>")
     body.append("<div class=\"grid\">")
     body.append(f"<div class=\"kpi\"><div class=\"k\">Findings</div><div class=\"v\">{len(findings)}</div></div>")
@@ -390,12 +392,12 @@ def findings_to_html(findings: List[Finding], *, title: str = "FortiGate Finding
 
 
 def scan_to_html(
-    files: List[Dict[str, object]],
-    summary: Dict[str, int],
+    files: list[dict[str, object]],
+    summary: dict[str, int],
     *,
     title: str = "FortiGate Folder Scan",
 ) -> str:
-    risk_records: List[Dict[str, object]] = []
+    risk_records: list[dict[str, object]] = []
     for fr in files:
         file_name = str(fr.get("file", ""))
         for finding in fr.get("findings", []):
@@ -409,7 +411,7 @@ def scan_to_html(
                 )
     risk_rows = _top_risks_records(risk_records)
 
-    body: List[str] = []
+    body: list[str] = []
     body.append(f"<section class=\"hero\"><h1>{html.escape(title)}</h1>")
     body.append("<div class=\"grid\">")
     body.append(f"<div class=\"kpi\"><div class=\"k\">Files</div><div class=\"v\">{summary.get('files', 0)}</div></div>")
