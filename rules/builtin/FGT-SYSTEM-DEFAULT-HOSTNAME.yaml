@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-DEFAULT-HOSTNAME
+title: Default hostname not changed
+severity: low
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_system_default_hostname

@@ -1,0 +1,5 @@
+id: FGT-HA-DEFAULT-GROUP-ID
+title: HA using default group ID
+severity: low
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_ha_default_group_id

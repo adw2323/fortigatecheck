@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-NO-TIMEZONE
+title: Timezone not configured
+severity: low
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_system_no_timezone

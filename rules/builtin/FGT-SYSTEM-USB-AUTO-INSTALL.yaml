@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-USB-AUTO-INSTALL
+title: USB auto-install enabled
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_system_usb_auto_install

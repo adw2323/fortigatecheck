@@ -1,0 +1,5 @@
+id: FGT-NETWORK-NO-UNICAST-ROUTE
+title: Unicast reverse path not enabled
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_network_no_unicast_route

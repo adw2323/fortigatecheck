@@ -1,0 +1,5 @@
+id: FGT-FIREWALL-NO-LOCAL-IN
+title: No local-in policy configured
+severity: high
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_firewall_no_local_in

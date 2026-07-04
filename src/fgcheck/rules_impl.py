@@ -4865,3 +4865,286 @@ def rule_system_no_fortiguard(*, model, facts, vdom, rule, schema=None):
         if fields.get("update-server-location") == "disable":
             out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="FortiGuard update service disabled.", evidence=[]))
     return out
+
+
+# ── Local-in Policy Rules ──
+
+def rule_firewall_no_local_in(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("firewall", "local-in-policy"))
+    if not table:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No local-in policy configured. Management access is unprotected.", evidence=[]))
+    return out
+
+
+def rule_firewall_local_in_no_restrict(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("firewall", "local-in-policy"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        svc = str(fields.get("service", "")).lower()
+        if svc in ("all", "all"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Local-in policy {name} allows ALL services. Restrict to specific management services.", evidence=[]))
+    return out
+
+
+# ── Security Fabric Rules ──
+
+def rule_fabric_no_quarantine(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "security-fabric"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if fields.get("compromised-host-quat-enable") != "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Security Fabric quarantine not enabled for compromised hosts.", evidence=[]))
+    return out
+
+
+def rule_fabric_no_root(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "security-fabric"))
+    if not table:
+        out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Security Fabric is not configured.", evidence=[]))
+    return out
+
+
+# ── Network Hardening Rules ──
+
+def rule_network_no_tcp_seq(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if fields.get("tcp-seq-picky") != "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="TCP sequence checking (tcp-seq-picky) is not enabled.", evidence=[]))
+    return out
+
+
+def rule_network_no_urpf(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("system", "interface"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        role = str(fields.get("role", "")).lower()
+        if role in ("lan", "dmz", "wan") and not fields.get("urpf"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Interface \"{name}\" does not have reverse path forwarding.", evidence=[]))
+    return out
+
+
+def rule_network_no_unicast_route(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "setting"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("unicast-reverse-path"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Unicast reverse path forwarding not configured.", evidence=[]))
+    return out
+
+
+# ── System Hardening Rules ──
+
+def rule_system_default_hostname(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        hostname = str(fields.get("hostname", "")).lower()
+        if hostname in ("", "fortigate", "fgt", "fg"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Default hostname \"{hostname}\" not changed. Set a unique hostname.", evidence=[]))
+    return out
+
+
+def rule_system_no_password_policy(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "password"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("min-length") and not fields.get("min-lower-case") and not fields.get("min-upper-case"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Password policy has no minimum requirements configured.", evidence=[]))
+    return out
+
+
+def rule_system_no_firmware_check(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "fortiguard-service"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("update-check") or fields.get("update-check") == "disable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Firmware auto-check is not enabled.", evidence=[]))
+    return out
+
+
+def rule_system_ddns_enabled(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("system", "ddns"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if fields.get("ddns-status") == "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="DDNS is enabled. Disable unless explicitly needed.", evidence=[]))
+    return out
+
+
+def rule_system_usb_auto_install(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "usb"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if fields.get("auto-install") == "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="USB auto-install is enabled. Disable to prevent unauthorized config loading.", evidence=[]))
+    return out
+
+
+def rule_system_no_strong_crypto(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if fields.get("strong-crypto") != "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Strong crypto is not enabled. Enable for secure communications.", evidence=[]))
+    return out
+
+
+def rule_system_gui_tls_weak(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        tls_min = fields.get("admin-https-ssl-min-tls")
+        if tls_min and str(tls_min) in ("1.0", "1.1"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"GUI allows TLS {tls_min}. Minimum should be TLS 1.2.", evidence=[]))
+    return out
+
+
+def rule_system_no_banner(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("pre-login-banner") and not fields.get("post-login-banner"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No login banner configured. Required for legal compliance.", evidence=[]))
+    return out
+
+
+def rule_system_no_timezone(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "global"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        tz = fields.get("timezone")
+        if not tz or str(tz) in ("", "00"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="Timezone not configured. Affects log accuracy.", evidence=[]))
+    return out
+
+
+# ── HA Hardening Rules ──
+
+def rule_ha_no_interface_monitor(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ha"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("monitor"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="HA is configured without interface monitoring.", evidence=[]))
+    return out
+
+
+def rule_ha_no_mgmt_interface(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ha"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("management-interface") and fields.get("mode"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="HA is configured without a reserved management interface.", evidence=[]))
+    return out
+
+
+def rule_ha_default_group_id(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("system", "ha"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        group_id = fields.get("group-id")
+        if group_id is not None:
+            try:
+                if int(str(group_id)) == 0:
+                    out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="HA uses default group ID 0. Change to prevent conflicts.", evidence=[]))
+            except (ValueError, TypeError):
+                pass
+    return out
+
+
+# ── Logging Hardening Rules ──
+
+def rule_log_no_encryption(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("log", "fortianalyzer", "setting"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if fields.get("encryption") != "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="FortiAnalyzer logging without encryption enabled.", evidence=[]))
+    return out
+
+
+def rule_log_no_extended(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(_merged_scope_tables(tables, model.global_cfg), ("log", "fortianalyzer", "setting"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        if not fields.get("retention"):
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message="No extended log retention configured.", evidence=[]))
+    return out
+
+
+# ── Implicit Deny Rules ──
+
+def rule_policy_implicit_deny_no_log(*, model, facts, vdom, rule, schema=None):
+    tables = model.vdoms.get(vdom, {})
+    out = []
+    table = get_table(tables, ("firewall", "policy"))
+    for name, node in table.items():
+        if not isinstance(node, Node): continue
+        fields = node.effective_fields()
+        action = str(fields.get("action", "")).lower()
+        if action in ("deny", "deny") and fields.get("logtraffic") != "enable":
+            out.append(Finding(rule_id=rule.id, title=rule.title, severity=rule.severity, confidence=rule.confidence, vdom=vdom, message=f"Deny policy {name} has logging disabled.", evidence=[]))
+    return out

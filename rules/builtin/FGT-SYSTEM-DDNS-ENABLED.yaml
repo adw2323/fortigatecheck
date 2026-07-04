@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-DDNS-ENABLED
+title: DDNS enabled on FortiGate
+severity: low
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_system_ddns_enabled

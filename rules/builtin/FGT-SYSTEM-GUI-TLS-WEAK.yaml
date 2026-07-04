@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-GUI-TLS-WEAK
+title: GUI allows TLS below 1.2
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_system_gui_tls_weak

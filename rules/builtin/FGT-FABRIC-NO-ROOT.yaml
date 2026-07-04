@@ -1,0 +1,5 @@
+id: FGT-FABRIC-NO-ROOT
+title: Security Fabric root not configured
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_fabric_no_root

@@ -1,0 +1,5 @@
+id: FGT-LOG-NO-ENCRYPTION
+title: Logging without encryption
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_log_no_encryption

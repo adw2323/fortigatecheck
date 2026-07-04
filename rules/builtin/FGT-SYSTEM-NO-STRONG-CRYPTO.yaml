@@ -1,0 +1,5 @@
+id: FGT-SYSTEM-NO-STRONG-CRYPTO
+title: Strong crypto not enabled
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_system_no_strong_crypto

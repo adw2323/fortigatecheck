@@ -1,0 +1,5 @@
+id: FGT-HA-NO-INTERFACE-MONITOR
+title: HA without interface monitoring
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_ha_no_interface_monitor

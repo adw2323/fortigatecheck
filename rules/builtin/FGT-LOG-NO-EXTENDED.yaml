@@ -1,0 +1,5 @@
+id: FGT-LOG-NO-EXTENDED
+title: No extended log retention configured
+severity: low
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_log_no_extended

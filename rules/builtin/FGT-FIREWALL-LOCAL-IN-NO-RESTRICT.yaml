@@ -1,0 +1,5 @@
+id: FGT-FIREWALL-LOCAL-IN-NO-RESTRICT
+title: Local-in policy allows all services
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_firewall_local_in_no_restrict

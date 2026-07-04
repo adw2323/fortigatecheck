@@ -1,0 +1,5 @@
+id: FGT-FABRIC-NO-QUARANTINE
+title: Security Fabric quarantine not enabled
+severity: high
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_fabric_no_quarantine

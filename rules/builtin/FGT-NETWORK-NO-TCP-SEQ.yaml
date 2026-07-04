@@ -1,0 +1,5 @@
+id: FGT-NETWORK-NO-TCP-SEQ
+title: TCP sequence checking not enabled
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_network_no_tcp_seq

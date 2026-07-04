@@ -1,0 +1,5 @@
+id: FGT-POLICY-IMPLICIT-DENY-NO-LOG
+title: Implicit deny policy without logging
+severity: medium
+confidence: likely
+entrypoint: fgcheck.rules_impl:rule_policy_implicit_deny_no_log
