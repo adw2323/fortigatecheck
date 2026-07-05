@@ -1,0 +1,5 @@
+id: FGT-WAF-NO-PROFILE
+title: WAF profile configured without filter criteria
+severity: medium
+confidence: heuristic
+entrypoint: fgcheck.rules_impl:rule_waf_no_profile
