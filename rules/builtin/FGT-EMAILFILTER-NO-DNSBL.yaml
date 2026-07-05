@@ -1,0 +1,5 @@
+id: FGT-EMAILFILTER-NO-DNSBL
+title: Email filter profile without DNSBL
+severity: low
+confidence: certain
+entrypoint: fgcheck.rules_impl:rule_email_no_dnsbl

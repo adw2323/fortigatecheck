@@ -6989,3 +6989,196 @@ def rule_email_no_filter(*, model, facts, vdom, rule, schema=None):
             )
         )
     return out
+
+
+# FGT-WAF-NO-PROFILE
+# ---------------------------------------------------------------------------
+
+# WAF sub-table names that appear inside waf profile edit blocks.
+# The parser flattens these to root-level tables (e.g. ``("main-criteria",)``).
+_WAF_CRITERIA_TABLES = ("main-criteria", "custom-criteria")
+
+
+def rule_waf_no_profile(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: SchemaView | None = None,
+) -> list[Finding]:
+    """Detect WAF profiles configured without any filter criteria.
+
+    FortiGate Web Application Firewall (WAF) profiles define request
+    filtering behaviour inside ``config waf profile``.  Each profile can
+    contain ``config main-criteria`` and ``config custom-criteria``
+    sections that specify the rules the WAF engine evaluates.
+
+    When WAF profiles exist but none of them have any criteria
+    configured, the WAF engine has no rules to evaluate and provides
+    no web application protection — all HTTP/HTTPS traffic passes
+    through without inspection.
+
+    This is flagged because:
+    - WAF without criteria cannot detect or block web application attacks.
+    - Empty profiles suggest WAF was partially configured but never completed.
+    - Best practice is to configure WAF profile criteria tuned to the
+      protected web applications.
+    """
+    tables = _merged_scope_tables(model.vdoms.get(vdom, {}), model.global_cfg)
+    out: list[Finding] = []
+
+    # Schema check: ``waf profile`` is a table in the schema.
+    if schema is None or not schema.loaded:
+        schema_unknown = True
+    elif schema.has_table(("waf", "profile")):
+        schema_unknown = schema.partial
+    else:
+        return out  # table not in schema — skip
+
+    waf_table = get_table(tables, ("waf", "profile"))
+    if not waf_table:
+        return out
+
+    # Collect profile names (skip __singleton__ if present)
+    profile_names = [name for name in waf_table if isinstance(waf_table[name], Node)]
+    if not profile_names:
+        return out
+
+    # Check for criteria entries in flattened criteria tables.
+    # The parser flattens ``config main-criteria`` (etc.) inside edit
+    # blocks to root-level tables.  We look for any Node entries in
+    # those tables.
+    has_criteria = False
+    for criteria in _WAF_CRITERIA_TABLES:
+        criteria_table = get_table(tables, (criteria,))
+        if not criteria_table:
+            continue
+        criteria_entries = [
+            name for name in criteria_table if isinstance(criteria_table[name], Node)
+        ]
+        if criteria_entries:
+            has_criteria = True
+            break
+
+    if has_criteria:
+        return out  # criteria are configured — OK
+
+    # Build evidence from first profile
+    ev: list[Evidence] = []
+    for name in profile_names:
+        node = waf_table[name]
+        if node.evidence:
+            for _, e in node.evidence.items():
+                ev.append(e)
+                break
+            if ev:
+                break
+
+    profile_list = ", ".join(f'"{n}"' for n in profile_names)
+    msg = (
+        f"WAF is configured with {len(profile_names)} profile(s) "
+        f"({profile_list}) but none contain filter criteria. "
+        f"Empty WAF profiles provide no web application protection. "
+        f"Configure WAF profile criteria to protect web applications."
+    )
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
+    return out
+
+
+def rule_email_no_dnsbl(
+    *,
+    model: ConfigModel,
+    facts: Facts,
+    vdom: str,
+    rule: Rule,
+    schema: SchemaView | None = None,
+) -> list[Finding]:
+    """Detect email filter profiles without DNSBL configured.
+
+    FortiGate email filter profiles (``config emailfilter profile``) can
+    reference DNSBL (DNS-based Blackhole List) entries to block known
+    spam and malicious senders.  DNSBL checks sender IP addresses
+    against published blacklists before accepting mail.
+
+    When email filter profiles exist but none have DNSBL configured,
+    the email filtering posture is weaker because it relies solely on
+    other filtering methods without DNS-based reputation checks.
+
+    This is flagged because:
+    - DNSBL provides an additional layer of spam and malware protection.
+    - Without DNSBL, known malicious senders may bypass email filtering.
+    - DNSBL is a recommended best practice for FortiGate email security.
+    """
+    tables = model.vdoms.get(vdom, {})
+    out: list[Finding] = []
+
+    # Schema check: ``emailfilter profile`` must be a known table.
+    if schema is None or not schema.loaded:
+        schema_unknown = True
+    elif schema.has_table(("emailfilter", "profile")):
+        schema_unknown = schema.partial
+    else:
+        return out  # table not in schema — skip
+
+    ef_table = get_table(tables, ("emailfilter", "profile"))
+    if not ef_table:
+        return out  # no email filter profiles — nothing to check
+
+    # Collect profile names and check for DNSBL configuration.
+    profiles_without_dnsbl: list[str] = []
+    ev: list[Evidence] = []
+    for name, node in ef_table.items():
+        if not isinstance(node, Node):
+            continue
+        dnsbl = str(node.effective_fields().get("dnsbl", "")).strip()
+        if not dnsbl:
+            profiles_without_dnsbl.append(name)
+            if not ev:
+                for ek in ("set:dnsbl",):
+                    if ek in node.evidence:
+                        ev.append(node.evidence[ek])
+                if not ev and node.evidence:
+                    for _, e in node.evidence.items():
+                        ev.append(e)
+                        break
+
+    if not profiles_without_dnsbl:
+        return out  # all profiles have DNSBL — OK
+
+    profile_list = ", ".join(f'"{n}"' for n in profiles_without_dnsbl)
+    msg = (
+        f"{len(profiles_without_dnsbl)} email filter profile(s) "
+        f"({profile_list}) do not have DNSBL configured. DNSBL "
+        f"(DNS-based Blackhole List) provides additional spam and "
+        f"malware protection by checking sender IPs against known "
+        f"blacklists. Enable DNSBL in email filter profiles."
+    )
+    if schema_unknown:
+        msg = f"[schema_unknown] {msg}"
+
+    out.append(
+        Finding(
+            rule_id=rule.id,
+            title=rule.title,
+            severity=rule.severity,
+            confidence=("heuristic" if schema_unknown else rule.confidence),
+            vdom=vdom,
+            message=msg,
+            evidence=ev,
+        )
+    )
+    return out
